@@ -35,8 +35,7 @@ Hyperchain文档
    :maxdepth: 2
    :caption: 基础协议:
 
-   JSON-RPC_manual
-   node_op
+   （new）consensus mechanism
 
 .. toctree::
    :maxdepth: 2

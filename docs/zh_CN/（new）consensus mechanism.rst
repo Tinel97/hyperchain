@@ -24,3 +24,22 @@
 .. math:: Quorum=[(N + f +1)/2]
 
 常规流程
+
+共识算法RBFT的核心在于保证了区块链各节点以相同的顺序处理来自客户端的交易。下图为最少集群节点数下的共识流程，其中N=4，f=1。图中的Primary1为共识节点动态选举出来的主节点，负责对客户端发来的交易进行排序打包，Replica2，3，4为从节点。所有节点执行交易的逻辑相同并能够在主节点失效时参与新主节点的选举。
+
+|image0|
+
+1)	``交易转发阶段``：客户端Client将交易发送到区块链中的任意节点；Replica节点将接收到的交易广播给所有节点,节点将收到的交易放入交易缓存池；
+2)	``Preprepare``：Primary会选择交易缓存池交易进行打包，构造交易哈希的batch；Primary通过batch构造PrePrepare消息广播给其他节点；
+3)	``Prepare阶段``：Replica接收来自Primary的PrePrepare消息之后,对batch中的交易哈希进行验证，验证无误后构造Prepare消息发送给其他Replica节点，表明该节点接收到来自主节点的PrePrepare消息并认可主节点的batch排序。
+4)	``Commit阶段``：Replica接收到2f个节点的Prepare消息之后对batch的消息进行合法性验证，验证通过之后向其他节点广播Commit消息，表示本节点同意Primary节点的验证结果。
+5)	``写入账本``：Replica节点接收到2f+1个Commit之后执行batch中的交易并写入本地账本。
+
+需要注意的是，主节点除负责对交易排序打包外，与从节点功能无异。并且当从节点不认可主节点的排序结果时可以发起相应请求，集齐Quorum个该请求即可切换主节点
+
+
+
+
+
+
+.. |image0| image:: ../../images/RBFT1.png

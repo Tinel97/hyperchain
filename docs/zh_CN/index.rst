@@ -10,9 +10,7 @@ Hyperchain文档
    :maxdepth: 2
    :caption: 平台介绍:
 
-   prerequisites
-   quickstart
-   hyperchain_samples
+   （new）Introduction
 
 .. toctree::
    :maxdepth: 2

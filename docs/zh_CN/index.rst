@@ -8,7 +8,7 @@ Hyperchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 快速入门:
+   :caption: 平台介绍:
 
    prerequisites
    quickstart
@@ -16,7 +16,7 @@ Hyperchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 系统架构:
+   :caption: 快速入门:
 
    txflow
    consensus
@@ -27,7 +27,7 @@ Hyperchain文档
    
 .. toctree::
    :maxdepth: 2
-   :caption: 隐私与安全:
+   :caption: 版本更新:
    
    ca_manager
    namespace
@@ -35,18 +35,18 @@ Hyperchain文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: 用户手册:
+   :caption: 基础协议:
 
    JSON-RPC_manual
    node_op
 
 .. toctree::
    :maxdepth: 2
-   :caption: 贡献:
+   :caption: 扩展协议:
 
 .. toctree::
    :maxdepth: 2
-   :caption: 开发计划:
+   :caption: 用户手册:
 
    roadmap
 

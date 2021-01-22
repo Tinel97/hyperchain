@@ -16,26 +16,27 @@ Hyperchain文档
    :maxdepth: 2
    :caption: 快速入门:
 
-   txflow
+   /*txflow
    consensus
    ledger
    bucket_tree
    smart_contract
-   p2p_introduce
+   p2p_introduce*/
    
 .. toctree::
    :maxdepth: 2
    :caption: 版本更新:
    
-   ca_manager
+   /*ca_manager
    namespace
-   crypto
+   crypto*/
 
 .. toctree::
    :maxdepth: 2
    :caption: 基础协议:
 
    （new）consensus mechanism
+   （new）Networking protocol
 
 .. toctree::
    :maxdepth: 2

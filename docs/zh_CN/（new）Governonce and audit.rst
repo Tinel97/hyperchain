@@ -49,6 +49,5 @@
 
 平台现已适配GaryLog和ELK两种常用日志分析系统，支持审计数据的自定义可视化展示，用户可根据实际需求进行选择。
 
-
-.. |image0| image:: ../../images/governonce1.png
-.. |image1| image:: ../../images/governonce2.png
+.. |image0| image:: ../../images/save1.png
+.. |image1| image:: ../../images/save2.png

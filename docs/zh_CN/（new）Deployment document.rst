@@ -61,7 +61,7 @@ Flato License签发地址：https://filoop.com/console/license
 
 登录服务器前需要上传Flato安装包和另外的小工具。
 
-以服务器地址``node1``，用户名``flato``为例，操作步骤如下：
+以服务器地址 ``node1`` ，用户名 ``flato`` 为例，操作步骤如下：
 
 1. ``#上传Flato安装包``
 2. ``#具体操作时将flato-install.tar.gz换成实际安装包名，将node1换成实际服务器IP地址``
@@ -81,7 +81,7 @@ Flato License签发地址：https://filoop.com/console/license
 5. 重复操作
 ^^^^^^^^^^^^
 
-- 请按照1.2~1.3中的步骤，再分别登录到``node2~node4``上，以继续之后的操作。
+- 请按照1.2~1.3中的步骤，再分别登录到 ``node2~node4`` 上，以继续之后的操作。
 
 第二章 检查系统环境
 ------------------
@@ -227,14 +227,11 @@ nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以
 
 1. ``Linux系统字符集查看``
 2. ``echo $LANG``
-3.
-4. ``Linux修改字符集``
-5. ``vim /etc/sysconfig/i18n``
-6.
-7. ``LANG="zh_CN.UTF-8"``
-8.
-9. ``修改文件保存退出之后要生效要执行如下命令才可生效``
-10. ``source /etc/sysconfig/i18n``
+3. ``Linux修改字符集``
+4. ``vim /etc/sysconfig/i18n``
+5. ``LANG="zh_CN.UTF-8"``
+6. ``修改文件保存退出之后要生效要执行如下命令才可生效``
+7. ``source /etc/sysconfig/i18n``
 
 6. 检查最大文件句柄数
 ^^^^^^^^^^^^^^^^^^^
@@ -294,12 +291,9 @@ nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以
 部署完成可看到如下信息：
 
 1. ``flato has been successfully installed in:/opt/flato``
-2.
-3.
-4. ``Please run these commands to start flato process:``
-5. ``cd /opt/flato``
-6. ``./start.sh``
-7.
+2. ``Please run these commands to start flato process:``
+3. ``cd /opt/flato``
+4. ``./start.sh``
 
 然后把之前申请的证书和license文件从本地机器复制到该节点的安装目录下（需要**先退出用户登录在本地终端执行该命令**，执行完毕后再登录）：
 
@@ -325,21 +319,207 @@ nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以
 3. 验证安装是否成功
 ^^^^^^^^^^^^^^^^^
 
+在执行完步骤3.2后，需要验证一下节点是否已经正确安装。请执行以下命令做测试：
+
+1. ``#/opt/flato为Flato的目标安装目录，可根据实际情况做修改``
+2. ``cd /opt/flato/``
+3. ``./flato version``
+
+假如显示正确的版本信息，说明节点安装成功，示例如下：
+
+1. ``$ ./flato version``
+2. ``Flato Commercial Version: 0.1``
+
+如果出现了以下报错信息，说明openssl的动态链接库没有安装成功
+
+1. ``error while loading shared libraries: libxxx. so: cannot open shared object file: No such file or directory``
+
+需要向用户目录下的 ``.bashrc`` 文件添加一行：
+
+1. ``#添加一个环境变量LD_LIBRARY_PATH，根据实际情况修改/opt/flato路径``
+2. ``echo 'export LD_LIBRARY_PATH=/opt/flato/tools/lib/' ~/.bashrc``
+3. ``#导出环境变量``
+4. ``source ~/.bashrc``
+
+在完成以上操作之后，再执行一次 ``./flato --version`` ，应该就可以输出正常的版本信息了。
+
+至此，node1服务器上的Flato节点就算完成了。
+
 第四章 检查、修改配置文件
 -----------------------
+
+**注意，以下操作都是在Flato的目标安装目录操作的，不是在原先未安装前的目录下操作。本例中，是在/opt/flato路径下检查、修改配置文件。**
+
+安装包中的文件内容包括：
+
+|image0|
 
 1. 检查LICENSE文件
 ^^^^^^^^^^^^^^^^^
 
+由于LINCESE文件和Flato安装包不是一起打包分发的，所以在启动节点前，需要检查一下LICENSE文件是否已经更新到正确版本。
 
+LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确定是否是最新版本，可以用原始的LICENSE文件再覆盖一遍。
+
+1. ``#解压缩``
+2. ``cd ~``
+3. ``tar xvf LICENSE-20180701.tar.gz``
+4. ``#解压出来后，LICENSE文件夹的名字可能是License-20180701``
+5. ``#更新所有节点的LICENSE``
+6. ``#根据实际情况修改License-20180701/LICENSE-abcdef和/opt/flato``
+7. ``#拷贝命令的目标文件名，一定是LICENSE``
+8. ``cp License-20180701/LICENSE-abcdef/opt/flato/LICENSE``
+
+请依次检查4个节点的LICENSE文件。
 
 2. vi编辑器使用方法
 ^^^^^^^^^^^^^^^^^
+
+下面的配置文件的编辑需要使用到vi文本编辑器，在此介绍vi的使用方法
+
+1. 使用vi命令加文件名对某个文件进行编辑，进入vi编辑文件的界面
+
+- ``vi anyFile.txtna``
+
+2. 按下i键进入编辑模式，方向键控制光标移动
+3. 编辑完成后，按下Esc键进入命令模式，输入:wq保存修改并退出vi
+
+- ``:wq``
+
+4. 若要放弃本次编辑，按下Esc键进入命令模式,输入:q!放弃修改并退出vi
+- ``:q!``
+
+
 3. 修改配置文件
 ^^^^^^^^^^^^^^
 
 - dynamic.toml
+
+编辑 ``dynamic.toml``
+
+1. ``vi configuration/dynamic.toml``
+
+其内容如下
+
+1. ``self = "node1"``
+2. ``##########################################################``
+3. ``#``
+4. ``# key ports section``
+5. ``#``
+6. ``##########################################################``
+7. ``[port]``
+8. ``jsonrpc = 8081``
+9. ``grpc = 50011 # p2p``
+10. ``##########################################################``
+11. ``#``
+12. ``# p2p system config``
+13. ``# 1. define the remote peer's hostname and its IP address``
+14. ``# 2. define self address list under different domain``
+15. ``#``
+16. ``##########################################################``
+17. ``[p2p]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21. ``"node1 127.0.0.1:50011",``
+22. ``"node2 127.0.0.1:50012",``
+23. ``"node3 127.0.0.1:50013",``
+24. ``"node4 127.0.0.1:50014",``
+25. ``]``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 127.0.0.1:50011",``
+32. ``"domain2 127.0.0.1:50011",``
+33. ``"domain3 127.0.0.1:50011",``
+34. ``"domain4 127.0.0.1:50011",``
+35. ``]``
+36. ``[[namespace]]``
+37. ``name = "global"``
+38. ``start = true``
+
+- **修改hose配置**
+
+内容为：
+
+1. ``[p2p.ip.remote]``
+2. ``hosts = [``
+3. ``"node1 127.0.0.1:50011",``
+4. ``"node2 127.0.0.1:50012",``
+5. ``"node3 127.0.0.1:50013",``
+6. ``"node4 127.0.0.1:50014",``
+7. ``]``
+
+配置规则很简单： ``hostname ip_address:port`` 将所有的节点的节点名称和IP地址端口配置好即可（port为节点间通讯的端口）。
+
+修改方法为：
+
+- 将每行的 ``127.0.0.1`` 替换为4台服务器各自的IP地址
+- 将每行的 ``5001x`` 端口换成每个Flato节点自己的grpc端口
+
+**因为我们选择单服务器单节点模式，实际上每个节点可以使用默认的50011端口，但是为了介绍如何正确修改节点配置，这里还是将grpc端口定为** ``50011~50014``
+
+以服务器IP ``10.10.10.1~10.10.10.4`` 为例，将hosts.toml文件修改为类似以下的内容：
+
+1. ``hosts = [``
+2. ``"node1 10.10.10.1:50011",``
+3. ``"node2 10.10.10.2:50012",``
+4. ``"node3 10.10.10.3:50013",``
+5. ``"node4 10.10.10.4:50014"]``
+
+需要注意的是，4个节点的hosts配置都是一致的，请依次配置。
+
+- **修改port配置**
+
+内容为：
+
+1. ``[port]``
+2. ``jsonrpc = 8081``
+3. ``grpc = 50011 # p2p``
+
+因为我们选择单服务器单节点模式，实际上每个节点可以使用默认的port配置，但是为了介绍如何正确修改节点配置，这里还是区别一下各节点的端口，即1~4号节点分别使用为 ``xxxx1~xxxx4`` 号端口
+
+以2号节点为例，它的port内容如下：
+
+1. ``[port]``
+2. ``jsonrpc = 8082``
+3. ``grpc = 50012 # p2p``
+
+需要注意的是，本例中除了1号节点不需要修改port配置，其他节点都要修改port配置。请依次配置剩余节点的port配置。
+
+- **修改addr配置**
+
+以下是详细的配置说明：
+
+1. ``[p2p.ip.self]``
+2. ``# 本节点所在域名的域名``
+3. ``domain = "domain1"``
+4. ``# 其他节点访问本节点的时候的地址``
+5. ``addrs = [``
+6. ``"domain1 127.0.0.1:50012",``
+7. ``"domain2 127.0.0.1:50012",``
+8. ``"domain3 127.0.0.1:50012",``
+9. ``"domain4 127.0.0.1:50012",``
+10. ``]``
+11. ``#这里配置时候需要注意,配置的是其他节点访问本节点时，使用的本节点的IP地址，举个例子，如果节点2属于域`domain2`，那么节点2访问节点1时需要用节点1声明的在`domain2`域中对外暴露的地址，换句话说，节点2访问本节点时用的地址是`127.0.0.1:50012`。``
+12. ``#需要注意的是，这里的域的数目可以比host数目少。``
+
+这里是配置是比较容易出错的地方，最简单的配置方式就是：
+
+- 所有节点都在一个domain里：所有节点都在同一个内网环境，只要配置一个domain和该节点在这个domain里的IP地址
+
+**请按照上述内容格式，依次配置剩余服务器的addr配置。**
+
+**更复杂的网络环境下：**
+
+在一些加入了类似Nginx代理的网络环境中，这个文件的配置极其容易出错，一般可以这样理解，服务器node1在domain1中有自己的 ``node1_domain1_ip`` ；但是在domain2中它的 ``node1_domain2_ip`` ，是它在domain2中 ``最内层的一个Nginx代理上，所分配的服务器node1转发地址`` ，domain2中其他的服务器node2、node3是通过连接最内层的Nginx上的 ``node1_domain2_ip`` 访问处于外部的node1服务器的。所以domain2中最内层Nginx上的 ``node1_domain2_ip`` ，就是node1服务器addr.toml中，该填的 ``domain2 node1_domain2_ip`` 地址。
+
 - ns_dynamic.toml
+
+
+
 - ns_static.toml
 
 4. 检查配置文件

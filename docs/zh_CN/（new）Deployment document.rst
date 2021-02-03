@@ -44,17 +44,17 @@ Flato License签发地址：https://filoop.com/console/license
 
 创建平台部署所需的用户，例如创建如下用户：
 
-- ``用户名：flato``
-- ``密码：flato``
+1. ``用户名：flato``
+2. ``密码：flato``
 
 可用如下命令创建新用户：
 
-- ``sudo useradd -m -d /home/flato -s /bin/bash -k /etc/skel flato``
-- ``sudo passwd flato``
+1. ``sudo useradd -m -d /home/flato -s /bin/bash -k /etc/skel flato``
+2. ``sudo passwd flato``
 
 修改部署路径及数据存放路径的目录权限，例如``/opt/flato``及``/data/hype``
 
-- ``sudo chown -R flato: /data/flato``
+1. ``sudo chown -R flato: /data/flato``
 
 3. 上传安装包
 ^^^^^^^^^^^^
@@ -63,20 +63,20 @@ Flato License签发地址：https://filoop.com/console/license
 
 以服务器地址``node1``，用户名``flato``为例，操作步骤如下：
 
-- ``#上传Flato安装包``
-- ``#具体操作时将flato-install.tar.gz换成实际安装包名，将node1换成实际服务器IP地址``
-- ``scp flato-installer.tar.gz flato@node1:~``
-- ``#上传nt工具包``
-- ``#具体操作时将node1换成实际服务器IP地址``
-- ``scp nt-linux64.tar.gz flato@node1:~``
+1. ``#上传Flato安装包``
+2. ``#具体操作时将flato-install.tar.gz换成实际安装包名，将node1换成实际服务器IP地址``
+3. ``scp flato-installer.tar.gz flato@node1:~``
+4. ``#上传nt工具包``
+5. ``#具体操作时将node1换成实际服务器IP地址``
+6. ``scp nt-linux64.tar.gz flato@node1:~``
 
 4. 登录操作用户
 ^^^^^^^^^^^^
 
-- ``#具体操作时将node1换成服务器IP地址``
-- ``ssh flato@node1``
-- ``Password:``
-- ``#输入登录密码``
+1. ``#具体操作时将node1换成服务器IP地址``
+2. ``ssh flato@node1``
+3. ``Password:``
+4. ``#输入登录密码``
 
 5. 重复操作
 ^^^^^^^^^^^^
@@ -90,28 +90,238 @@ Flato License签发地址：https://filoop.com/console/license
 
 1. 检查服务器时间
 ^^^^^^^^^^^^^^^^^
+
+检查Flato节点所在服务器的时间是否与标准时间同步，如果不同步请联络系管理员同步系统时钟。
+
+1. ``#查看服务器时间命令``
+2. ``date``
+
 2. 检查服务器配置
 ^^^^^^^^^^^^^^^^^
+
+检查服务器配置是否与预期的配置一致，如果不一致请联系系统管理调整配置。
+
+1. ``#查看CPU主频``
+2. ``cat /proc/cpuinfo | grep 'model name' | uniq``
+3. ``#查看CPU核数``
+4. ``cat /proc/cpuinfo | grep 'model name' | wc -l``
+5. ``#查看内存大小``
+6. ``#如果free -h执行失败，可以直接调用free查看``
+7. ``q``
+8. ``#查看挂载的文件系统大小``
+9. ``df -h``
+
 3. 检查端口占用情况
 ^^^^^^^^^^^^^^^^^
+
+检查Flato节点所需的端口是否被其他进程占用，如已被占用请联络系统管理员进行调整。
+
+/检查端口是否被监听，以查看8001端口为例：
+
+1. ``#查看端口是否被占用的命令``
+2. ``netstat -nap | grep 8001``
+
+如果存在被占用的情况，上述命令会打印出以下类似信息：
+
+1. ``(Not all processes could be identified, non-owned process info``
+2. ``will not be shown, you would have to be root tosee it all.)``
+3. ``tcp6 0 0 8001 * LISTEN 30207/./process1``
+
 4. 检查网络连通性
 ^^^^^^^^^^^^^^^^^
 
+检查网络连通性的目的，就是为了检查Flato节点所监听的端口能否被其他节点访问到，如果其他节点访问不到请联络系统管理做处理。可以使用以下三种方法检查网络连通性， ``选择任意一种即可`` 。
+
+- nt工具
+- nc命令
+- Python HTTP模块
+
 - 使用nt工具测试连通性
+
+nt是一个专门用于测试网络连通性的工具。假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
+
+1. ``#登录node1``
+2. ``#具体操作时将node1换成服务器IP地址``
+3. ``ssh flato@node1``
+4. ``#解压nt工具包``
+5. ``tar xvf nt-linux64.tar.gz``
+6. ``cd nt-linux64``
+7. ``#启动nt监听``
+8. ``./nt server -l 0.0.0.0:8001``
+9. ``#登录node2``
+10. ``#具体操作时将node2换成服务器IP地址``
+11. ``ssh flato@node2``
+12. ``#解压nt工具包``
+13. ``tar xvf nt-linux64.tar.gz``
+14. ``#编辑servers.txt，向servers.txt中加入需要检测的IP:Port，本例中填入一下内容``
+15. ``#具体操作时将node1换成服务器IP地址``
+16. ``echo 'node1:8001' > servers.txt``
+17. ``#检查servers.txt内容是否符合预期``
+18. ``cat servers.txt``
+19. ``#启动客户端测试``
+20. ``./nt client``
+21. ``#看到类似如下带SUCCESS字样的输出，即表明测试成功``
+22. ``[CLIENT] TEST node1:8001 [SUCCESS] RESP: s:server_resp [0.0.0.0:8001], C->S: 0 ms, RTT: 0 ms``
+23. ``#在node3、node4上重复在node2上操作即可``
+24. ``#测试完之后返回到node1``
+25. ``#按 CTRL-C 结束server监听``
+26. ``CTRL-C``
+
+nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以每行一个IP:Port的格式填写即可。
+
 - 使用nc命令测试连通性
+
+还可以用nc命令测试连通性，此方法的优点是操作步骤简单，但缺点是有些系统不会自带安装nc命令。
+
+1. ``#安装nc命令如下：``
+2. ``sudo yum install -y nc``
+
+假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
+
+1. ``#登录node1``
+2. ``#具体操作时将node1换成服务器IP地址``
+3. ``ssh flato@node1``
+4. ``#启动nc监听, -l设置开启监听模式，-k开启支持多客户端同时连接模式，-p指定监听端口``
+5. ``nc -l -k -p 8001``
+6. ``#登录node2``
+7. ``#具体操作时将node2换成服务器IP地址``
+8. ``ssh flato@node2``
+9. ``#使用nc命令测试连通性，-w选项设置3秒等待时间,-i选项设置连接成功后空闲等待时间(空闲超3秒即退出)``
+10. ``#具体操作时将node1换成服务器IP地址``
+11. ``nc -w 3 -i 3 -v node1 8001``
+12. ``#如果出现以下带Connected字样的输出，表示测试成功。``
+13. ``Ncat: Connected to node1:8001.``
+14. ``Ncat: Idle timeout expired (3000 ms).``
+15. ``#在node3、node4上重复在node2上操作即可``
+16. ``#测试完之后返回到node1``
+17. ``#按 CTRL-C 结束nc监听``
+18. ``CTRL-C``
+
 - 使用Python的HTTP模块测试连通性
+
+使用Python自带的HTTP模块也能快速开启对一个端口的监听，如果在使用上述两种方法时遇到问题，可以考虑使用此方法快速测试网络连通性。
+
+假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
+
+1. ``#登录node1``
+2. ``#具体操作时将node1换成服务器IP地址``
+3. ``ssh flato@node1``
+4. ``#启动Python HTTP模块监听，命令如下(注意大小写)``
+5. ``python -m SimpleHTTPServer 8001``
+6. ``#登录node2``
+7. ``#具体操作时将node2换成服务器IP地址``
+8. ``ssh flato@node2``
+9. ``#使用curl命令测试连通性``
+10. ``#具体操作时将node1换成服务器IP地址``
+11. ``curl node1:8001 >& /dev/null  echo yes  echo no``
+12. ``#如果测试成功就打印yes，否则打印no``
+13. ``#在node3、node4上重复在node2上操作即可``
+14. ``#测试完之后返回到node1``
+15. ``#按 CTRL-C 结束Python监听``
+16. ``CTRL-C``
 
 5. 检查系统字符集
 ^^^^^^^^^^^^^^^^^
-6. 重复操作
-^^^^^^^^^^^
+
+``flato`` 节点默认使用的字符集为 ``UTF-8`` ，请检查 ``SDK`` 或者应用服务器的默认字符集是否为 ``UTF-8`` ，如果不是，有可能造成签名非法。
+
+1. ``Linux系统字符集查看``
+2. ``echo $LANG``
+3.
+4. ``Linux修改字符集``
+5. ``vim /etc/sysconfig/i18n``
+6.
+7. ``LANG="zh_CN.UTF-8"``
+8.
+9. ``修改文件保存退出之后要生效要执行如下命令才可生效``
+10. ``source /etc/sysconfig/i18n``
+
+6. 检查最大文件句柄数
+^^^^^^^^^^^^^^^^^^^
+
+启动flato之前，需要保证文件句柄数至少为65535，否则有可能会由于文件句柄数不足引发系统宕机。
+
+1. ``Linux检查文件句柄数``
+2. ``ulimit -n``
+
+查询到的数值应至少为65535，否则，建议联系当前服务器的管理员进行修改。
+
+7. 重复操作
+^^^^^^^^^^
+
+在完成以上步骤后， ``node1`` 服务器的系统环境就检查完毕了。请按照2.1~2.5中的步骤，再分别登录到 ``node2~node4`` 上做一次检查。
+
 第三章 安装节点
 --------------
 
 1. 备份数据
 ^^^^^^^^^^^
+
+在做安装操作之前，需要先检查目标目录是否有数据，如果不是首次安装，请先备份一下历史数据。
+
 2. 安装节点
 ^^^^^^^^^^^
+
+以下步骤以安装node1上的Flato为例
+
+首先解压安装包
+
+1. ``#回到用户主目录，解压安装包``
+2. ``cd``
+3. ``#根据实际情况修改flato-install.tar.gz``
+4. ``tar xvf flato-installer.tar.gz``
+5. ``#根据实际情况修改flato-abcdef``
+6. ``cd flato-abcdef``
+
+假设目标安装目录是 ``/opt/flato`` , 请先对照操作步骤2.2中的文件系统检查结果，再次确认目标目录的大小满足需求。
+
+1. ``df -h``
+
+若安装目录尚不存在，且登陆用户为非root用户，则需要使用sudo命令获取管理员权限后新建安装目录
+
+1. ``sudo mkdir /opt/flato``
+
+**注意，在安装之前，一定要确认好目标目录的大小，这点经常会被忽略。请务必仔细检查，以避免不必要的麻烦。**
+
+倘若检查结果没有问题，请执行以下命令完成安装：
+
+1. ``./deploy-local.sh -d /opt/flato``
+2. ``#如果想直接安装到当前目录，执行以下命令：``
+3. ``#./deploy-local.sh -d ./``
+
+**注意：确保操作用户对-d指定的安装目录具有可写权限，否则安装将会出错。**
+
+部署完成可看到如下信息：
+
+1. ``flato has been successfully installed in:/opt/flato``
+2.
+3.
+4. ``Please run these commands to start flato process:``
+5. ``cd /opt/flato``
+6. ``./start.sh``
+7.
+
+然后把之前申请的证书和license文件从本地机器复制到该节点的安装目录下（需要**先退出用户登录在本地终端执行该命令**，执行完毕后再登录）：
+
+1. ``#在本地解压证书文件``
+2. ``#根据具体情况替换证书文件名字``
+3. ``unzip 2019-10-31_06_43_59_allcerts.zip``
+
+解压后的2019-10-31_06_43_59_allcerts文件夹里包含了一个README文件，请先仔细阅读该文件，并按照文件内容进行操作（也可参照本教程4.6节）。
+
+1. ``#上传LICENSE文件``
+2. ``#根据具体情况替换LICENSE文件的名字``
+3. ``scp license.zip flato@node1:/opt/falto``
+4. ``#解压license文件``
+5. ``unzip xvf license.zip``
+6. ``#解压出的license文件名可能不是LICENSE，需要重命名``
+7. ``#根据实际情况替换LICENSE_20191031文件的名字``
+8. ``mv LICENSE_20191031 LICENSE``
+
+最后，再执行以下命令，完成Flato节点的安装：
+
+1. ``source ~/.bashrc``
+
 3. 验证安装是否成功
 ^^^^^^^^^^^^^^^^^
 
@@ -120,6 +330,9 @@ Flato License签发地址：https://filoop.com/console/license
 
 1. 检查LICENSE文件
 ^^^^^^^^^^^^^^^^^
+
+
+
 2. vi编辑器使用方法
 ^^^^^^^^^^^^^^^^^
 3. 修改配置文件

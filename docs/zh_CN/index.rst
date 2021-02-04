@@ -9,19 +9,15 @@ Hyperchain文档
 .. toctree::
    :maxdepth: 2
    :caption: 平台介绍:
-
    （new）Introduction
 
 .. toctree::
    :maxdepth: 2
    :caption: 快速入门:
 
-   /*txflow
-   consensus
-   ledger
-   bucket_tree
-   smart_contract
-   p2p_introduce*/
+   /*prerequisites
+   quickstart
+   （new）Deployment document*/
    
 .. toctree::
    :maxdepth: 2
@@ -35,19 +31,27 @@ Hyperchain文档
    :maxdepth: 2
    :caption: 基础协议:
 
-   （new）consensus mechanism
+   /*（new）consensus mechanism
    （new）Networking protocol
    （new）execution engine
+   （new）Storage model*/
 
 .. toctree::
    :maxdepth: 2
    :caption: 扩展协议:
+   
+   /*（new）security mechanism
+   （new）Privacy protection
+   （new）Governonce and audit
+   （new）Massive networking
+   （new）Data management
+   （new）Ecological components*/
 
 .. toctree::
    :maxdepth: 2
    :caption: 用户手册:
 
-   roadmap
+   JSON-RPC
 
 .. toctree::
    :maxdepth: 2

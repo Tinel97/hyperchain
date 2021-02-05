@@ -393,7 +393,7 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 3. 修改配置文件
 ^^^^^^^^^^^^^^
 
-- dynamic.toml
+- **dynamic.toml**
 
 编辑 ``dynamic.toml``
 
@@ -516,14 +516,98 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 
 在一些加入了类似Nginx代理的网络环境中，这个文件的配置极其容易出错，一般可以这样理解，服务器node1在domain1中有自己的 ``node1_domain1_ip`` ；但是在domain2中它的 ``node1_domain2_ip`` ，是它在domain2中 ``最内层的一个Nginx代理上，所分配的服务器node1转发地址`` ，domain2中其他的服务器node2、node3是通过连接最内层的Nginx上的 ``node1_domain2_ip`` 访问处于外部的node1服务器的。所以domain2中最内层Nginx上的 ``node1_domain2_ip`` ，就是node1服务器addr.toml中，该填的 ``domain2 node1_domain2_ip`` 地址。
 
-- ns_dynamic.toml
+- **ns_dynamic.toml**
 
+编辑 ``ns_dynamic.toml``
 
+1. ``vi configuration/global/ns_dynamic.toml``
 
-- ns_static.toml
+其内容如下：
+
+1. ``[consensus]``
+2. ``algo = "RBFT"``
+3. ``[consensus.set]``
+4. ``set_size = 25 # How many transactions should the node broadcast at once``
+5. ``[consensus.pool]``
+6. ``batch_size = 500 # How many txs should the primary pack before sending pre-prepare``
+7. ``pool_size = 50000 # How many txs could the txPool stores in total``
+8. ``[self]``
+9. ``n = 4 # 运行时修改。表示所连vp节点的个数，该值在节点运行过程中会实时变化。``
+10. ``hostname = "node2" # 运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，这里的hostname会被替换为要升级vp的hostname。``
+11. ``new = false # 运行时修改。新节点成功加入网络以后，该值会变为false。``
+12. ``# the value can only be vp、nvp and cvp, caseinsensitive``
+13. ``type = "vp" # （未来将使用的节点类型配置项，还未合并）运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，该值从“cvp”变为“vp”。``
+14. ``vp = true # （过时配置，目前使用的节点类型配置项）``
+15. ``#[[cvps]] # 运行时修改。cvps在节点运行过程中实时变化。``
+16. ``#hostname = "cvp1"``
+17. ``#[[cvps]]``
+18. ``#hostname = "cvp2"``
+19. ``#[[nvps]] # 运行时修改。nvps数组在节点运行过程中实时变化。``
+20. ``#hostname = "nvp1"``
+21. ``#[[nvps]]``
+22. ``#hostname = "nvp2"``
+23. ``[[nodes]] # 运行时修改。nodes数组在节点运行过程中实时变化。``
+24. ``hostname = "node1"``
+25. ``score = 10``
+26. ``[[nodes]]``
+27. ``hostname = "node2"``
+28. ``score = 10``
+29. ``[[nodes]]``
+30. ``hostname = "node3"``
+31. ``score = 10``
+32. ``[[nodes]]``
+33. ``hostname = "node4"``
+34. ``score = 10``
+
+其中需要注意 ``[[nodes]]`` 配置，连接多少个VP节点，就加入多少个 ``[[nodes]]`` 部分：
+
+1. ``[[nodes]]``
+2. ``hostname = "node4"``
+3. ``score = 10``
+
+上面的 ``hostname`` 必须要在 ``dynamic.toml`` 文件中的host配置中存在；
+
+在 ``self`` 部分需要注意的几个配置项以及配置解释：
+
+1. ``[self]``
+2. ``n = 4 # 运行时修改。表示所连vp节点的个数，该值在节点运行过程中会实时变化。``
+3. ``hostname = "node1" # 运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，这里的hostname会被替换为要升级vp的hostname。``
+4. ``new = false # 运行时修改。新节点成功加入网络以后，该值会变为false。``
+5. ``# the value can only be vp、nvp and cvp, caseinsensitive``
+6. ``type = "vp" # （未来将使用的节点类型配置项，还未合并）运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，该值从“cvp”变为“vp”。``
+7. ``vp = true # （过时配置，目前使用的节点类型配置项）``
+
+通常我们拿到默认的配置文件，只需要修改其中的self部分，将hostname改为本节点对应的内容即可。
+
+以2号节点为例，它的self内容如下：
+
+1. ``[self]``
+2. ``n = 4``
+3. ``hostname = "node2"``
+4. ``new = false``
+5. ``type = "vp"``
+6. ``vp = true``
+
+**需要注意的是，本例中除了1号节点不需要修改ns_dynamic.toml，其他节点都要修改配置。请依次配置剩余节点的ns_dynamic.toml文件。**
+
+- **ns_static.toml**
+
+在ns_static.toml的最上方有创世账户的默认配置，如下所示：
+
+1. ``[genesis]``
+2. ``[genesis.alloc]``
+3. ``"000f1a7a08ccc48e5d30f80850cf1cf283aa3abd" = "1000000000"``
+4. ``"e93b92f1da08f925bdee44e91e7768380ae83307" = "1000000000"``
+5. ``"6201cb0448964ac597faf6fdf1f472edf2a22b89" = "1000000000"``
+6. ``"b18c8575e3284e79b92100025a31378feb8100d6" = "1000000000"``
+7. ``"856E2B9A5FA82FD1B031D1FF6863864DBAC7995D" = "1000000000"``
+8. ``"fbca6a7e9e29728773b270d3f00153c75d04e1ad" = "1000000000"``
+
+这些账户及其对应的余额会在区块链启动时被创建。需要注意的是，作为默认账户，它们的私钥并不会对外暴露，因此请您自行创建创世账户，填入所有创世节点的配置文件，并妥善保管账户私钥。
 
 4. 检查配置文件
 ^^^^^^^^^^^^^^
+
 
 - 各节点dynamic.toml
 - 各节点ns_dynamic.toml

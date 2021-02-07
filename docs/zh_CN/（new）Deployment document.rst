@@ -608,6 +608,82 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 4. 检查配置文件
 ^^^^^^^^^^^^^^
 
+1号节点：
+
+1. ``self = "node1"``
+2. ``##########################################################``
+3. ``#``
+4. ``# key ports section``
+5. ``#``
+6. ``##########################################################``
+7. ``[port]``
+8. ``jsonrpc = 8081``
+9. ``grpc = 50011 # p2p``
+10. ``##########################################################``
+11. ``#``
+12. ``# p2p system config``
+13. ``# 1. define the remote peer's hostname and its IP address``
+14. ``# 2. define self address list under different domain``
+15. ``#``
+16. ``##########################################################
+17. ``[p2p]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21. ``"node1 10.10.10.1:50011",``
+22. ``"node2 10.10.10.2:50012",``
+23. ``"node3 10.10.10.3:50013",``
+24. ``"node4 10.10.10.4:50014",``
+25. ``]``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 10.10.10.1:50011",``
+32. ``]``
+33. ``[[namespace]]``
+34. ``name = "global"``
+35. ``start = true``
+
+2号节点：
+
+1. ``self = "node2"``
+2. ``##########################################################``
+3. ``#``
+4. ``# key ports section``
+5. ``#``
+6. ``##########################################################``
+7. ``[port]``
+8. ``jsonrpc = 8082``
+9. ``grpc = 50012 # p2p``
+10. ``##########################################################``
+11. ``#``
+12. ``# p2p system config``
+13. ``# 1. define the remote peer's hostname and its IP address``
+14. ``# 2. define self address list under different domain``
+15. ``#``
+16. ``##########################################################``
+17. ``[p2p]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21. ``"node1 10.10.10.1:50011",``
+22. ``"node2 10.10.10.2:50012",``
+23. ``"node3 10.10.10.3:50013",``
+24. ``"node4 10.10.10.4:50014",``
+25. ``]``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 10.10.10.2:50012",``
+32. ``]``
+33. ``[[namespace]]``
+34. ``name = "global"``
+35. ``start = true``
+
 
 - 各节点dynamic.toml
 - 各节点ns_dynamic.toml
@@ -639,4 +715,9 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 
 
 
-
+.. |image0| image:: ../../images/Deployment1.png
+.. |image1| image:: ../../images/Deployment2.png
+.. |image2| image:: ../../images/Deployment3.png
+.. |image3| image:: ../../images/Deployment4.png
+.. |image4| image:: ../../images/Deployment5.png
+.. |image5| image:: ../../images/Deployment6.png

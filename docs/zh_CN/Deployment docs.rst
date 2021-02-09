@@ -1,20 +1,23 @@
-# 前言
+前言
+====
 
-该文档将介绍如何部署一个拥有4个节点的Flato集群，操作步骤会较其他系统的部署稍繁琐一些，用户需要**分别登录到4台服务器**上进行操作。
+该文档将介绍如何部署一个拥有4个节点的Flato集群，操作步骤会较其他系统的部署稍繁琐一些，用户需要 **分别登录到4台服务器** 上进行操作。
 
-这里假设4台服务器的IP分别为`node1`、`node2`、`node3`和`node4`，操作用户都是`flato`。 
+这里假设4台服务器的IP分别为 `node1` 、 `node2` 、 `node3` 和 `node4` ，操作用户都是 `flato` 。 
 
 **该部署文档是为模拟平台上线部署的场景而编写的，所有的操作都只有普通用户权限，因此不涉及任何sudo权限的操作。不推荐使用root用户部署平台，容易养成不好的操作习惯，也不利于发现操作步骤中的错误。**
 
-# 第一章 获取安装包以及用户登录
+第一章 获取安装包以及用户登录
+--------------------------
 
-## 1.1 获取安装包
+1.1 获取安装包
+^^^^^^^^^^^^^
 
 如果您已通过其他方式获取安装包请忽略此步骤。
 
-【线下获取】对接趣链科技相关人员
+**【线下获取】** 对接趣链科技相关人员
 
-【公司外部】登录飞洛官方资源库下载
+**【公司外部】** 登录飞洛官方资源库下载
 
 - Flato二进制包下载地址：[__https://filoop.com/console/binary__](https://filoop.com/console/binary)
 
@@ -22,7 +25,7 @@
 
 - Flato License签发地址：[__https://filoop.com/console/license__](https://filoop.com/console/license)
 
-【公司内部】登录OA：[__https://moffi.hyperchain.cn__](https://moffi.hyperchain.cn/)
+**【公司内部】** 登录OA：[__https://moffi.hyperchain.cn__](https://moffi.hyperchain.cn/)
 
 - 点击签发->平台组件->组件列表->flato->下载，选择使用您平台的flato版本下载
 
@@ -34,109 +37,122 @@
 
 
 
-## 1.2 创建使用用户及文件权限
+1.2 创建使用用户及文件权限
+^^^^^^^^^^^^^^^^^^^^^^^
 
 创建平台部署所需的用户，例如创建如下用户：
 
-```bash
- 用户名：flato
- 密码：flato
-```
+``用户名：flato``
+
+``密码：flato``
 
 可用如下命令创建新用户：
 
-```bash
-sudo useradd -m -d /home/flato -s /bin/bash -k /etc/skel flato
-sudo passwd flato
-```
+``sudo useradd -m -d /home/flato -s /bin/bash -k /etc/skel flato``
+
+``sudo passwd flato``
 
 修改部署路径及数据存放路径的目录权限，例如`/opt/flato`及`/data/hype`
 
-```bash
-sudo chown -R flato: /data/flato
-```
+``sudo chown -R flato: /data/flato``
 
-## 1.3 上传安装包
+1.3 上传安装包
+^^^^^^^^^^^^^
 
 登录服务器前需要上传Flato安装包和另外的小工具。
 
-以服务器地址`node1`，用户名`flato`为例，操作步骤如下：
+以服务器地址 `node1` ，用户名 `flato` 为例，操作步骤如下：
 
-```bash
-#上传Flato安装包
-#具体操作时将flato-install.tar.gz换成实际安装包名，将node1换成实际服务器IP地址
-scp flato-installer.tar.gz flato@node1:~
-#上传nt工具包
-#具体操作时将node1换成实际服务器IP地址
-scp nt-linux64.tar.gz flato@node1:~
-```
+``上传Flato安装包``
 
-## 1.4 登录操作用户
+``具体操作时将flato-install.tar.gz换成实际安装包名，将node1换成实际服务器IP地址``
 
-```bash
-#具体操作时将node1换成服务器IP地址
-ssh flato@node1
-Password:
-#输入登录密码
-```
+``scp flato-installer.tar.gz flato@node1:~``
 
-## 1.5 重复操作
+``上传nt工具包``
 
-请按照**1.2~1.3**中的步骤，再分别登录到`node2~node4`上，以继续之后的操作。
+``具体操作时将node1换成实际服务器IP地址``
 
-# 第二章 检查系统环境
+``scp nt-linux64.tar.gz flato@node1:~``
 
-首先以`node1`服务器为例，完成以下的检查步骤。
+1.4 登录操作用户
+^^^^^^^^^^^^^^^
 
-## 2.1 检查服务器时间
+``具体操作时将node1换成服务器IP地址``
+
+``ssh flato@node1``
+
+``Password:``
+
+``输入登录密码``
+
+1.5 重复操作
+^^^^^^^^^^^
+
+``请按照**1.2~1.3**中的步骤，再分别登录到`node2~node4`上，以继续之后的操作。``
+
+第二章 检查系统环境
+=================
+
+首先以 `node1` 服务器为例，完成以下的检查步骤。
+
+2.1 检查服务器时间
+-----------------
 
 检查Flato节点所在服务器的时间是否与标准时间同步，如果不同步请联络系管理员同步系统时钟。
 
-```bash
-#查看服务器时间命令
-date
-```
+``查看服务器时间命令``
 
-## 2.2 检查服务器配置
+``date``
+
+2.2 检查服务器配置
+----------------
 
 检查服务器配置是否与预期的配置一致，如果不一致请联系系统管理调整配置。
 
-```bash
-#查看CPU主频
-cat /proc/cpuinfo | grep 'model name' | uniq
-#查看CPU核数
-cat /proc/cpuinfo | grep 'model name' | wc -l
-#查看内存大小
-#如果free -h执行失败，可以直接调用free查看
-q
-#查看挂载的文件系统大小
-df -h
-```
+``查看CPU主频``
 
-## 2.3 检查端口占用情况
+``cat /proc/cpuinfo | grep 'model name' | uniq``
+
+``查看CPU核数``
+
+``cat /proc/cpuinfo | grep 'model name' | wc -l``
+
+``查看内存大小``
+
+``如果free -h执行失败，可以直接调用free查看``
+
+``q``
+
+``查看挂载的文件系统大小``
+
+``df -h``
+
+2.3 检查端口占用情况
+------------------
 
 检查Flato节点所需的端口是否被其他进程占用，如已被占用请联络系统管理员进行调整。
 
-/检查端口是否被监听，以查看8001端口为例：
+检查端口是否被监听，以查看8001端口为例：
 
-```bash
-#查看端口是否被占用的命令
-netstat -nap | grep 8001
-```
+``查看端口是否被占用的命令``
+
+``netstat -nap | grep 8001``
 
 如果存在被占用的情况，上述命令会打印出以下类似信息：
 
-```bash
-(Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.)
-tcp6       0      0 :::8001                 :::*                    LISTEN      30207/./process1
-```
+``bash``
 
-## 2.4 检查网络连通性
+``(Not all processes could be identified, non-owned process info will not be shown, you would have to be root to see it all.)``
+
+``tcp6       0      0 :::8001                 :::*                    LISTEN      30207/./process1``
+
+2.4 检查网络连通性
+-----------------
 
 检查网络连通性的目的，就是为了检查Flato节点所监听的端口能否被其他节点访问到，如果其他节点访问不到请联络系统管理做处理。
 
-可以使用以下三种方法检查网络连通性，`选择任意一种即可`。
+可以使用以下三种方法检查网络连通性， **选择任意一种即可** 。
 
 - nt工具
 
@@ -144,208 +160,262 @@ tcp6       0      0 :::8001                 :::*                    LISTEN      
 
 - Python HTTP模块
 
-### 2.4.1 使用nt工具测试连通性
+2.4.1 使用nt工具测试连通性
+------------------------
 
 nt是一个专门用于测试网络连通性的工具。
 
 假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
 
-```bash
-#登录node1
-#具体操作时将node1换成服务器IP地址
-ssh flato@node1
-#解压nt工具包
-tar xvf nt-linux64.tar.gz
-cd nt-linux64
-#启动nt监听
-./nt server -l 0.0.0.0:8001
-#登录node2
-#具体操作时将node2换成服务器IP地址
-ssh flato@node2
-#解压nt工具包
-tar xvf nt-linux64.tar.gz
-#编辑servers.txt，向servers.txt中加入需要检测的IP:Port，本例中填入一下内容
-#具体操作时将node1换成服务器IP地址
-echo 'node1:8001' > servers.txt
-#检查servers.txt内容是否符合预期
-cat servers.txt
-#启动客户端测试
-./nt client
-#看到类似如下带SUCCESS字样的输出，即表明测试成功
-[CLIENT] TEST node1:8001    [SUCCESS] RESP: s: server_resp [0.0.0.0:8001], C->S: 0 ms, RTT: 0 ms
-#在node3、node4上重复在node2上操作即可
-#测试完之后返回到node1
-#按 CTRL-C 结束server监听
-CTRL-C
-```
+``登录node1``
+
+``具体操作时将node1换成服务器IP地址``
+
+``ssh flato@node1``
+
+``解压nt工具包``
+
+``tar xvf nt-linux64.tar.gz``
+
+``cd nt-linux64``
+
+``启动nt监听``
+
+``./nt server -l 0.0.0.0:8001``
+
+``登录node2``
+
+``具体操作时将node2换成服务器IP地址``
+
+``ssh flato@node2``
+
+``解压nt工具包``
+
+``tar xvf nt-linux64.tar.gz``
+
+``编辑servers.txt，向servers.txt中加入需要检测的IP:Port，本例中填入一下内容``
+
+``具体操作时将node1换成服务器IP地址``
+
+``echo 'node1:8001' > servers.txt``
+
+``检查servers.txt内容是否符合预期``
+
+``cat servers.txt``
+
+``启动客户端测试``
+
+``./nt client``
+
+``看到类似如下带SUCCESS字样的输出，即表明测试成功``
+
+``[CLIENT] TEST node1:8001    [SUCCESS] RESP: s: server_resp [0.0.0.0:8001], C->S: 0 ms, RTT: 0 ms``
+
+``在node3、node4上重复在node2上操作即可``
+
+``测试完之后返回到node1``
+
+``按 CTRL-C 结束server监听``
+
+``CTRL-C``
 
 **nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以每行一个IP:Port的格式填写即可。**
 
-### 2.4.2 使用nc命令测试连通性
+2.4.2 使用nc命令测试连通性
+------------------------
 
 还可以用nc命令测试连通性，此方法的优点是操作步骤简单，但缺点是有些系统不会自带安装nc命令。
 
-```text
-#安装nc命令如下：
-sudo yum install -y nc
-```
+``text``
+
+``安装nc命令如下：``
+
+``sudo yum install -y nc``
 
 假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
 
-```bash
-#登录node1
-#具体操作时将node1换成服务器IP地址
-ssh flato@node1
-#启动nc监听, -l设置开启监听模式，-k开启支持多客户端同时连接模式，-p指定监听端口
-nc -l -k -p 8001
-#登录node2
-#具体操作时将node2换成服务器IP地址
-ssh flato@node2
-#使用nc命令测试连通性，-w选项设置3秒等待时间,-i选项设置连接成功后空闲等待时间(空闲超3秒即退出)
-#具体操作时将node1换成服务器IP地址
-nc -w 3 -i 3 -v node1 8001
-#如果出现以下带Connected字样的输出，表示测试成功。
-Ncat: Connected to node1:8001.
-Ncat: Idle timeout expired (3000 ms).
-#在node3、node4上重复在node2上操作即可
-#测试完之后返回到node1
-#按 CTRL-C 结束nc监听
-CTRL-C
-```
+``登录node1``
 
-### 2.4.3 使用Python的HTTP模块测试连通性
+``具体操作时将node1换成服务器IP地址``
+
+``ssh flato@node1``
+
+``启动nc监听, -l设置开启监听模式，-k开启支持多客户端同时连接模式，-p指定监听端口``
+
+``nc -l -k -p 8001``
+
+``登录node2``
+
+``具体操作时将node2换成服务器IP地址``
+
+``ssh flato@node2``
+
+``使用nc命令测试连通性，-w选项设置3秒等待时间,-i选项设置连接成功后空闲等待时间(空闲超3秒即退出)``
+
+``具体操作时将node1换成服务器IP地址``
+
+``nc -w 3 -i 3 -v node1 8001``
+
+``如果出现以下带Connected字样的输出，表示测试成功。``
+
+``Ncat: Connected to node1:8001.``
+
+``Ncat: Idle timeout expired (3000 ms).``
+
+``在node3、node4上重复在node2上操作即可``
+
+``测试完之后返回到node1``
+
+``按 CTRL-C 结束nc监听``
+
+``CTRL-C``
+
+2.4.3 使用Python的HTTP模块测试连通性
+----------------------------------
 
 使用Python自带的HTTP模块也能快速开启对一个端口的监听，如果在使用上述两种方法时遇到问题，可以考虑使用此方法快速测试网络连通性。
 
 假设Flato节点IP地址node1~node4，需要验证node2~node4与node1上8001端口的连通性，使用方法如下：
 
-```bash
-#登录node1
-#具体操作时将node1换成服务器IP地址
-ssh flato@node1
-#启动Python HTTP模块监听，命令如下(注意大小写)
-python -m SimpleHTTPServer 8001
-#登录node2
-#具体操作时将node2换成服务器IP地址
-ssh flato@node2
-#使用curl命令测试连通性
-#具体操作时将node1换成服务器IP地址
-curl node1:8001 >& /dev/null && echo yes || echo no
-#如果测试成功就打印yes，否则打印no
-#在node3、node4上重复在node2上操作即可
-#测试完之后返回到node1
-#按 CTRL-C 结束Python监听
-CTRL-C
-```
+``登录node1``
 
-## 2.5 检查系统字符集
+``具体操作时将node1换成服务器IP地址``
 
-`flato`节点默认使用的字符集为`UTF-8` ，请检查`SDK`或者应用服务器的默认字符集是否为`UTF-8`，如果不是，有可能造成签名非法。
+``ssh flato@node1``
 
-```bash
-Linux系统字符集查看
-echo $LANG
+``启动Python HTTP模块监听，命令如下(注意大小写)``
 
-Linux修改字符集
-vim /etc/sysconfig/i18n
+``python -m SimpleHTTPServer 8001``
 
-LANG="zh_CN.UTF-8"
+``登录node2``
 
-修改文件保存退出之后要生效要执行如下命令才可生效
-source /etc/sysconfig/i18n
-```
+``具体操作时将node2换成服务器IP地址``
 
-## 2.6 检查最大文件句柄数
+``ssh flato@node2``
+
+``使用curl命令测试连通性``
+
+``具体操作时将node1换成服务器IP地址``
+
+``curl node1:8001 >& /dev/null && echo yes || echo no``
+
+``如果测试成功就打印yes，否则打印no``
+
+``在node3、node4上重复在node2上操作即可``
+
+``测试完之后返回到node1``
+
+``按 CTRL-C 结束Python监听``
+
+``CTRL-C``
+
+2.5 检查系统字符集
+----------------
+
+ `flato` 节点默认使用的字符集为 `UTF-8` ，请检查 `SDK` 或者应用服务器的默认字符集是否为 `UTF-8` ，如果不是，有可能造成签名非法。
+
+``Linux系统字符集查看``
+
+``echo $LANG``
+
+``Linux修改字符集 vim /etc/sysconfig/i18n``
+
+``LANG="zh_CN.UTF-8"``
+
+``修改文件保存退出之后要生效要执行如下命令才可生效source /etc/sysconfig/i18n``
+
+2.6 检查最大文件句柄数
+--------------------
 
 启动flato之前，需要保证文件句柄数至少为65535，否则有可能会由于文件句柄数不足引发系统宕机。
 
-```bash
-Linux检查文件句柄数
-ulimit -n
-```
+``Linux检查文件句柄数``
+
+``ulimit -n``
 
 查询到的数值应至少为65535，否则，建议联系当前服务器的管理员进行修改。
 
-## 2.7 重复操作
+2.7 重复操作
+-----------
 
-在完成以上步骤后，`node1`服务器的系统环境就检查完毕了。请按照**2.1~2.5**中的步骤，再分别登录到`node2~node4`上做一次检查。
+在完成以上步骤后， `node1` 服务器的系统环境就检查完毕了。请按照 **2.1~2.5** 中的步骤，再分别登录到 `node2~node4` 上做一次检查。
 
-
-
-# 第三章 安装节点
+第三章 安装节点
+==============
 
 首先以node1服务器为例，完成以下的安装步骤。
 
-## 3.1 备份数据
+3.1 备份数据
+-----------
 
 在做安装操作之前，需要先检查目标目录是否有数据，如果不是首次安装，请先备份一下历史数据。
 
-## 3.2 安装节点
+3.2 安装节点
+-----------
 
 以下步骤以安装node1上的Flato为例
 
 首先解压安装包
 
-```bash
-#回到用户主目录，解压安装包
-cd
-#根据实际情况修改flato-install.tar.gz
-tar xvf flato-installer.tar.gz
-#根据实际情况修改flato-abcdef
-cd flato-abcdef
-```
+``回到用户主目录，解压安装包``
 
-假设目标安装目录是`/opt/flato`, 请先对照操作步骤**2.2**中的文件系统检查结果，再次确认目标目录的大小满足需求。
+``cd``
 
-```bash
-df -h
-```
+``根据实际情况修改flato-install.tar.gz``
+
+``tar xvf flato-installer.tar.gz``
+
+``根据实际情况修改flato-abcdef``
+
+``cd flato-abcdef``
+
+假设目标安装目录是 `/opt/flato` , 请先对照操作步骤 **2.2** 中的文件系统检查结果，再次确认目标目录的大小满足需求。
+
+``df -h``
 
 若安装目录尚不存在，且登陆用户为非root用户，则需要使用sudo命令获取管理员权限后新建安装目录
 
-```bash
-sudo mkdir /opt/flato
-```
+``sudo mkdir /opt/flato``
 
 **注意，在安装之前，一定要确认好目标目录的大小，这点经常会被忽略。请务必仔细检查，以避免不必要的麻烦。**
 
 倘若检查结果没有问题，请执行以下命令完成安装：
 
-```bash
-./deploy-local.sh -d /opt/flato
-#如果想直接安装到当前目录，执行以下命令：
-#./deploy-local.sh -d ./
-```
+``./deploy-local.sh -d /opt/flato``
+
+``如果想直接安装到当前目录，执行以下命令：``
+
+``./deploy-local.sh -d ./``
 
 **注意：确保操作用户对-d指定的安装目录具有可写权限，否则安装将会出错。**
 
 部署完成可看到如下信息：
 
-```bash
-flato has been successfully installed in: /opt/flato
+``flato has been successfully installed in: /opt/flato``
 
+``Please run these commands to start flato process:``
 
-Please run these commands to start flato process:
-cd /opt/flato
-./start.sh 
+``cd /opt/flato``
 
-```
+``./start.sh ``
 
 然后把之前申请的证书和license文件从本地机器复制到该节点的安装目录下（需要**先退出用户登录在本地终端执行该命令**，执行完毕后再登录）：
 
-```bash
-#在本地解压证书文件
-#根据具体情况替换证书文件名字
-unzip 2019-10-31_06_43_59_allcerts.zip
-```
+``在本地解压证书文件``
+
+``根据具体情况替换证书文件名字``
+
+``unzip 2019-10-31_06_43_59_allcerts.zip``
 
 解压后的2019-10-31_06_43_59_allcerts文件夹里包含了一个README文件，请先仔细阅读该文件，并按照文件内容进行操作（也可参照本教程4.6节）。
 
-```bash
-#上传LICENSE文件
-#根据具体情况替换LICENSE文件的名字
-scp license.zip flato@node1:/opt/falto
-#解压license文件
+``上传LICENSE文件``
+
+``根据具体情况替换LICENSE文件的名字``
+
+``scp license.zip flato@node1:/opt/falto``
+
+``解压license文件``
 unzip xvf license.zip
 #解压出的license文件名可能不是LICENSE，需要重命名
 #根据实际情况替换LICENSE_20191031文件的名字

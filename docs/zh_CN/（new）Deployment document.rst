@@ -52,7 +52,7 @@ Flato License签发地址：https://filoop.com/console/license
 1. ``sudo useradd -m -d /home/flato -s /bin/bash -k /etc/skel flato``
 2. ``sudo passwd flato``
 
-修改部署路径及数据存放路径的目录权限，例如``/opt/flato``及``/data/hype``
+修改部署路径及数据存放路径的目录权限，例如 ``/opt/flato`` 及 ``/data/hype``
 
 1. ``sudo chown -R flato: /data/flato``
 
@@ -295,7 +295,7 @@ nt工具支持同时检查多个IP:Port的连通性，只要在servers.txt中以
 3. ``cd /opt/flato``
 4. ``./start.sh``
 
-然后把之前申请的证书和license文件从本地机器复制到该节点的安装目录下（需要**先退出用户登录在本地终端执行该命令**，执行完毕后再登录）：
+然后把之前申请的证书和license文件从本地机器复制到该节点的安装目录下（需要 **先退出用户登录在本地终端执行该命令**，执行完毕后再登录）：
 
 1. ``#在本地解压证书文件``
 2. ``#根据具体情况替换证书文件名字``
@@ -887,7 +887,7 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 
 flato在默认配置下都是以非分布式CA的方式进行启动。
 
-在INFO或者OA上下载的V1.7+证书套件解压后会看到ca、flato、hyperchain三个目录，详细使用可见README.md。**注意下载时需要指明节点对应的节点名称（hostname），名称应该和稍后部署时填写的节点名称一致。** 
+在INFO或者OA上下载的V1.7+证书套件解压后会看到ca、flato、hyperchain三个目录，详细使用可见README.md。 **注意下载时需要指明节点对应的节点名称（hostname），名称应该和稍后部署时填写的节点名称一致。** 
 
 其中flato目录里的证书套件用来部署flato，打开flato目录后可以看到一系列node目录，如下图所示。
 
@@ -909,7 +909,6 @@ flato在默认配置下都是以非分布式CA的方式进行启动。
 
 |image3|
 
-
 - 分布式CA证书配置
 
 目前分布式CA的证书能够通过certgen生成或INFO进行下载，证书放置路径和非分布式CA相同，但是需要修改./configuration/global/ns_static.toml文件中的
@@ -928,7 +927,7 @@ flato在默认配置下都是以非分布式CA的方式进行启动。
 
 ``text ./gencert.sh``
 
-指令运行，按照提示输入相关内容即可~~完成~~证书的创建。
+指令运行，按照提示输入相关内容即可 ~~完成~~ 证书的创建。
 
 该shell脚本是通过调用certgen相关指令来完成创建证书的操作的，能够让操作者选择生成分布式CA或者非分布式CA的证书。无论是分布式CA还是非分布式CA都会选择是否生成国密自签证书和国密公私钥，需要说明的是，选择了生成国密自签证书会自动生成国密公私钥对，选择生成非国密自签证书会生成非国密公私钥对，两者需要配套。
 
@@ -983,7 +982,7 @@ node4需要生成node1.cert, node2.cert, node3.cert;
 2. ``cd /opt/flato/. ./``
 3. ``tar zcvf ~/flato-backup.tar.gz flato``
 
-**请依次备份4个节点的Flato目标安装目录，本例中就是** `**/opt/flato**` **目录。**
+**请依次备份4个节点的Flato目标安装目录，本例中就是** ` **/opt/flato** ` **目录。**
 
 2. 启动节点
 ^^^^^^^^^^^

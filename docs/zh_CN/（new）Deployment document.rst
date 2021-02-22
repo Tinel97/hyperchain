@@ -667,10 +667,10 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 18. ``[p2p.ip.remote]``
 19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
 20. ``hosts = [``
-21. `` "node1 10.10.10.1:50011", ``
-22. `` "node2 10.10.10.2:50012", ``
-23. `` "node3 10.10.10.3:50013", ``
-24. `` "node4 10.10.10.4:50014", ``
+21. ``"node1 10.10.10.1:50011",``
+22. ``"node2 10.10.10.2:50012",``
+23. ``"node3 10.10.10.3:50013",``
+24. ``"node4 10.10.10.4:50014",``
 25. ``]``
 26. ``[p2p.ip.self]``
 27. ``domain = "domain1"``
@@ -708,21 +708,21 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 17. ``[p2p]``
 18.	``[p2p.ip.remote]``
 19.	`` # this node will connect to those peer, if here has self hostname, we will ignore it ``
-20.	`` hosts = [ ``
-21.	``	 "node1 10.10.10.1:50011", ``
-22.	``	 "node2 10.10.10.2:50012", ``
-23.	``	 "node3 10.10.10.3:50013", ``
-24.	``	 "node4 10.10.10.4:50014", ``
-25.	    ``]``
-26. 	``[p2p.ip.self]``
-27.	    ``domain = "domain1"``
-28.	    ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
-29.	    ``# other domains' host how connect to self``
-30.	    ``addrs = [``
-31.	     ``"domain1 10.10.10.1:50011",``
-32.	    ``]``
+20.	``hosts = [``
+21.	``"node1 10.10.10.1:50011",``
+22.	``"node2 10.10.10.2:50012",``
+23.	``"node3 10.10.10.3:50013",``
+24.	``"node4 10.10.10.4:50014",``
+25.	``]``
+26. ``[p2p.ip.self]``
+27.	``domain = "domain1"``
+28.	``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29.	``# other domains' host how connect to self``
+30.	``addrs = [``
+31.	``"domain1 10.10.10.1:50011",``
+32.	``]``
 33. ``[[namespace]]``
-34.    ``name = "global"``
+34. ``name = "global"``
 35.	``start = true``
 
 2号节点：
@@ -748,21 +748,21 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 18.	``[p2p.ip.remote]``
 19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
 20.	``hosts = [``
-21.	``	 "node1 10.10.10.1:50011",``
-22. ``	 "node2 10.10.10.2:50012",``
-23. ``	 "node3 10.10.10.3:50013",``
-24. ``	 "node4 10.10.10.4:50014",``
-25.	    ``]``
+21.	``"node1 10.10.10.1:50011",``
+22. ``"node2 10.10.10.2:50012",``
+23. ``"node3 10.10.10.3:50013",``
+24. ``"node4 10.10.10.4:50014",``
+25.	``]``
 26.	``[p2p.ip.self]``
-27.	    ``domain = "domain1"``
-28.	    ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
-29.	    ``# other domains' host how connect to self``
-30.	    ``addrs = [``
-31.	     ``"domain1 10.10.10.2:50012",``
-32.	    ``]``
+27.	``domain = "domain1"``
+28.	``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29.	``# other domains' host how connect to self``
+30.	``addrs = [``
+31.	``"domain1 10.10.10.2:50012",``
+32.	``]``
 33. ``[[namespace]]``
-34.   ``name = "global"``
-35. 	``start = true``
+34. ``name = "global"``
+35. ``start = true``
 
 3号节点：
 ^^^^^^^
@@ -784,24 +784,24 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 15. ``#``
 16. ``##########################################################``
 17. ``[p2p]``
-18. ``	[p2p.ip.remote]``
-19. ``		# this node will connect to those peer, if here has self hostname, we will ignore it``
-20. ``		hosts = [``
-21.	``  	 "node1 10.10.10.1:50011",``
-22. ``		 "node2 10.10.10.2:50012",``
-23. ``		 "node3 10.10.10.3:50013",``
-24. ``		 "node4 10.10.10.4:50014",``
-25. ``	    ]``
-26. ``	[p2p.ip.self]``
-27. ``	    domain = "domain1"``
-28. ``	    # addr is (domain,endpoint) pair, those items defined the ip address:port which``
-29. ``	    # other domains' host how connect to self``
-30. ``	    addrs = [``
-31. ``	     "domain1 10.10.10.3:50013",``
-32. ``	    ]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21.	``"node1 10.10.10.1:50011",``
+22. ``"node2 10.10.10.2:50012",``
+23. ``"node3 10.10.10.3:50013",``
+24. ``"node4 10.10.10.4:50014",``
+25. ``]``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 10.10.10.3:50013",``
+32. ``]``
 33. ``[[namespace]]``
-34. ``    name = "global"``
-35. ``	start = true``
+34. ``name = "global"``
+35. ``start = true``
 
 4号节点：
 ^^^^^^^
@@ -823,35 +823,35 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 15. ``#``
 16. ``##########################################################``
 17. ``[p2p]``
-18. ``	[p2p.ip.remote]``
-19. ``		# this node will connect to those peer, if here has self hostname, we will ignore it``
-20. ``		hosts = [``
-21. ``		 "node1 10.10.10.1:50011",``
-22.	``	 "node2 10.10.10.2:50012",``
-23.	``	 "node3 10.10.10.3:50013",``
-24.	``	 "node4 10.10.10.4:50014",``
-25.	``    ]``
-26. ``	[p2p.ip.self]``
-27. ``	    domain = "domain1"``
-28. ``	    # addr is (domain,endpoint) pair, those items defined the ip address:port which``
-29. ``	    # other domains' host how connect to self``
-30. ``	    addrs = [``
-31. ``	     "domain1 10.10.10.4:50014",``
-32. ``	    ]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21. ``"node1 10.10.10.1:50011",``
+22.	``"node2 10.10.10.2:50012",``
+23.	``"node3 10.10.10.3:50013",``
+24.	``"node4 10.10.10.4:50014",``
+25.	``]``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 10.10.10.4:50014",``
+32. ``]``
 33. ``[[namespace]]``
-34. ``    name = "global"``
-35. ``	start = true``
+34. ``name = "global"``
+35. ``start = true``
 
 - 各节点ns_dynamic.toml
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 1. ``[consensus]``
 2. ``algo = "RBFT"``
-3. ``    [consensus.set]``
-4. ``    set_size       = 25    # How many transactions should the node broadcast at once``
-5. ``    [consensus.pool]``
-6. ``    batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
-7. ``    pool_size        = 50000  # How many txs could the txPool stores in total``
+3. ``[consensus.set]``
+4. ``set_size       = 25    # How many transactions should the node broadcast at once``
+5. ``[consensus.pool]``
+6. ``batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
+7. ``pool_size        = 50000  # How many txs could the txPool stores in total``
 8. ``[self]``
 9. ``n         = 4           # 运行时修改。表示所连vp节点的个数，该值在节点运行过程中会实时变化。``
 10. ``hostname    = "node2"   # 运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，这里的hostname会被替换为要升级vp的hostname。``
@@ -901,11 +901,11 @@ flato在默认配置下都是以非分布式CA的方式进行启动。
 
 - 如果发生找不到证书这类错误，请检查./configuration/global/ns_static.toml文件中的
 
-[encryption.]配置项，修改为 `` ca = "certs/CA" ``
+[encryption.]配置项，修改为 ``ca = "certs/CA"``
 
-[encryption.ecert]配置项，修改为 `` ecert = "certs/certs" ``
+[encryption.ecert]配置项，修改为 ``ecert = "certs/certs"``
 
-- 如果节点启动报错**"the searched certificate configuration item does not match hostname : need hostname1, but hostname2"**此类的错误，请查看证书生成时是否有误。在INFO或者OA上申请SDKCERT,ECERT时，节点名称（域名）一栏需要填写每个节点对应的hostname，如下图：
+- 如果节点启动报错 **"the searched certificate configuration item does not match hostname : need hostname1, but hostname2"** 此类的错误，请查看证书生成时是否有误。在INFO或者OA上申请SDKCERT,ECERT时，节点名称（域名）一栏需要填写每个节点对应的hostname，如下图：
 
 |image3|
 
@@ -954,20 +954,20 @@ node4需要生成node1.cert, node2.cert, node3.cert;
 
 - 不启用证书功能
 
-当用户对区块链安全有较高要求时（例如有信息安全等级保护要求时）可能选择使用外部的硬件SSL VPN网关来保证准入控制和链路安全，这时可以手动关闭准入控制功能。方法是手动将ns_static.toml中的**[encryption.check.enable]**和**[encryption.check.enableT]**设置为false。这种情况下节点不需要配置任何证书即可启动。
+当用户对区块链安全有较高要求时（例如有信息安全等级保护要求时）可能选择使用外部的硬件SSL VPN网关来保证准入控制和链路安全，这时可以手动关闭准入控制功能。方法是手动将ns_static.toml中的 **[encryption.check.enable]**和**[encryption.check.enableT]** 设置为false。这种情况下节点不需要配置任何证书即可启动。
 
 1. ``text``
 2. ``[encryption.check]``
 3. ``enable     = false   #enable RCert``
 4. ``enableT    = false  #enable TCert``
 
-这时节点关闭准入控制功能，但是仍然会启用链路加密。可以同将**[encryption.security. algo]**设置为pure关闭链路加密功能（默认为sm4加密保护）。
+这时节点关闭准入控制功能，但是仍然会启用链路加密。可以同将 **[encryption.security. algo]** 设置为pure关闭链路加密功能（默认为sm4加密保护）。
 
 1. ``text``
 2. ``[consensus]``
 3. ``algo = "SOLO"``
 
-请**注意**这种情况下**请务必采取必要的外部措施保护区块链网络安全**。
+请 **注意** 这种情况下 **请务必采取必要的外部措施保护区块链网络安全** 。
 
 第五章 启动节点
 --------------

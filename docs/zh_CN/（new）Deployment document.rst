@@ -624,7 +624,7 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 13. ``# 1. define the remote peer's hostname and its IP address``
 14. ``# 2. define self address list under different domain``
 15. ``#``
-16. ``##########################################################
+16. ``##########################################################``
 17. ``[p2p]``
 18. ``[p2p.ip.remote]``
 19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
@@ -682,7 +682,6 @@ LICENSE文件位于Flato节点的根录下，文件名即LICENSE，如果不确�
 33. ``[[namespace]]``
 34. ``name = "global"``
 35. ``start = true``
-
 
 - 各节点dynamic.toml
 

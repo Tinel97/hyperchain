@@ -114,64 +114,63 @@
 80. ``max_content_length = "100kb" # default 100kB``
 81. ``read_timeout = "1000s"      # default 1000s``
 
-##########################################################
-#
-# P2P section
-#
-##########################################################
-[p2p]
-transport               = "grpc" # we now only support "grpc"
-compress                = false  # enable compression and decompression of network message
+82. ``##########################################################``
+83. ``#``
+84. ``# P2P section``
+85. ``#``
+86. ``##########################################################``
+87. ``[p2p]``
+88. ``transport               = "grpc" # we now only support "grpc"``
+89. ``compress                = false  # enable compression and decompression of network message``
 
-# network mode, enum: direct, relay, discover. direct is default mode.
-# discover mode not require full hosts.toml.
-# relay mode not require direct node.
-mode                    = "direct"
+90. ``# network mode, enum: direct, relay, discover. direct is default mode.``
+91. ``# discover mode not require full hosts.toml.``
+92. ``# relay mode not require direct node.``
+93. ``mode                    = "direct"``
 
-retrytime               = "3s"
-ipc                     = "hpc_1.ipc"
-enableTLS               = true
-tlsCA                   = "./tls/tlsca.ca"
-tlsServerHostOverride   = "hyperchain.cn"
-tlsCert                 = "./tls/tls_peer.cert"
-tlsCertPriv             = "./tls/tls_peer.priv"
+94. ``retrytime               = "3s"``
+95. ``ipc                     = "hpc_1.ipc"``
+96. ``enableTLS               = true``
+97. ``tlsCA                   = "./tls/tlsca.ca"``
+98. ``tlsServerHostOverride   = "hyperchain.cn"``
+99. ``tlsCert                 = "./tls/tls_peer.cert"``
+100. ``tlsCertPriv             = "./tls/tls_peer.priv"``
 
-# connection control configurations
-# keepalive configuration
-# [1,5,10] means minLimit=1, threshold=5 maxLimit=20
-keepAliveDuration = [1,5,20]
+101. ``# connection control configurations``
+102. ``# keepalive configuration``
+103. ``# [1,5,10] means minLimit=1, threshold=5 maxLimit=20``
+104. ``keepAliveDuration = [1,5,20]``
 
-# pending configuration
-# [5,20,100] means minLimit=1, threshold=20 maxLimit=100
-pendingDuration = [5,20,100]
+105. ``# pending configuration``
+106. ``# [5,20,100] means minLimit=1, threshold=20 maxLimit=100``
+107. ``pendingDuration = [5,20,100]``
 
-# send keepalive message every keepAliveInterval
-keepAliveInterval = "5s"
+108. ``# send keepalive message every keepAliveInterval``
+109. ``keepAliveInterval = "5s"``
 
-# stream will be closed if not receive keepalive message for keepAliveTimeout
-keepAliveTimeout = "3m"
+110. ``# stream will be closed if not receive keepalive message for keepAliveTimeout``
+111. ``keepAliveTimeout = "3m"``
 
-    [p2p.grpc]
-    maxRecvMessageSize = "50mb" # default 50mb
-    maxSendMessageSize = "50mb" # default 50mb
+112.     ``[p2p.grpc]``
+113.     ``maxRecvMessageSize = "50mb" # default 50mb``
+114.     ``maxSendMessageSize = "50mb" # default 50mb``
 
-##########################################################
-#
-# flow control configurations section
-#
-##########################################################
-[flow.control.ratelimit]
-enable            = true
-fileReceivePeak   = 100
-fileReceiveRate	  = "8ms"
-fileSendPeak	  = 100
-fileSendRate      = "8ms"
+115. ``##########################################################``
+116. ``#``
+117. ``# flow control configurations section``
+118. ``#``
+119. ``##########################################################``
+120. ``[flow.control.ratelimit]``
+121. ``enable            = true``
+122. ``fileReceivePeak   = 100``
+123. ``fileReceiveRate	  = "8ms"``
+124. ``fileSendPeak	  = 100``
+125. ``fileSendRate      = "8ms"``
 
-[flow.control.bandwidth]
-enable            = false
-outgoingBandwidth = "500Mb" # NOTE: The unit is Mb/s NOT MB/s
+126. ``[flow.control.bandwidth]``
+127. ``enable            = false``
+128. ``outgoingBandwidth = "500Mb" # NOTE: The unit is Mb/s NOT MB/s``
 
-</div>
 
 其中log模块表示日志相关的配置选项，您可以通过修改log.dump_file来控制是否将输出日志重定向至日志文件中， **我们推荐您开启日志重定向** 。
 

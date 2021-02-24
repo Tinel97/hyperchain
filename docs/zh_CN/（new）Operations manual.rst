@@ -363,7 +363,7 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 61. ``snap = "data/raft/snap" # snapshot dir``
 62. ``wal  = "data/raft/wal"  # wal dir``
 
-63. ``[consensus.solo.timeout]
+63. ``[consensus.solo.timeout]``
 64. ``batch             = "0.5s"# Node send a batch if there are pending requests, although batchsize isn't reached yet``
 65. ``set               = "0.1s"# Node broadcasts transactions if there are cached transactions, although set_size isn't reached yet``
 

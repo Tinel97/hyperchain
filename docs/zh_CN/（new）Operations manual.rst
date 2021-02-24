@@ -178,3 +178,111 @@
 
 您可以通过修改flow.control.ratelimit.enable和flow.control.bandwidth的值来控制是否开启节点流量控制和带宽限制，建议根据测试的tps进行流控设置，详细的流控配置可参考3.2节内容。
 
+3.1.2 dynamic.toml
+^^^^^^^^^^^^^^^^^^
+
+该配置文件包含了一些 **全局的，可运行时动态修改的配置项：**
+
+129. ``self = "node1"``
+
+130. ``##########################################################``
+131. ``#``
+132. ``# key ports section``
+133. ``#``
+134. ``##########################################################``
+135. ``[port]``
+136. ``jsonrpc     = 8081``
+137. ``grpc        = 50011 # p2p``
+
+138. ``##########################################################``
+139. ``#``
+140. ``# p2p system config``
+141. ``# 1. define the remote peer's hostname and its IP address``
+142. ``# 2. define self address list under different domain``
+143. ``#``
+144. ``##########################################################``
+145. ``[p2p]``
+146. 	``[p2p.ip.remote]``
+147. 		``# this node will connect to those peer, if here has self hostname, we will ignore it``
+148. 		``hosts = [``
+149. 		 ``"node1 127.0.0.1:50011",``
+150. 		 ``"node2 127.0.0.1:50012",``
+151. 		 ``"node3 127.0.0.1:50013",``
+152. 		 ``"node4 127.0.0.1:50014",``
+153. 	    ``]``
+
+154. 	``[p2p.ip.self]``
+155. 	    ``domain = "domain1"``
+
+156. 	    ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+157. 	    ``# other domains' host how connect to self``
+158. 	    ``addrs = [``
+159.	     ``"domain1 127.0.0.1:50011",``
+160. 	     ``"domain2 127.0.0.1:50011",``
+161.	     ``"domain3 127.0.0.1:50011",``
+162. 	     ``"domain4 127.0.0.1:50011",``
+163. 	    ``]``
+164. ``#这里配置时候需要注意,配置的是其他节点访问本节点时，使用的本节点的IP地址，举个例子，如果节点2属于域 `domain2` ，那么节点2访问节点1时需要用节点1声明的在 `domain2` 域中对外暴露的地址，换句话说，节点2访问本节点时用的地址是 `127.0.0.1:50012` 。``
+
+165. ``[[namespace]]``
+166.     ``name = "global"``
+167. 	``start = true``
+
+您可以根据实际申请开放的端口号进行port模块的配置，其中grpc端口是节点间通信的端口号，注意要与下方[p2p.ip.remote.hosts]中的端口号对应；jsonrpc端口是外部应用向Flato平台发送请求使用的端口号。
+
+**domain的配置是比较容易出错的地方，最简单的配置方式就是**：
+
+- 所有节点都在一个domain里：所有节点都在同一个内网环境，只要配置一个domain和该节点在这个domain里的IP地址即可。
+
+namespace模块指定了namespace的根目录路径以及节点启动时默认参与的namespace名称， **我们建议每个节点都要默认启动global这个namespace** 。
+
+3.1.3 ns_dynamic.toml
+^^^^^^^^^^^^^^^^^^^^^
+
+该配置文件中记录了 **namespace级别的可动态修改的配置项** ，包括当前节点的启动方式、启动身份、区块链网络节点数目以及每个节点的网络配置信息。您在使用之前必须确保所有的网络配置正确。节点启动的时候会 **检查该配置文件的可用性** ，比如 `nodes` 列表中不能有重复的hostname、 `self.n` 必须等于 `nodes` 列表项目数，平台通过检查网络配置文件的可用性，可以让应用开发者及时发现配置异常。
+
+``[consensus]``
+``algo = "RBFT"``
+    ``[consensus.set]``
+    ``set_size       = 25    # How many transactions should the node broadcast at once``
+    ``[consensus.pool]``
+    ``batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
+    ``pool_size        = 50000  # How many txs could the txPool stores in total``
+
+``[self]``
+``n         = 4           # 运行时修改。表示所连vp节点的个数，该值在节点运行过程中会实时变化。``
+``hostname    = "node1"   # 运行时修改，仅限于CVP节点。对于cvp来说，该值会发生变化，仅在cvp节点升级为vp的时候，这里的hostname会被替换为要升级vp的hostname。``
+``new         = false     # 运行时修改。新节点成功加入网络以后，该值会变为false。``
+``# the value can only be vp、nvp and cvp, case-insensitive``
+``type        = "vp"	    # 候选项为vp/nvp/cvp``
+``vp          = true      # （过时的无效配置）``
+
+``#[[cvps]]				# 运行时修改。cvps在节点运行过程中实时变化。``
+``#hostname 	= "cvp1"``
+
+``#[[cvps]]``
+``#hostname 	= "cvp2"``
+
+``#[[nvps]]				# 运行时修改。nvps数组在节点运行过程中实时变化。``
+``#hostname	= "nvp1"``
+
+``#[[nvps]]``				
+``#hostname	= "nvp2"``
+
+``[[nodes]]				# 运行时修改。nodes数组在节点运行过程中实时变化。``
+``hostname    = "node1"``
+``score       = 10``
+
+``[[nodes]]``
+``hostname    = "node2"``
+``score       = 10``
+
+``[[nodes]]``
+``hostname    = "node3"``
+``score       = 10``
+
+``[[nodes]]``
+``hostname    = "node4"``
+``score       = 10``
+
+可查询附录了解更多配置项信息。

@@ -282,7 +282,549 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 31. ``score       = 10``
 
 32. ``[[nodes]]``
-33.``hostname    = "node4"``
+33. ``hostname    = "node4"``
 34. ``score       = 10``
 
 可查询附录了解更多配置项信息。
+
+3.1.4 ns_static.toml
+^^^^^^^^^^^^^^^^^^^^
+
+该配置文件中记录了所有namespace级别的配置项，包括**共识算法配置、加密证书的配置、数据库相关配置、日志等级配置**等等，这些配置都是**无法在运行中修改**的，各个配置项的释义在注释以及文末的附录中给出。
+
+1. `` ###########################################################``
+2. `` #  _   _                        ____ _           _        #``
+3. `` # | | | |_   _ _ __   ___ _ __ / ___| |__   __ _(_)_ __   #``
+4. `` # | |_| | | | | '_ \ / _ \ '__| |   | '_ \ / _\ | | '_ \  #``
+5. `` # |  _  | |_| | |_) |  __/ |  | |___| | | | (_| | | | | | #``
+6. `` # |_| |_|\__, | .__/ \___|_|   \____|_| |_|\__,_|_|_| |_| #``
+7. `` #        |___/|_|                                         #``
+8. `` ###########################################################``
+9. `` title = "namespace configurations"``
+
+10. ``[genesis]``
+11. ``[genesis.alloc]``
+12. ``"000f1a7a08ccc48e5d30f80850cf1cf283aa3abd" = "1000000000"``
+13. ``"e93b92f1da08f925bdee44e91e7768380ae83307" = "1000000000"``
+14. ``"6201cb0448964ac597faf6fdf1f472edf2a22b89" = "1000000000"``
+15. ``"b18c8575e3284e79b92100025a31378feb8100d6" = "1000000000"``
+16. ``"856E2B9A5FA82FD1B031D1FF6863864DBAC7995D" = "1000000000"``
+17. ``"fbca6a7e9e29728773b270d3f00153c75d04e1ad" = "1000000000"``
+
+18. ``############################################################################################################``
+19. ``# consensus algorithm configuration section``
+20. ``#``
+21. ``# 1. choose which consensus algorithm to use``
+22. ``# 2. define the algorithm related configurations``
+23. ``#``
+24. ``############################################################################################################``
+25. ``[consensus]``
+26. ``[consensus.set]``
+27. ``# set_size       = 25    # How many transactions should the node broadcast at once``
+28. ``set_timeout    = "0.1s"# Node broadcasts transactions if there are cached transactions, although set_size isn't reached yet``
+
+29. ``[consensus.pool]``
+30. ``# batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
+31. ``# pool_size        = 50000  # How many txs could the txPool stores in total``
+32. ``check_interval  = "3m"  # interval of the check loop``
+33. ``tolerance_time  = "5m"  # the max tolerance time, if time.Now - timestamp > toleranceTime, send event to consensus``
+34. ``batch_mem_limit  = false # If Limit the batch memory size or not``
+35. ``batch_max_mem    = "10mb" # The maximum memory size of one batch``
+
+36. ``[consensus.rbft]         # rbft configurations``
+37. ``k                = 10    # After how many blocks a checkpoint will be sent``
+38. ``vc_period        = 0     # After how many checkpoint periods( Blocks = 10 * vcperiod ) the primary gets cycled automatically. ( Set 0 to disable )``
+
+39. ``[consensus.rbft.timeout]``
+40. ``sync_state        = "1s"  # How long to wait quorum sync state response``
+41. ``sync_interval     = "10s"  # How long to restart sync state process``
+42. ``recovery          = "10s" # How long to wait before recovery finished``
+43. ``first_request     = "30s" # How long to wait before first request should come``
+44. ``batch             = "0.5s"# Primary send a pre-prepare if there are pending requests, although batchsize isn't reached yet,``
+45. ``request           = "6s"  # How long may a request(transaction batch) take between reception and execution, must be greater than the batch timeout``
+46. ``validate          = "1s"  # How long may a validate (transaction batch) process will take by local Validation``
+47. ``null_request      = "9s"  # Primary send it to inform aliveness, must be greater than request timeout``
+48. ``viewchange        = "8s"  # How long may a view change take``
+49. ``resend_viewchange = "10s" # How long to wait for a view change quorum before resending (the same) view change``
+50. ``clean_viewchange  = "60s" # How long to clean out-of-data view change message``
+51. ``fetch_checkpoint  = "5s"  # How long to wait for config change checkpoint quorum before fetch checkpoint take``
+
+52. ``[consensus.raft]        # RAFT configurations``
+53. ``snap_count        = 20 # How many entries should trigger a snapshot``
+54. ``catchup_count = 20 # when doing log compaction, keep some entries in memory for slow followers to catchup``
+
+55. ``[consensus.raft.timeout]``
+56. ``batch        = "0.5s"  # Node make a batch if there are pending requests, although batchsize isn't reached yet``
+57. ``set          = "0.1s" # Node broadcasts transactions if there are cached transactions, although set_size isn't reached yet``
+58. ``fetch  = "3s" # How long to fetch a missing batch``
+59. ``negotiate = "6s" # How long to wait for quorum responses after send negotiate``
+
+60. ``[consensus.raft.dir]``
+61. ``snap = "data/raft/snap" # snapshot dir``
+62. ``wal  = "data/raft/wal"  # wal dir``
+
+63. ``[consensus.solo.timeout]
+64. ``batch             = "0.5s"# Node send a batch if there are pending requests, although batchsize isn't reached yet``
+65. ``set               = "0.1s"# Node broadcasts transactions if there are cached transactions, although set_size isn't reached yet``
+
+
+66. ``[encryption]``
+67. ``[encryption.TEE]``
+68. ``TEEPath = "http://nexus.hyperchain.cn/repository/arch/sgx/enclave.sign.so"``
+69. ``DataEncrypt = false``
+
+70. ``[encryption.root]``
+71. ``ca    = "certs/CA"``
+
+72. ``[encryption.ecert]``
+73. ``ecert  = "certs/certs"``
+
+74. ``[encryption.bcert]``
+75. ``# path of the back-up permission certs``
+76. ``listDir = "certs/bcerts"``
+
+77. ``[encryption.check]``
+78. ``enable     = true   #enable RCert``
+79. ``enableT    = false  #enable TCert``
+
+80. ``[distributedCA]``
+81. ``enable = false  #true is aco mode``
+
+82. ``[encryption.security]``
+83. ``algo   = "sm4"   # Selective symmetric encryption algorithm (pure,3des,aes or sm4)``
+
+
+84. ``############################################################################################################``
+85. ``#``
+86. ``# system upgrade configuration``
+87. ``#``
+88. ``############################################################################################################``
+
+89. ``[self-government.upgrade]``
+90. ``archive_path = "upgrade_archive"``
+91. ``archive_prefix = "upgrade_"``
+92. ``fetch_remote = true``
+93. ``fetch_path = "http://127.0.0.1:8000/hyperchain-deploy.tar.gz"``
+
+94. ``[[self-government.nodes]]``
+95. ``hostname    = "node1"``
+96. ``address     = "14f14e4e316ed13c41eedd4759d79d07aac775ac"``
+
+97. ``[[self-government.nodes]]``
+98. ``hostname    = "node2"``
+99. ``address     = "916a3c39f7c0f579c9df5b9931af49a899c5bb4a"``
+
+100. ``[[self-government.nodes]]``
+101. ``hostname    = "node3"``
+102. ``address     = "be79466f637b4c18de25f0312c5961af66fb2d3d"``
+
+103. ``[[self-government.nodes]]``
+104. ``hostname    = "node4"``
+105. ``address     = "e593460a7c31f9984deae6529a57229285bd0370"``
+
+106. ``############################################################################################################``
+107. ``#``
+108. ``# radar configurations``
+109. ``#``
+110. ``############################################################################################################``
+
+111. ``[radar-params]``
+112. ``viewable_db_type = "mysql"``
+113. ``mysql_connURL  = "root:root@tcp(127.0.0.1:3306)/%s?charset=utf8"``
+114. ``############################################################################################################``
+115. ``#``
+116. ``# executor configuration section``
+117. ``# config log's level by module``
+118. ``# CRITICAL ERROR WARNING NOTICE INFO DEBUG``
+119. ``# high <------------- log level -------> low``
+120. ``#``
+121. ``############################################################################################################``
+123. ``[log]``
+124. ``dump_file           = true # dump the log file or not``
+125. ``dump_interval       = "24h"  # Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". such as "300ms", "2h45m".``
+126. ``log_dir             = "data/logs"``
+127. ``log_level           = "NOTICE" # default loglevel for all modules which can be override by module level log setting``
+128. ``file_format         = "[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message}"``
+129. ``console_format      = "%{color}[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message} %{color:reset}"``
+130. ``max_log_size        = "200mb"  # "mb", "kb"``
+131. ``check_size_interval = "2m"``
+
+132. ``[log.module] #set log level by module``
+133. ``p2p         = "NOTICE"``
+134. ``consensus   = "INFO"``
+135. ``flatodb     = "NOTICE"``
+136. ``eventhub    = "NOTICE"``
+137. ``executor    = "NOTICE"``
+138. ``execmgr     = "NOTICE"``
+139. ``syncmgr     = "NOTICE"``
+140. ``filemgr     = "NOTICE"``
+141. ``buckettree  = "NOTICE"``
+142. ``radar       = "NOTICE"``
+143. ``mq          = "INFO"``
+144. ``private     = "INFO"``
+145. ``midware     = "NOTICE"``
+146. ``dispatch    = "NOTICE"``
+147. ``node        = "NOTICE"``
+148. ``api         = "NOTICE"``
+149. ``nvp         = "NOTICE"``
+
+150. ``[rpc.qps.flowCtrl]``
+151. ``enable   = true``
+152. ``capacity = 100``
+153. ``limit    = 2000 # qps``
+
+154. ``[duplicate]``
+155. ``# tx generated in the past tx_active_time is legal``
+156. ``tx_active_time    = "24h"``
+157. ``# The transaction's timestamp can only be greater than the current time by up to tx_drift_time``
+158. ``tx_drift_time     = "5m"``
+
+159. ``[duplicate.bloomfilter] # bloom filter used in tx duplication checking``
+160. ``# each bloomfilter's size``
+161. ``bloombit          = 100000000``
+162. ``# Bloom filter's total memory limit``
+163. ``max_mem  = "100mb"``
+
+164. ``#[[service]]``
+165. ``#    service_name = "Radar"``
+166. ``#[[service]]``
+167. ``#    service_name = "MQ"``
+
+168. ``[mq.broker]``
+169. ``type = "rabbit"``
+170. ``#type = "kafka"``
+
+171. ``[mq.rabbit]``
+172. ``url = "amqp://guest:guest@127.0.0.1:5672/"``
+
+173. ``[mq.kafka]``
+174. ``urls				= ["localhost:9092"]``
+175. ``writerBatchSize		= 100``
+176. ``writerBatchBytes	= 52428800``
+177. ``writerBatchTimeout 	= "0.1s"``
+178. ``writeTimeout 		= "10s"``
+179. ``rebalanceInterval 	= "10s"``
+180. ``idleConnTimeout 	= "10s"``
+
+181. ``[mq.kafka.partitionNums]``
+182. ``"localhost:9092" = 1``
+
+183. ``[mq.kafka.replicaFactor]``
+184. ``"localhost:9092" = 1``
+
+
+185. ``############################################################################################################``
+186. ``#``
+187. ``# private protection configuration section``
+188. ``#``
+189. ``############################################################################################################``
+190. ``[private]``
+191. ``cache_size    = 500``
+
+192. ``[private.timeout]``
+193. ``sync_data     = "3s"``
+194. ``query_data    = "3s"``
+195. ``fetch_data    = "3s"``
+196. ``check         = "1h"``
+
+197. ``[private.ttl]``
+198. ``name = "time"``
+199. ``[private.ttl.time]``
+200. ``timeout = "24h"``
+201. ``[private.ttl.block]``
+202. ``number = 5``
+
+203. ``[executor]``
+204. ``[executor.syncer]``
+205. ``max_block_fetch         = 50``
+
+206. ``[executor.archive]``
+207. ``archive_root  = "data/archive/"``
+
+208. ``[executor.nvp]``
+209. ``exitflag = false``
+210. ``sync_mode = "block" #another mode is journal #新增``
+
+211. ``[executor.sync_chain]``
+212. ``priority = "block"``
+213. ``sync_journal_receipt = true``
+214. ``hs_interval = "5s"``
+215. ``hs_resend_times = 5``
+216. ``batch_size = 100``
+217. ``state_sync_interval = "2s"``
+218. ``fetcher_resend = 5``
+219. ``mode_negotiate_interval = "5s"``
+
+220. ``[executor.filemgr]``
+221. ``enable = false``
+222. ``deadline = "600s"``
+223. ``clean_interval = "60s"``
+224. ``file_system_mode = "ipfs" #origin, ipfs``
+225. ``data_path = "namespaces/global/data/filemgr"``
+226. ``ipfs_url="localhost:5001"``
+227. ``hs_interval = "30s"``
+228. ``batch_size = 100``
+229. ``transfer_interval = "30s"``
+
+``[database]``
+	``public_path = "data/public/"``
+	``private_path = "data/private/"``
+    ``[database.state]``
+        ``# 1. Encryption is a resource consuming functionality and will somewhat slow the process down.``
+        ``# 2. Something unexpected can happen if this field is changed more than once (e.g. switch-off -> start -> swicth-on -> restart).``
+        ``# 3. Make sure the whole cluster is running with the same encryption config, or the data transfer (sync-chain)``
+        ``#    between nodes will fail.``
+        ``encrypt = false``
+        ``type="multicache"``
+        ``[database.state.multicache]``
+            ``#maximum memory occupation of tables``
+            ``persist_goroutine_num = 100``
+            ``underlyint_num = 10``
+            ``memory_limit = "500mb"``
+            ``data_path = "statedb/"``
+            ``[database.state.multicache.persist_db]``
+                ``type="leveldb" #multidb, memdb or leveldb``
+                ``[database.state.multicache.persist_db.multidb] # work iff type="multidb"``
+                    ``db_amount_limit = 32``
+                    ``db_paths = [``
+                        ``"namespaces/global/data/public/statedb/persist/multidb-0",``
+                        ``"namespaces/global/data/public/statedb/persist/multidb-8",``
+                        ``"namespaces/global/data/public/statedb/persist/multidb-16",``
+                        ``"namespaces/global/data/public/statedb/persist/multidb-24"``
+                    ``]``
+                    [database.state.multicache.persist_db.leveldb]
+                    block_cache_capacity      = "8mb" # "mb", "kb"
+                    block_size                = "4kb" # "mb", "kb"
+                    write_buffer              = "4mb" # "mb", "kb"
+                    write_l0_pause_trigger    = 12
+                    write_l0_slowdown_trigger = 8
+                    # the level db file size (default is 2mb, v1.2 is 8mb)
+                    compaction_table_size     = "8mb"
+                [database.state.multicache.persist_db.tikv]
+                    pd_addrs = ["172.16.5.4:2371"]
+            [database.state.multicache.temp_db]
+                type="leveldb"
+                [database.state.multicache.temp_db.leveldb]
+                    block_cache_capacity      = "8mb" # "mb", "kb"
+                    block_size                = "4kb" # "mb", "kb"
+                    write_buffer              = "4mb" # "mb", "kb"
+                    write_l0_pause_trigger    = 12
+                    write_l0_slowdown_trigger = 8
+                    # the level db file size (default is 2mb, v1.2 is 8mb)
+                    compaction_table_size     = "8mb"
+    [database.account]
+        encrypt = false
+        type="multicache"
+        [database.account.multicache]
+            #maximum memory occupation of tables
+			persist_goroutine_num = 5
+			underlyint_num = 1
+            memory_limit = "50mb"
+            data_path = "accountdb/"
+            [database.account.multicache.persist_db]
+                type="leveldb"
+                [database.account.multicache.persist_db.leveldb]
+                    block_cache_capacity      = "8mb" # "mb", "kb"
+                    block_size                = "4kb" # "mb", "kb"
+                    write_buffer              = "4mb" # "mb", "kb"
+                    write_l0_pause_trigger    = 12
+                    write_l0_slowdown_trigger = 8
+                    # the level db file size (default is 2mb, v1.2 is 8mb)
+                    compaction_table_size     = "8mb"
+                [database.account.multicache.persist_db.tikv]
+                    pd_addrs = ["172.16.5.4:2371"]
+
+    [database.chain]
+        encrypt = false
+        type="multicache"
+        [database.chain.multicache]
+            #maximum memory occupation of tables
+			persist_goroutine_num = 5
+			underlyint_num = 1
+			memory_limit = "50mb"
+            data_path = "chaindb/"
+            [database.chain.multicache.persist_db]
+                type="leveldb"
+                [database.chain.multicache.persist_db.leveldb]
+                    block_cache_capacity      = "8mb" # "mb", "kb"
+                    block_size                = "4kb" # "mb", "kb"
+                    write_buffer              = "4mb" # "mb", "kb"
+                    write_l0_pause_trigger    = 12
+                    write_l0_slowdown_trigger = 8
+                    # the level db file size (default is 2mb, v1.2 is 8mb)
+                    compaction_table_size     = "8mb"
+                [database.chain.multicache.persist_db.tikv]
+                    pd_addrs = ["172.16.5.4:2371"]
+
+    [database.block]
+        encrypt = false
+        type="filelog"
+        [database.block.filelog]
+            path = "blockdb/filelog/"
+            compression = "snappy" #zlib pure snappy
+            max_log_file_size = "100mb" # "mb", "kb"
+            data_version = 1 # default to be 1, means disk storage struct version
+            index_enable = true
+
+            [database.block.filelog.cache]
+                enable = true
+                max_cache_size = 100 #mb
+                cache_expired_time = 48 #hour
+                cache_entry_num = 20
+
+            [database.block.filelog.handler_cache]
+                handler_cache_num = 100
+                handler_cache_evict_time = 1 # *time.Second
+    [database.journal]
+        encrypt = false
+        type="filelog"
+        [database.journal.filelog]
+            path = "journaldb/filelog/"
+            compression = "snappy" #zlib pure snappy
+            max_log_file_size = "100mb" # "mb", "kb"
+            data_version = 1 # default to be 1, means disk storage struct version
+            index_enable = true
+
+            [database.journal.filelog.cache]
+                enable = true
+                max_cache_size = 100 #mb
+                cache_expired_time = 48 #hour
+                cache_entry_num = 20
+
+            [database.journal.filelog.handler_cache]
+                handler_cache_num = 100
+                handler_cache_evict_time = 1 # *time.Second
+
+    [database.receipt]
+        encrypt = false
+        type="filelog"
+        [database.receipt.filelog]
+            path = "receiptdb/filelog/"
+            compression = "snappy" #zlib pure snappy
+            max_log_file_size = "100mb" # "mb", "kb"
+            data_version = 1 # default to be 1, means disk storage struct version
+            index_enable = true
+
+            [database.receipt.filelog.cache]
+                enable = true
+                max_cache_size = 100 #mb
+                cache_expired_time = 48 #hour
+                cache_entry_num = 20
+
+            [database.receipt.filelog.handler_cache]
+                handler_cache_num = 100
+                handler_cache_evict_time = 1 # *time.Second
+
+    [database.invalidtx]
+        encrypt = false
+        type="leveldb"
+        [database.invalidtx.leveldb]
+                path="invalidtx/leveldb/"
+				logpath="invalidtx/log"
+                block_cache_capacity      = "8mb" # "mb", "kb"
+                block_size                = "4kb" # "mb", "kb"
+                write_buffer              = "4mb" # "mb", "kb"
+                write_l0_pause_trigger    = 12
+                write_l0_slowdown_trigger = 8
+                # the level db file size (default is 2mb, v1.2 is 8mb)
+                compaction_table_size     = "8mb"
+
+    [database.consensus]
+        encrypt = false
+        type="leveldb"
+        [database.consensus.leveldb]
+                path="consensusdb/leveldb/"
+				logpath="consensusdb/log"
+                block_cache_capacity      = "8mb" # "mb", "kb"
+                block_size                = "4kb" # "mb", "kb"
+                write_buffer              = "4mb" # "mb", "kb"
+                write_l0_pause_trigger    = 12
+                write_l0_slowdown_trigger = 8
+                # the level db file size (default is 2mb, v1.2 is 8mb)
+                compaction_table_size     = "8mb"
+
+    [database.camanager]
+        encrypt = false
+        type="leveldb"
+        [database.camanager.leveldb]
+                path="cadb/leveldb/"
+				logpath="cadb/log"
+                block_cache_capacity      = "8mb" # "mb", "kb"
+                block_size                = "4kb" # "mb", "kb"
+                write_buffer              = "4mb" # "mb", "kb"
+                write_l0_pause_trigger    = 12
+                write_l0_slowdown_trigger = 8
+                # the level db file size (default is 2mb, v1.2 is 8mb)
+                compaction_table_size     = "8mb"
+
+    [database.radar]
+        encrypt = false
+        type="leveldb"
+        [database.radar.leveldb]
+                path="radardb/leveldb/"
+				logpath="radardb/log"
+                block_cache_capacity      = "8mb" # "mb", "kb"
+                block_size                = "4kb" # "mb", "kb"
+                write_buffer              = "4mb" # "mb", "kb"
+                write_l0_pause_trigger    = 12
+                write_l0_slowdown_trigger = 8
+                # the level db file size (default is 2mb, v1.2 is 8mb)
+                compaction_table_size     = "8mb"
+
+    [database.mq]
+        encrypt = false
+        type="leveldb"
+        [database.mq.leveldb]
+                path="mqdb/leveldb/"
+				logpath="mqdb/log"
+                block_cache_capacity      = "8mb" # "mb", "kb"
+                block_size                = "4kb" # "mb", "kb"
+                write_buffer              = "4mb" # "mb", "kb"
+                write_l0_pause_trigger    = 12
+                write_l0_slowdown_trigger = 8
+                # the level db file size (default is 2mb, v1.2 is 8mb)
+                compaction_table_size     = "8mb"
+
+	[database.minifile]
+		consensus = "minifile/consensus"
+		sync = "minifile/sync"
+		bloom = "minifile/bloom"
+		nvp = "minifile/nvp"
+
+    [database.indexdb]
+        [database.indexdb.layer1]
+            enable = false
+            dbType = "mongodb"
+       [database.indexdb.tempdb]
+            path = "indexdb/tempdb/leveldb/"
+        [database.indexdb.layer2]
+            # Defines for which fields to create layer2 index, optional value including:
+            #   1 - indicate field named block write time;
+            #   2 - indicate field named transaction from;
+            #   3 - indicate field named transaction to;
+            #   4 - indicate field named transaction hash;
+            # For example:
+            #      active = [] - means dont create any layer2 index;
+            #      active = [1] - means create layer2 index for block write time;
+            #      active = [1, 2] - means create layer2 index for block write time and transaction from;
+            # This config item works only when database.indexdb.layer1.enable is true.
+            active = []
+        [database.indexdb.mongodb]
+            # if you should set username and password, please use
+            # mongodb://username:password@127.0.0.1:27017?w=1&journal=true,
+            # for example: "mongodb://flatoUser:123456@127.0.0.1:27017?w=1&journal=true"
+            uri = "mongodb://127.0.0.1:27017/?w=1&journal=true"
+            limit = 5000
+            tlsEnable = false
+            tlsCA = "certs/mongodb_ca.pem"
+            tlsCertKey = "certs/mongodb_client_cert.pem"
+	[cvp.backup]
+    	path = "data/cvp"
+
+	[send.args.extra.check]
+		enable = false
+		url    = "https://filoop.com/api/v1/safe/text"
+
+
+```
+

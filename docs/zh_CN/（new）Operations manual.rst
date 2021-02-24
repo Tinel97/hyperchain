@@ -292,15 +292,15 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 
 该配置文件中记录了所有namespace级别的配置项，包括**共识算法配置、加密证书的配置、数据库相关配置、日志等级配置**等等，这些配置都是**无法在运行中修改**的，各个配置项的释义在注释以及文末的附录中给出。
 
-1. `` ###########################################################``
-2. `` #  _   _                        ____ _           _        #``
-3. `` # | | | |_   _ _ __   ___ _ __ / ___| |__   __ _(_)_ __   #``
-4. `` # | |_| | | | | '_ \ / _ \ '__| |   | '_ \ / _\ | | '_ \  #``
-5. `` # |  _  | |_| | |_) |  __/ |  | |___| | | | (_| | | | | | #``
-6. `` # |_| |_|\__, | .__/ \___|_|   \____|_| |_|\__,_|_|_| |_| #``
-7. `` #        |___/|_|                                         #``
-8. `` ###########################################################``
-9. `` title = "namespace configurations"``
+1. ``###########################################################``
+2. ``#  _   _                        ____ _           _        #``
+3. ``# | | | |_   _ _ __   ___ _ __ / ___| |__   __ _(_)_ __   #``
+4. ``# | |_| | | | | '_ \ / _ \ '__| |   | '_ \ / _\ | | '_ \  #``
+5. ``# |  _  | |_| | |_) |  __/ |  | |___| | | | (_| | | | | | #``
+6. ``# |_| |_|\__, | .__/ \___|_|   \____|_| |_|\__,_|_|_| |_| #``
+7. ``#        |___/|_|                                         #``
+8. ``###########################################################``
+9. ``title = "namespace configurations"``
 
 10. ``[genesis]``
 11. ``[genesis.alloc]``
@@ -439,103 +439,103 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 119. ``# high <------------- log level -------> low``
 120. ``#``
 121. ``############################################################################################################``
-123. ``[log]``
-124. ``dump_file           = true # dump the log file or not``
-125. ``dump_interval       = "24h"  # Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". such as "300ms", "2h45m".``
-126. ``log_dir             = "data/logs"``
-127. ``log_level           = "NOTICE" # default loglevel for all modules which can be override by module level log setting``
-128. ``file_format         = "[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message}"``
-129. ``console_format      = "%{color}[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message} %{color:reset}"``
-130. ``max_log_size        = "200mb"  # "mb", "kb"``
-131. ``check_size_interval = "2m"``
+122. ``[log]``
+123. ``dump_file           = true # dump the log file or not``
+124. ``dump_interval       = "24h"  # Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". such as "300ms", "2h45m".``
+125. ``log_dir             = "data/logs"``
+126. ``log_level           = "NOTICE" # default loglevel for all modules which can be override by module level log setting``
+127. ``file_format         = "[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message}"``
+128. ``console_format      = "%{color}[%{module}][%{level:.5s}] %{time:15:04:05.000} %{shortfile} %{message} %{color:reset}"``
+129. ``max_log_size        = "200mb"  # "mb", "kb"``
+130. ``check_size_interval = "2m"``
 
-132. ``[log.module] #set log level by module``
-133. ``p2p         = "NOTICE"``
-134. ``consensus   = "INFO"``
-135. ``flatodb     = "NOTICE"``
-136. ``eventhub    = "NOTICE"``
-137. ``executor    = "NOTICE"``
-138. ``execmgr     = "NOTICE"``
-139. ``syncmgr     = "NOTICE"``
-140. ``filemgr     = "NOTICE"``
-141. ``buckettree  = "NOTICE"``
-142. ``radar       = "NOTICE"``
-143. ``mq          = "INFO"``
-144. ``private     = "INFO"``
-145. ``midware     = "NOTICE"``
-146. ``dispatch    = "NOTICE"``
-147. ``node        = "NOTICE"``
-148. ``api         = "NOTICE"``
-149. ``nvp         = "NOTICE"``
+131. ``[log.module] #set log level by module``
+132. ``p2p         = "NOTICE"``
+133. ``consensus   = "INFO"``
+134. ``flatodb     = "NOTICE"``
+135. ``eventhub    = "NOTICE"``
+136. ``executor    = "NOTICE"``
+137. ``execmgr     = "NOTICE"``
+138. ``syncmgr     = "NOTICE"``
+139. ``filemgr     = "NOTICE"``
+140. ``buckettree  = "NOTICE"``
+141. ``radar       = "NOTICE"``
+142. ``mq          = "INFO"``
+143. ``private     = "INFO"``
+144. ``midware     = "NOTICE"``
+145. ``dispatch    = "NOTICE"``
+146. ``node        = "NOTICE"``
+147. ``api         = "NOTICE"``
+148. ``nvp         = "NOTICE"``
 
-150. ``[rpc.qps.flowCtrl]``
-151. ``enable   = true``
-152. ``capacity = 100``
-153. ``limit    = 2000 # qps``
+149. ``[rpc.qps.flowCtrl]``
+150. ``enable   = true``
+151. ``capacity = 100``
+152. ``limit    = 2000 # qps``
 
-154. ``[duplicate]``
-155. ``# tx generated in the past tx_active_time is legal``
-156. ``tx_active_time    = "24h"``
-157. ``# The transaction's timestamp can only be greater than the current time by up to tx_drift_time``
-158. ``tx_drift_time     = "5m"``
+153. ``[duplicate]``
+154. ``# tx generated in the past tx_active_time is legal``
+155. ``tx_active_time    = "24h"``
+156. ``# The transaction's timestamp can only be greater than the current time by up to tx_drift_time``
+157. ``tx_drift_time     = "5m"``
 
-159. ``[duplicate.bloomfilter] # bloom filter used in tx duplication checking``
-160. ``# each bloomfilter's size``
-161. ``bloombit          = 100000000``
-162. ``# Bloom filter's total memory limit``
-163. ``max_mem  = "100mb"``
+158. ``[duplicate.bloomfilter] # bloom filter used in tx duplication checking``
+159. ``# each bloomfilter's size``
+160. ``bloombit          = 100000000``
+161. ``# Bloom filter's total memory limit``
+162. ``max_mem  = "100mb"``
 
-164. ``#[[service]]``
-165. ``#    service_name = "Radar"``
-166. ``#[[service]]``
-167. ``#    service_name = "MQ"``
+163. ``#[[service]]``
+164. ``#    service_name = "Radar"``
+165. ``#[[service]]``
+166. ``#    service_name = "MQ"``
 
-168. ``[mq.broker]``
-169. ``type = "rabbit"``
-170. ``#type = "kafka"``
+167. ``[mq.broker]``
+168. ``type = "rabbit"``
+169. ``#type = "kafka"``
 
-171. ``[mq.rabbit]``
-172. ``url = "amqp://guest:guest@127.0.0.1:5672/"``
+170. ``[mq.rabbit]``
+171. ``url = "amqp://guest:guest@127.0.0.1:5672/"``
 
-173. ``[mq.kafka]``
-174. ``urls				= ["localhost:9092"]``
-175. ``writerBatchSize		= 100``
-176. ``writerBatchBytes	= 52428800``
-177. ``writerBatchTimeout 	= "0.1s"``
-178. ``writeTimeout 		= "10s"``
-179. ``rebalanceInterval 	= "10s"``
-180. ``idleConnTimeout 	= "10s"``
+172. ``[mq.kafka]``
+173. ``urls				= ["localhost:9092"]``
+174. ``writerBatchSize		= 100``
+175. ``writerBatchBytes	= 52428800``
+176. ``writerBatchTimeout 	= "0.1s"``
+177. ``writeTimeout 		= "10s"``
+178. ``rebalanceInterval 	= "10s"``
+179. ``idleConnTimeout 	= "10s"``
 
-181. ``[mq.kafka.partitionNums]``
-182. ``"localhost:9092" = 1``
+180. ``[mq.kafka.partitionNums]``
+181. ``"localhost:9092" = 1``
 
-183. ``[mq.kafka.replicaFactor]``
-184. ``"localhost:9092" = 1``
+182. ``[mq.kafka.replicaFactor]``
+183. ``"localhost:9092" = 1``
 
 
-185. ``############################################################################################################``
-186. ``#``
-187. ``# private protection configuration section``
-188. ``#``
-189. ``############################################################################################################``
-190. ``[private]``
-191. ``cache_size    = 500``
+184. ``############################################################################################################``
+185. ``#``
+186. ``# private protection configuration section``
+187. ``#``
+188. ``############################################################################################################``
+189. ``[private]``
+190. ``cache_size    = 500``
 
-192. ``[private.timeout]``
-193. ``sync_data     = "3s"``
-194. ``query_data    = "3s"``
-195. ``fetch_data    = "3s"``
-196. ``check         = "1h"``
+191. ``[private.timeout]``
+192. ``sync_data     = "3s"``
+193. ``query_data    = "3s"``
+194. ``fetch_data    = "3s"``
+195. ``check         = "1h"``
 
-197. ``[private.ttl]``
-198. ``name = "time"``
-199. ``[private.ttl.time]``
-200. ``timeout = "24h"``
-201. ``[private.ttl.block]``
-202. ``number = 5``
+196. ``[private.ttl]``
+197. ``name = "time"``
+198. ``[private.ttl.time]``
+199. ``timeout = "24h"``
+200. ``[private.ttl.block]``
+201. ``number = 5``
 
-203. ``[executor]``
-204. ``[executor.syncer]``
+202. ``[executor]``
+203. ``[executor.syncer]``
 205. ``max_block_fetch         = 50``
 
 206. ``[executor.archive]``

@@ -202,31 +202,31 @@
 15. ``#``
 16. ``##########################################################``
 17. ``[p2p]``
-18. 	``[p2p.ip.remote]``
-18. 		``# this node will connect to those peer, if here has self hostname, we will ignore it``
-20. 		``hosts = [``
-21. 		 ``"node1 127.0.0.1:50011",``
-22. 		 ``"node2 127.0.0.1:50012",``
-23. 		 ``"node3 127.0.0.1:50013",``
-24. 		 ``"node4 127.0.0.1:50014",``
-25. 	    ``]``
+18. ``[p2p.ip.remote]``
+19. ``# this node will connect to those peer, if here has self hostname, we will ignore it``
+20. ``hosts = [``
+21. ``"node1 127.0.0.1:50011",``
+22. ``"node2 127.0.0.1:50012",``
+23. ``"node3 127.0.0.1:50013",``
+24. ``"node4 127.0.0.1:50014",``
+25. ``]``
 
-26. 	``[p2p.ip.self]``
-27. 	    ``domain = "domain1"``
+26. ``[p2p.ip.self]``
+27. ``domain = "domain1"``
 
-28. 	    ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
-29. 	    ``# other domains' host how connect to self``
-30. 	    ``addrs = [``
-31.	     ``"domain1 127.0.0.1:50011",``
-32. 	     ``"domain2 127.0.0.1:50011",``
-33.	     ``"domain3 127.0.0.1:50011",``
-34. 	     ``"domain4 127.0.0.1:50011",``
-35. 	    ``]``
+28. ``# addr is (domain,endpoint) pair, those items defined the ip address:port which``
+29. ``# other domains' host how connect to self``
+30. ``addrs = [``
+31. ``"domain1 127.0.0.1:50011",``
+32. ``"domain2 127.0.0.1:50011",``
+33. ``"domain3 127.0.0.1:50011",``
+34. ``"domain4 127.0.0.1:50011",``
+35. ``]``
 36. ``#这里配置时候需要注意,配置的是其他节点访问本节点时，使用的本节点的IP地址，举个例子，如果节点2属于域 `domain2` ，那么节点2访问节点1时需要用节点1声明的在 `domain2` 域中对外暴露的地址，换句话说，节点2访问本节点时用的地址是 `127.0.0.1:50012` 。``
 
 37. ``[[namespace]]``
-38.     ``name = "global"``
-39. 	``start = true``
+38. ``name = "global"``
+39. ``start = true``
 
 您可以根据实际申请开放的端口号进行port模块的配置，其中grpc端口是节点间通信的端口号，注意要与下方[p2p.ip.remote.hosts]中的端口号对应；jsonrpc端口是外部应用向Flato平台发送请求使用的端口号。
 
@@ -243,11 +243,11 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 
 1. ``[consensus]``
 2. ``algo = "RBFT"``
-3.     ``[consensus.set]``
-4.     ``set_size       = 25    # How many transactions should the node broadcast at once``
-5.     ``[consensus.pool]``
-6.     ``batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
-7.     ``pool_size        = 50000  # How many txs could the txPool stores in total``
+3. ``[consensus.set]``
+4. ``set_size       = 25    # How many transactions should the node broadcast at once``
+5. ``[consensus.pool]``
+6. ``batch_size       = 500    # How many txs should the primary pack before sending pre-prepare``
+7. ``pool_size        = 50000  # How many txs could the txPool stores in total``
 
 8. ``[self]``
 9. ``n         = 4           # 运行时修改。表示所连vp节点的个数，该值在节点运行过程中会实时变化。``

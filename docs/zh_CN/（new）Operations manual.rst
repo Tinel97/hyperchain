@@ -50,7 +50,7 @@
 21. ``p2p         = "NOTICE"``
 22. ``consensus   = "INFO"``
 23. ``core        = "NOTICE"``
-24. ``flatodb     = "NOTICE" ``
+24. ``flatodb     = "NOTICE"``
 25. ``eventhub    = "NOTICE"``
 26. ``jsonrpc     = "NOTICE"``
 27. ``hypernet    = "NOTICE"``
@@ -566,95 +566,95 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 228. ``batch_size = 100``
 229. ``transfer_interval = "30s"``
 
-``[database]``
-	``public_path = "data/public/"``
-	``private_path = "data/private/"``
-    ``[database.state]``
-        ``# 1. Encryption is a resource consuming functionality and will somewhat slow the process down.``
-        ``# 2. Something unexpected can happen if this field is changed more than once (e.g. switch-off -> start -> swicth-on -> restart).``
-        ``# 3. Make sure the whole cluster is running with the same encryption config, or the data transfer (sync-chain)``
-        ``#    between nodes will fail.``
-        ``encrypt = false``
-        ``type="multicache"``
-        ``[database.state.multicache]``
-            ``#maximum memory occupation of tables``
-            ``persist_goroutine_num = 100``
-            ``underlyint_num = 10``
-            ``memory_limit = "500mb"``
-            ``data_path = "statedb/"``
-            ``[database.state.multicache.persist_db]``
-                ``type="leveldb" #multidb, memdb or leveldb``
-                ``[database.state.multicache.persist_db.multidb] # work iff type="multidb"``
-                    ``db_amount_limit = 32``
-                    ``db_paths = [``
-                        ``"namespaces/global/data/public/statedb/persist/multidb-0",``
-                        ``"namespaces/global/data/public/statedb/persist/multidb-8",``
-                        ``"namespaces/global/data/public/statedb/persist/multidb-16",``
-                        ``"namespaces/global/data/public/statedb/persist/multidb-24"``
-                    ``]``
-                    [database.state.multicache.persist_db.leveldb]
-                    block_cache_capacity      = "8mb" # "mb", "kb"
-                    block_size                = "4kb" # "mb", "kb"
-                    write_buffer              = "4mb" # "mb", "kb"
-                    write_l0_pause_trigger    = 12
-                    write_l0_slowdown_trigger = 8
-                    # the level db file size (default is 2mb, v1.2 is 8mb)
-                    compaction_table_size     = "8mb"
-                [database.state.multicache.persist_db.tikv]
-                    pd_addrs = ["172.16.5.4:2371"]
-            [database.state.multicache.temp_db]
-                type="leveldb"
-                [database.state.multicache.temp_db.leveldb]
-                    block_cache_capacity      = "8mb" # "mb", "kb"
-                    block_size                = "4kb" # "mb", "kb"
-                    write_buffer              = "4mb" # "mb", "kb"
-                    write_l0_pause_trigger    = 12
-                    write_l0_slowdown_trigger = 8
-                    # the level db file size (default is 2mb, v1.2 is 8mb)
-                    compaction_table_size     = "8mb"
-    [database.account]
-        encrypt = false
-        type="multicache"
-        [database.account.multicache]
-            #maximum memory occupation of tables
-			persist_goroutine_num = 5
-			underlyint_num = 1
-            memory_limit = "50mb"
-            data_path = "accountdb/"
-            [database.account.multicache.persist_db]
-                type="leveldb"
-                [database.account.multicache.persist_db.leveldb]
-                    block_cache_capacity      = "8mb" # "mb", "kb"
-                    block_size                = "4kb" # "mb", "kb"
-                    write_buffer              = "4mb" # "mb", "kb"
-                    write_l0_pause_trigger    = 12
-                    write_l0_slowdown_trigger = 8
-                    # the level db file size (default is 2mb, v1.2 is 8mb)
-                    compaction_table_size     = "8mb"
-                [database.account.multicache.persist_db.tikv]
-                    pd_addrs = ["172.16.5.4:2371"]
+230. ``[database]``
+231.	 ``public_path = "data/public/"``
+232.	 ``private_path = "data/private/"``
+233.     ``[database.state]``
+234.        ``# 1. Encryption is a resource consuming functionality and will somewhat slow the process down.``
+235.         ``# 2. Something unexpected can happen if this field is changed more than once (e.g. switch-off -> start -> swicth-on -> restart).``
+236.         ``# 3. Make sure the whole cluster is running with the same encryption config, or the data transfer (sync-chain)``
+237.         ``#    between nodes will fail.``
+238.        ``encrypt = false``
+239.        ``type="multicache"``
+240.        ``[database.state.multicache]``
+241.            ``#maximum memory occupation of tables``
+242.            ``persist_goroutine_num = 100``
+243.            ``underlyint_num = 10``
+244.            ``memory_limit = "500mb"``
+245.            ``data_path = "statedb/"``
+246.            ``[database.state.multicache.persist_db]``
+247.                ``type="leveldb" #multidb, memdb or leveldb``
+248.                ``[database.state.multicache.persist_db.multidb] # work iff type="multidb"``
+249.                    ``db_amount_limit = 32``
+250.                    ``db_paths = [``
+251.                        ``"namespaces/global/data/public/statedb/persist/multidb-0",``
+252.                        ``"namespaces/global/data/public/statedb/persist/multidb-8",``
+253.                        ``"namespaces/global/data/public/statedb/persist/multidb-16",``
+254.                        ``"namespaces/global/data/public/statedb/persist/multidb-24"``
+255.                    ``]``
+256.                    ``[database.state.multicache.persist_db.leveldb]``
+257.                    ``block_cache_capacity      = "8mb" # "mb", "kb"``
+258.                    ``block_size                = "4kb" # "mb", "kb"``
+259.                    ``write_buffer              = "4mb" # "mb", "kb"``
+260.                    ``write_l0_pause_trigger    = 12``
+261.                    ``write_l0_slowdown_trigger = 8``
+262.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+263.                    ``compaction_table_size     = "8mb"``
+264.                ``[database.state.multicache.persist_db.tikv]``
+265.                    ``pd_addrs = ["172.16.5.4:2371"]``
+266.            ``[database.state.multicache.temp_db]``
+267.                ``type="leveldb"``
+268.                ``[database.state.multicache.temp_db.leveldb]``
+269.                    ``block_cache_capacity      = "8mb" # "mb", "kb"``
+270.                    ``block_size                = "4kb" # "mb", "kb"``
+271.                    ``write_buffer              = "4mb" # "mb", "kb"``
+272.                    ``write_l0_pause_trigger    = 12``
+273.                    ``write_l0_slowdown_trigger = 8``
+274.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+275.                    ``compaction_table_size     = "8mb"``
+276.    ``[database.account]``
+277.        ``encrypt = false``
+278.        ``type="multicache"``
+279.        ``[database.account.multicache]``
+280.            ``#maximum memory occupation of tables``
+281.			``persist_goroutine_num = 5``
+282.			``underlyint_num = 1``
+283.            ``memory_limit = "50mb"``
+284.            ``data_path = "accountdb/"``
+285.            ``[database.account.multicache.persist_db]``
+286.                ``type="leveldb"``
+287.                ``[database.account.multicache.persist_db.leveldb]``
+288.                    ``block_cache_capacity      = "8mb" # "mb", "kb"``
+289.                    ``block_size                = "4kb" # "mb", "kb"``
+290.                    ``write_buffer              = "4mb" # "mb", "kb"``
+291.                    ``write_l0_pause_trigger    = 12``
+292.                    ``write_l0_slowdown_trigger = 8``
+293.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+294.                    ``compaction_table_size     = "8mb"``
+295.                ``[database.account.multicache.persist_db.tikv]``
+296.                    ``pd_addrs = ["172.16.5.4:2371"]``
 
-    [database.chain]
-        encrypt = false
-        type="multicache"
-        [database.chain.multicache]
-            #maximum memory occupation of tables
-			persist_goroutine_num = 5
-			underlyint_num = 1
-			memory_limit = "50mb"
-            data_path = "chaindb/"
-            [database.chain.multicache.persist_db]
-                type="leveldb"
-                [database.chain.multicache.persist_db.leveldb]
-                    block_cache_capacity      = "8mb" # "mb", "kb"
-                    block_size                = "4kb" # "mb", "kb"
-                    write_buffer              = "4mb" # "mb", "kb"
-                    write_l0_pause_trigger    = 12
-                    write_l0_slowdown_trigger = 8
-                    # the level db file size (default is 2mb, v1.2 is 8mb)
-                    compaction_table_size     = "8mb"
-                [database.chain.multicache.persist_db.tikv]
-                    pd_addrs = ["172.16.5.4:2371"]
+297.    ``[database.chain]``
+298.        ``encrypt = false``
+299.        ``type="multicache"``
+300.        ``[database.chain.multicache]``
+301.            ``#maximum memory occupation of tables``
+302.			``persist_goroutine_num = 5``
+303.			``underlyint_num = 1``
+304.			``memory_limit = "50mb"``
+305.            ``data_path = "chaindb/"``
+306.            ``[database.chain.multicache.persist_db]``
+307.               ``type="leveldb"``
+308.                ``[database.chain.multicache.persist_db.leveldb]
+309.                    ``block_cache_capacity      = "8mb" # "mb", "kb"
+310.                    ``block_size                = "4kb" # "mb", "kb"
+311.                    ``write_buffer              = "4mb" # "mb", "kb"
+312.                    ``write_l0_pause_trigger    = 12
+313.                    ``write_l0_slowdown_trigger = 8
+314.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)
+315.                    ``compaction_table_size     = "8mb"
+316.                ``[database.chain.multicache.persist_db.tikv]
+317.                    ``pd_addrs = ["172.16.5.4:2371"]
 
     [database.block]
         encrypt = false

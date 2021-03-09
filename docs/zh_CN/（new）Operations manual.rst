@@ -645,186 +645,589 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 305.            ``data_path = "chaindb/"``
 306.            ``[database.chain.multicache.persist_db]``
 307.               ``type="leveldb"``
-308.                ``[database.chain.multicache.persist_db.leveldb]
-309.                    ``block_cache_capacity      = "8mb" # "mb", "kb"
-310.                    ``block_size                = "4kb" # "mb", "kb"
-311.                    ``write_buffer              = "4mb" # "mb", "kb"
-312.                    ``write_l0_pause_trigger    = 12
-313.                    ``write_l0_slowdown_trigger = 8
-314.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)
-315.                    ``compaction_table_size     = "8mb"
-316.                ``[database.chain.multicache.persist_db.tikv]
-317.                    ``pd_addrs = ["172.16.5.4:2371"]
+308.                ``[database.chain.multicache.persist_db.leveldb]``
+309.                    ``block_cache_capacity      = "8mb" # "mb", "kb"``
+310.                    ``block_size                = "4kb" # "mb", "kb"``
+311.                    ``write_buffer              = "4mb" # "mb", "kb"``
+312.                    ``write_l0_pause_trigger    = 12``
+313.                    ``write_l0_slowdown_trigger = 8``
+314.                    ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+315.                    ``compaction_table_size     = "8mb"``
+316.                ``[database.chain.multicache.persist_db.tikv]``
+317.                    ``pd_addrs = ["172.16.5.4:2371"]``
+318.    ``[database.block]``
+319.        ``encrypt = false``
+320.        ``type="filelog"``
+321.        ``[database.block.filelog]``
+322.            ``path = "blockdb/filelog/"``
+323.            ``compression = "snappy" #zlib pure snappy``
+324.            ``max_log_file_size = "100mb" # "mb", "kb"``
+325.            ``data_version = 1 # default to be 1, means disk storage struct version``
+326.            ``index_enable = true``
 
-    [database.block]
-        encrypt = false
-        type="filelog"
-        [database.block.filelog]
-            path = "blockdb/filelog/"
-            compression = "snappy" #zlib pure snappy
-            max_log_file_size = "100mb" # "mb", "kb"
-            data_version = 1 # default to be 1, means disk storage struct version
-            index_enable = true
+327.            ``[database.block.filelog.cache]``
+328.                ``enable = true``
+329.                ``max_cache_size = 100 #mb``
+330.                ``cache_expired_time = 48 #hour``
+331.                ``cache_entry_num = 20``
 
-            [database.block.filelog.cache]
-                enable = true
-                max_cache_size = 100 #mb
-                cache_expired_time = 48 #hour
-                cache_entry_num = 20
+332.            ``[database.block.filelog.handler_cache]``
+333.                ``handler_cache_num = 100``
+334.                ``handler_cache_evict_time = 1 # *time.Second``
+335.    ``[database.journal]``
+336.        ``encrypt = false``
+337.        ``type="filelog"``
+338.        ``[database.journal.filelog]``
+339.            ``path = "journaldb/filelog/"``
+340.            ``compression = "snappy" #zlib pure snappy``
+341.            ``max_log_file_size = "100mb" # "mb", "kb"``
+342.            ``data_version = 1 # default to be 1, means disk storage struct version``
+343.            ``index_enable = true``
 
-            [database.block.filelog.handler_cache]
-                handler_cache_num = 100
-                handler_cache_evict_time = 1 # *time.Second
-    [database.journal]
-        encrypt = false
-        type="filelog"
-        [database.journal.filelog]
-            path = "journaldb/filelog/"
-            compression = "snappy" #zlib pure snappy
-            max_log_file_size = "100mb" # "mb", "kb"
-            data_version = 1 # default to be 1, means disk storage struct version
-            index_enable = true
+344.            ``[database.journal.filelog.cache]``
+345.                ``enable = true``
+346.                ``max_cache_size = 100 #mb``
+347.                ``cache_expired_time = 48 #hour``
+348.                ``cache_entry_num = 20``
 
-            [database.journal.filelog.cache]
-                enable = true
-                max_cache_size = 100 #mb
-                cache_expired_time = 48 #hour
-                cache_entry_num = 20
+349.            ``[database.journal.filelog.handler_cache]``
+350.                ``handler_cache_num = 100``
+351.                ``handler_cache_evict_time = 1 # *time.Second``
 
-            [database.journal.filelog.handler_cache]
-                handler_cache_num = 100
-                handler_cache_evict_time = 1 # *time.Second
+352.    ``[database.receipt]``
+353.        ``encrypt = false``
+354.        ``type="filelog"``
+355.        ``[database.receipt.filelog]``
+356.            ``path = "receiptdb/filelog/"``
+357.            ``compression = "snappy" #zlib pure snappy``
+358.            ``max_log_file_size = "100mb" # "mb", "kb"``
+359.            ``data_version = 1 # default to be 1, means disk storage struct version``
+360.            ``index_enable = true``
 
-    [database.receipt]
-        encrypt = false
-        type="filelog"
-        [database.receipt.filelog]
-            path = "receiptdb/filelog/"
-            compression = "snappy" #zlib pure snappy
-            max_log_file_size = "100mb" # "mb", "kb"
-            data_version = 1 # default to be 1, means disk storage struct version
-            index_enable = true
+361.            ``[database.receipt.filelog.cache]``
+362.                ``enable = true``
+363.                ``max_cache_size = 100 #mb``
+364.                ``cache_expired_time = 48 #hour``
+365.                ``cache_entry_num = 20``
 
-            [database.receipt.filelog.cache]
-                enable = true
-                max_cache_size = 100 #mb
-                cache_expired_time = 48 #hour
-                cache_entry_num = 20
+366.            ``[database.receipt.filelog.handler_cache]``
+367.                ``handler_cache_num = 100``
+368.                ``handler_cache_evict_time = 1 # *time.Second``
 
-            [database.receipt.filelog.handler_cache]
-                handler_cache_num = 100
-                handler_cache_evict_time = 1 # *time.Second
+369.    [database.invalidtx]
+370.        encrypt = false
+371.        type="leveldb"
+372.        [database.invalidtx.leveldb]
+373.                path="invalidtx/leveldb/"
+374.				logpath="invalidtx/log"
+375.                block_cache_capacity      = "8mb" # "mb", "kb"
+376.                block_size                = "4kb" # "mb", "kb"
+377.                write_buffer              = "4mb" # "mb", "kb"
+378.                write_l0_pause_trigger    = 12
+379.                write_l0_slowdown_trigger = 8
+380.                # the level db file size (default is 2mb, v1.2 is 8mb)
+381.                compaction_table_size     = "8mb"
 
-    [database.invalidtx]
-        encrypt = false
-        type="leveldb"
-        [database.invalidtx.leveldb]
-                path="invalidtx/leveldb/"
-				logpath="invalidtx/log"
-                block_cache_capacity      = "8mb" # "mb", "kb"
-                block_size                = "4kb" # "mb", "kb"
-                write_buffer              = "4mb" # "mb", "kb"
-                write_l0_pause_trigger    = 12
-                write_l0_slowdown_trigger = 8
-                # the level db file size (default is 2mb, v1.2 is 8mb)
-                compaction_table_size     = "8mb"
+382.    ``[database.consensus]``
+383.        ``encrypt = false``
+384.        ``type="leveldb"``
+385.        ``[database.consensus.leveldb]``
+386.                ``path="consensusdb/leveldb/"``
+387.				``logpath="consensusdb/log"``
+388.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
+389.                ``block_size                = "4kb" # "mb", "kb"``
+390.                ``write_buffer              = "4mb" # "mb", "kb"``
+391.                ``write_l0_pause_trigger    = 12``
+392.                ``write_l0_slowdown_trigger = 8``
+393.                ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+394.                ``compaction_table_size     = "8mb"``
 
-    [database.consensus]
-        encrypt = false
-        type="leveldb"
-        [database.consensus.leveldb]
-                path="consensusdb/leveldb/"
-				logpath="consensusdb/log"
-                block_cache_capacity      = "8mb" # "mb", "kb"
-                block_size                = "4kb" # "mb", "kb"
-                write_buffer              = "4mb" # "mb", "kb"
-                write_l0_pause_trigger    = 12
-                write_l0_slowdown_trigger = 8
-                # the level db file size (default is 2mb, v1.2 is 8mb)
-                compaction_table_size     = "8mb"
+395.    ``[database.camanager]``
+396.        ``encrypt = false``
+397.        ``type="leveldb"``
+398.        ``[database.camanager.leveldb]``
+399.                ``path="cadb/leveldb/"``
+400.				``logpath="cadb/log"
+401.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
+402.                ``block_size                = "4kb" # "mb", "kb"``
+403.                ``write_buffer              = "4mb" # "mb", "kb"``
+404.                ``write_l0_pause_trigger    = 12``
+405.                ``write_l0_slowdown_trigger = 8``
+406.                ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+407.                ``compaction_table_size     = "8mb"``
 
-    [database.camanager]
-        encrypt = false
-        type="leveldb"
-        [database.camanager.leveldb]
-                path="cadb/leveldb/"
-				logpath="cadb/log"
-                block_cache_capacity      = "8mb" # "mb", "kb"
-                block_size                = "4kb" # "mb", "kb"
-                write_buffer              = "4mb" # "mb", "kb"
-                write_l0_pause_trigger    = 12
-                write_l0_slowdown_trigger = 8
-                # the level db file size (default is 2mb, v1.2 is 8mb)
-                compaction_table_size     = "8mb"
+408.    ``[database.radar]``
+409.        ``encrypt = false``
+410.        ``type="leveldb"``
+411.        ``[database.radar.leveldb]``
+412.                ``path="radardb/leveldb/"``
+413.				``logpath="radardb/log"``
+414.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
+415.                ``block_size                = "4kb" # "mb", "kb"``
+416.                ``write_buffer              = "4mb" # "mb", "kb"``
+417.                ``write_l0_pause_trigger    = 12``
+418.                ``write_l0_slowdown_trigger = 8``
+419.                ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+420.                ``compaction_table_size     = "8mb"``
 
-    [database.radar]
-        encrypt = false
-        type="leveldb"
-        [database.radar.leveldb]
-                path="radardb/leveldb/"
-				logpath="radardb/log"
-                block_cache_capacity      = "8mb" # "mb", "kb"
-                block_size                = "4kb" # "mb", "kb"
-                write_buffer              = "4mb" # "mb", "kb"
-                write_l0_pause_trigger    = 12
-                write_l0_slowdown_trigger = 8
-                # the level db file size (default is 2mb, v1.2 is 8mb)
-                compaction_table_size     = "8mb"
+421.    ``[database.mq]``
+422.        ``encrypt = false``
+423.        ``type="leveldb"``
+424.        ``[database.mq.leveldb]``
+425.                ``path="mqdb/leveldb/"``
+426.				``logpath="mqdb/log"
+427.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
+428.                ``block_size                = "4kb" # "mb", "kb"``
+429.                ``write_buffer              = "4mb" # "mb", "kb"``
+430.                ``write_l0_pause_trigger    = 12``
+431.                ``write_l0_slowdown_trigger = 8``
+432.                ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+433.                ``compaction_table_size     = "8mb"``
 
-    [database.mq]
-        encrypt = false
-        type="leveldb"
-        [database.mq.leveldb]
-                path="mqdb/leveldb/"
-				logpath="mqdb/log"
-                block_cache_capacity      = "8mb" # "mb", "kb"
-                block_size                = "4kb" # "mb", "kb"
-                write_buffer              = "4mb" # "mb", "kb"
-                write_l0_pause_trigger    = 12
-                write_l0_slowdown_trigger = 8
-                # the level db file size (default is 2mb, v1.2 is 8mb)
-                compaction_table_size     = "8mb"
+434.	``[database.minifile]``
+435.		``consensus = "minifile/consensus"``
+436.		``sync = "minifile/sync"``
+437.		``bloom = "minifile/bloom"``
+438.		``nvp = "minifile/nvp"``
 
-	[database.minifile]
-		consensus = "minifile/consensus"
-		sync = "minifile/sync"
-		bloom = "minifile/bloom"
-		nvp = "minifile/nvp"
+439.    ``[database.indexdb]``
+440.        ``[database.indexdb.layer1]``
+441.            ``enable = false``
+442.            ``dbType = "mongodb"``
+443.       ``[database.indexdb.tempdb]``
+444.            ``path = "indexdb/tempdb/leveldb/"``
+445.        ``[database.indexdb.layer2]``
+446.            ``# Defines for which fields to create layer2 index, optional value including:``
+447.            ``#   1 - indicate field named block write time;``
+448.            ``#   2 - indicate field named transaction from;``
+449.            ``#   3 - indicate field named transaction to;``
+450.            ``#   4 - indicate field named transaction hash;``
+451.            ``# For example:``
+452.            ``#      active = [] - means dont create any layer2 index;``
+453.            ``#      active = [1] - means create layer2 index for block write time;``
+454.            ``#      active = [1, 2] - means create layer2 index for block write time and transaction from;``
+455.            ``# This config item works only when database.indexdb.layer1.enable is true.``
+456.            ``active = []``
+457.        ``[database.indexdb.mongodb]``
+458.            ``# if you should set username and password, please use``
+459.            ``# mongodb://username:password@127.0.0.1:27017?w=1&journal=true,``
+460.            ``# for example: "mongodb://flatoUser:123456@127.0.0.1:27017?w=1&journal=true"``
+461.            ``uri = "mongodb://127.0.0.1:27017/?w=1&journal=true"``
+462.            ``limit = 5000``
+463.            ``tlsEnable = false``
+464.            ``tlsCA = "certs/mongodb_ca.pem"``
+465.            ``tlsCertKey = "certs/mongodb_client_cert.pem"``
+466.	``[cvp.backup]``
+467.    	``path = "data/cvp"``
 
-    [database.indexdb]
-        [database.indexdb.layer1]
-            enable = false
-            dbType = "mongodb"
-       [database.indexdb.tempdb]
-            path = "indexdb/tempdb/leveldb/"
-        [database.indexdb.layer2]
-            # Defines for which fields to create layer2 index, optional value including:
-            #   1 - indicate field named block write time;
-            #   2 - indicate field named transaction from;
-            #   3 - indicate field named transaction to;
-            #   4 - indicate field named transaction hash;
-            # For example:
-            #      active = [] - means dont create any layer2 index;
-            #      active = [1] - means create layer2 index for block write time;
-            #      active = [1, 2] - means create layer2 index for block write time and transaction from;
-            # This config item works only when database.indexdb.layer1.enable is true.
-            active = []
-        [database.indexdb.mongodb]
-            # if you should set username and password, please use
-            # mongodb://username:password@127.0.0.1:27017?w=1&journal=true,
-            # for example: "mongodb://flatoUser:123456@127.0.0.1:27017?w=1&journal=true"
-            uri = "mongodb://127.0.0.1:27017/?w=1&journal=true"
-            limit = 5000
-            tlsEnable = false
-            tlsCA = "certs/mongodb_ca.pem"
-            tlsCertKey = "certs/mongodb_client_cert.pem"
-	[cvp.backup]
-    	path = "data/cvp"
+468.	``[send.args.extra.check]``
+469.		``enable = false``
+470.		``url    = "https://filoop.com/api/v1/safe/text"``
 
-	[send.args.extra.check]
-		enable = false
-		url    = "https://filoop.com/api/v1/safe/text"
+3.2 节点流控配置（投产推荐）
+-------------------------
+
+节点流控主要分为节点所在服务器的流控配置以及平台级别的流控配置。
+
+3.2.1 服务器流控配置
+^^^^^^^^^^^^^^^^^^^
+一般来说，由于平台的tps比较稳定，流量根据tps也处于稳定状态，但是例如节点宕机落后和增节点等特殊情况下的recovery行为会向其他节点区块，为了避免公网共享带宽环境下不影响其他应用程序的带宽占用情况，可根据需要限制节点带宽。推荐以下三种服务器流控方法：
+
+3.2.1.1 网络中心统一调控
+^^^^^^^^^^^^^^^^^^^^^^^
+
+可由各机构的网络中心进行调控配置，由于各家机构策略不一，不做详述，可咨询各家机构的网络运维工作人员。
+
+3.2.1.2 TC（Traffic Control）服务器端限流配置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+对于应用服务器来说，报文分组从输入网卡（入口）接收进来，经过路由的查找，以确定是发给本机的，还是需要转发的，如果是转发的，则会从输出网卡（出口）发出，网络流量的控制通常发生在输出网卡处。一般说来，由于我们无法控制自己网络之外的设备，入口处的流量控制相对较难，因此我们这里处理的流量控制一般指出口处的流量控制。
+
+tc.sh配置文件详解：
+
+1. ``tc qdisc del dev eth0 root 2> /dev/null > /dev/null``
+2. ``# 删除原有的tc规则``
+3. ``tc qdisc add dev eth0 root handle 1: htb``
+4. ``# 为网卡eth0创建htb根队列``
+5. ``tc class add dev  eth0 parent 1: classid 1:1 htb rate  100mbit ceil 100mbit``
+6. ``# 为根队列创建子队列1:1分配带宽100M``
+7. ``tc class add dev  eth0 parent 1:1 classid 1:10 htb rate  10mbit ceil 10mbit``
+8. ``# 为1:1队列创建子队列1:10分配带宽10M``
+9. ``tc qdisc add dev  eth0 parent 1:10 sfq perturb 10`
+10. ``# 防止一个段内的ip占用整个宽带``
+11. ``tc filter add dev eth0 protocol ip parent 1: prio 1 u32 match ip dst 10.200.0.0/16 flowid 1:1``
+12. ``# 为跟队列添加优先级为1的过滤器使得发往10.200.xxx.xxx的包转到1:1队列``
+13. ``tc filter add dev eth0 protocol ip parent 1: prio 2 u32 match ip dst 0.0.0.0/0  flowid 1:10``
+14. ``# 为跟队列添加优先级为2过滤器使得发往所有ip的包都转到1:10队列``
+
+需要注意的是，tc.sh的相关命令都需要root权限。
+
+3.2.1.3 Nginx转发限流配置
+------------------------
+
+由于各家机构对节点服务器带宽要求不尽相同，可能需要nginx做统一的转发限流。我们目前提供nginx安装包及三个脚本：start.sh、stop.sh、reload.sh，可通过这三个脚本满足基本nginx配置需求。
+
+假设A机构需要使用nginx做限流转发的话则为如下情况：
+
+1. ``机构A(hyperchain-1):``
+2. ``node1:172.16.0.1(内),port:50011``
+3. ``node2:172.16.0.2(内),port:50011``
+4. ``nginx:172.16.0.3(内),115.200.10.1(外)``
+5. ``机构B(hyperchain-2):``
+6. ``node3:10.200.10.1(内),118.180.10.1(外),port:50011``
+7. ``node4:10.200.10.2(内),118.180.10.2(外),port:50011``
+
+则可编辑nginx/conf/nginx.conf如下：
+
+1. ``stream {``
+2.    ``server {``
+3.        ``#node1``
+4.        ``listen               10001;``
+5.        ``proxy_pass           172.16.0.1:50011;``
+6.    ``}``
+7.    ``server {``
+8.        ``#node1-node3``
+9.        ``listen               10002;``
+10.        ``proxy_pass           118.180.10.1:50011;``
+11.        ``proxy_upload_rate    500k;``
+12.    ``}``
+13.    ``server {``
+14.        ``#node1-node4``
+15.        ``listen               10003;``
+16.        ``proxy_pass           118.180.10.2:50011;``
+17.        ``proxy_upload_rate    500k;``
+18.    ``}``
+19.   ``server {``
+20.        ``#node2``
+21.        ``listen               10004;``
+22.        ``proxy_pass           172.16.0.2:50011;``
+23.    ``}``
+24.    ``server {``
+25.        ``#node2-node3``
+26.        ``listen               10005;``
+27.        ``proxy_pass           118.180.10.1:50011;``
+28.        ``proxy_upload_rate    500k;``
+29.    ``}``
+30.    ``server {``
+31.        ``#node2-node4``
+32.        ``listen               10006;``
+33.        ``proxy_pass           118.180.10.2:50011;``
+34.        ``proxy_upload_rate    500k;``
+35.    ``}``
+36. ``}``
+
+需要注意的是，如果通过nginx节点间已经建立好长连接，这时如果修改poxy_upload_rate将不能通过reload.sh生效。所以，务必配置好nginx启动后，再启动flato平台。
+
+3.2.2 平台流控配置
+^^^^^^^^^^^^^^^^^
+
+平台级别的流控主要有外部请求限流和平台带宽限流两部分，前者表示该节点可处理的来自客户端的突发的最大HTTP请求数，限制的是来自客户端的压力，一定程度上可防止系统遭受DDoS攻击。后者表示节点间通信的网络带宽限流，与《3.2.1 服务器流控配置》一样可以实现网络带宽限流，但区别在于，本节所述的网络带宽限流会根据配置文件里配的最大网络带宽来计算flato协议消息最大大小，从而达到带宽限流目的。
+
+3.2.2.1 外部请求限流
+-------------------
+
+外部请求限流表示节点可处理的突发HTTP请求数是多少，该配置项可在配置文件ns_static.toml 中进行配置：
+
+1. ``[rpc.qps.flowCtrl]``
+2. ``enable   = true # 是否开启外部请求限流``
+3. ``capacity = 100  # 令牌桶容量``
+4. ``limit    = 2000 # 稳定状态下节点的最大qps限制``
+
+说明：rpc.qps.flowCtrl.limit 代表节点稳定状态下的最大qps，如上文配置，2000即表示令牌桶每0.5ms恢复一个令牌。rpc.qps.flowCtrl.capacity 代表令牌桶容量，capacity+limit 可以认为是节点允许的突发流量最大值。如上文配置，在该配置下，节点同一时间内可处理的突发HTTP请求数为 2000 + 100 = 2100。一般来说，设置节点最大突发流量数只需要配置 rpc.qps.flowCtrl.limit 即可。
+
+3.2.2.2 节点带宽限流
+-------------------
+
+节点带宽限流限制的是节点出口带宽的最大大小，该配置项可在配置文件 global.toml 中进行配置，该配置默认关闭。需要说明的是，节点实际出口带宽与交易大小和并发处理交易数（TPS）有强关联，开启该配置可能导致节点实际出口带宽值超过配置设置的最大出口带宽时容易进入viewchange状态拒收新交易，但节点最终总能恢复到正常状态并接受处理新交易：
+
+1. ``[flow.control.bandwidth]``
+2. ``enable            = false``
+3. ``outgoingBandwidth = "500Mb" # NOTE: The unit is Mb/s NOT MB/s``
+
+3.3 性能相关配置
+---------------
+
+下文列出了影响系统性能的若干配置项，若您期望达到最佳性能效果或遇到性能下降的情况，请参考以下配置说明：
+
+3.3.1 共识模块
+^^^^^^^^^^^^^
+
+`consensus.set.set_size`
+
+节点单次广播的交易数量，默认值为25，建议区间【10,500】，极端情况set_size=1时, 性能下降20%左右。
+
+`consensus.set.batch_size`
+
+主节点单次打包的交易数量上限，默认值为500，建议区间【250,8000】，且宜大不宜小，极端情况batch_size=[1-16]时，性能下降95%左右。
+
+`consensus.rbft.k`
+
+RBFT共识算法的checkpoint间隔（以区块为单位），默认值为10，建议区间【8,32】。
+
+在不同场景下的最佳性能配置：
+------------------------
+
+- 在普通转账场景下，当batch_size=【6000,8000】，set_size=【200,500】，可获得最佳性能，该配置比默认配置下的最高TPS提升10%左右；
+
+- 在合约存证场景下，当batch_size=【200,300】，set_size=【32,64】，可获得最佳性能，该配置比默认配置下的最高TPS提升10%左右。
+
+3.3.2 网络模块
+^^^^^^^^^^^^^
+
+`flow.control.bandwidth`
+
+限制带宽上限，默认值为500Mb/s。如果实际所需带宽<bandwidth配置，则性能无影响；如果实际所需带宽>bandwidth配置，则性能降低50%左右，因共识消息可能阻塞，节点极易进入syncChain或viewChange的状态，导致集群拒收交易，从而严重影响TPS。因此`flow.control.bandwidth`需要根据实际所需带宽进行配置。
+
+3.3.3 执行与存储模块
+^^^^^^^^^^^^^^^^^^^
+
+`database.indexdb.layer1.enable`
+
+是否开启索引数据库，默认关闭。对于普通转账/extra存证场景，开启索引数据库后是否对系统性能产生影响，由磁盘性能决定，ssd几乎不会有性能影响，本地独享hdd会有30%左右的性能下降，共享存储hdd可能会有80%的性能下降；对于合约存证场景，由于实际业务场景的TPS都在1000以内，到不了磁盘瓶颈，故暂无影响。
+
+`duplicate.tx_drift_time`
+
+SDK端和平台端服务器之间的时间差值，用以保证平台对交易是否过期判断的准确性，默认值为5min。在默认配置进行持续时间为5分钟的压测，性能会下降20%左右，所以如果要进行短时间高TPS压测，务必同步服务器时间，并将tx_drift_time改为1s~5s。注意，不能设0s，因为即使同步了时间，服务器间始终会有时差，导致交易拒收。
+
+第四章 节点管理
+==============
+
+目前flato的增删节点需要动态的通过创建提案、投票、执行的形式进行，只有投票通过之后才能执行提案进行实际的增删节点的操作。相应的，账户对提案投票的权限也通过提案来进行权限管理。为了简化操作，提供了rockit工具快速进行节点管理。
+
+4.1 rockit工具获取
+-----------------
+
+如果您已通过其他方式获取安装包请忽略此步骤。
+
+【内部】登录OA：[__https://moffi.hyperchain.cn/__](https://moffi.hyperchain.cn/)
+
+- 点击签发->平台组件->组件列表->rockit->下载，选择适用于您平台的rockit版本下载（**目前暂无法通过该方式获取rockit安装包，请联系相关人员**）
+
+为了便于使用rockit工具，建议将rockit放到`/usr/local/bin` 或者`$GOPATH/bin` 目录下。如果没有，也可以将其当做一个普通的二进制文件使用`./rockit [cmd]` 进行操作，此时必须确保目录文件夹下含有rockit二进制文件。
+
+4.2 初始化
+---------
+
+初始化的操作只需操作一遍就好。
+
+4.2.1  rockit工作目录初始化
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+在使用rockit时，需要使用一个独立的工作目录。**所有rockit操作都需要在工作目录下执行，不可以在工作目录之外或者是工作目录的子目录中，否则会产生异常** 。可以通过以下命令初始化出一个工作目录：
+
+1. ``# 创建test空目录``
+2. ``mkdir test && cp rockit test && cd test``
+3. ``# 初始化目录``
+4. ``rockit dir``
+
+该命令会将rockit使用过程中需要使用的配置文件及文件目录进行初始化，得到的目录结构如下
+
+1. ``test``
+2. ``|_publickey   #存放各节点公钥``
+3. ``|_keystore    #存放管理员账户私钥``
+4. ``|_config      # gosdk配置文件``
+5. ``| |_hpc.toml  # 通过gosdk连接节点服务器的配置文件``
+
+`publickey` 文件夹下放的是节点的公钥
+
+`keystore` 文件夹下放的是管理员账户私钥（默认管理员为genesis账户）
+
+hpc.toml文件详解
+
+1. ``text``
+2. ``title = "GoSDK configuratoin file"``
+
+3. ``namespace = "global"`
+
+4. ``#发送重新连接请求间隔(/ms)``
+5. ``reConnectTime = 10000``
+
+8. ``[jsonRPC]``
+9.    ``# local environment``
+10.    ``nodes = ["localhost","localhost","localhost","localhost"]``
+
+11.    ``# JsonRpc connect port``
+12.    ``# local ports``
+13.    ``ports = ["8081", "8082", "8083", "8084"]``
+
+14. ``[webSocket]``
+15.    ``# webSocket connect port``
+16.    ``ports = ["10001", "10002", "10003", "10004"]``
+
+17. ``[polling]``
+18.     ``#重发次数``
+19.     ``resendTime = 10``
+20.     ``#第一次轮训时间间隔 unit /ms``
+21.     ``firstPollingInterval = 100``
+22.     ``#发送一次,第一次轮训的次数``
+23.     ``firstPollingTimes = 10``
+24.     ``#第二次轮训时间间隔 unit /ms``
+25.     ``secondPollingInterval = 1000``
+26.     ``#发送一次,第二次轮训的次数``
+27.     ``secondPollingTimes = 10``
+
+28. ``[privacy]``
+29.     ``#send Tcert during the request or not``
+30.     ``sendTcert = false``
+31.     ``#if sendTcert is true , you should add follow path.``
+32.     ``#the paths followed are relative to conf root path``
+33.     ``sdkcertPath = "certs/sdkcert.cert"``
+34.     ``sdkcertPrivPath = "certs/sdkcert.priv"``
+35.     ``uniquePubPath = "certs/unique.pub"``
+36.     ``uniquePrivPath = "certs/unique.priv"``
+37.     ``cfca = false``
+
+38. ``[security]``
+39.    ``#Use Https``
+40.    ``https = false``
+41.    ``#If https is true, you shoule add follow properties``
+42.    ``#the paths followed are relative to conf root path``
+43.    ``tlsca = "certs/tls/tlsca.ca"``
+44.    ``tlspeerCert = "certs/tls/tls_peer.cert"``
+45.    ``tlspeerPriv = "certs/tls/tls_peer.priv"``
+
+46. ``[log]``
+47.    ``#设置日志输出门槛``
+48.    ``#"CRITICAL","ERROR","WARNING","NOTICE","INFO","DEBUG",``
+49.    ``log_level = "ERROR"``
+50.    ``#存放日志文件夹``
+51.    ``log_dir = "./logs"``
+
+52. ``[transport]``
+53.    	``# MaxIdleConns controls the maximum number of idle (keep-alive)``
+54. 	``# connections across all hosts. Zero means no limit.``
+55.     ``maxIdleConns = 0``
+56. 	``# MaxIdleConnsPerHost, if non-zero, controls the maximum idle``
+57. 	``# (keep-alive) connections to keep per-host. If zero,``
+58. 	``# DefaultMaxIdleConnsPerHost is used.``
+59. 	``maxIdleConnsPerHost = 10``
+
+60. ``[tx]``
+61.    ``# if it is use for hyperchain, please use 1.0 to replace default``
+62.    ``# if use for flato, please use 2.2 to replace default``
+63.    ``version = "2.2"``
+
+4.2.2 节点初始化
+^^^^^^^^^^^^^^^
+
+目前只有rbft共识算法支持动态增删节点。因此，需要预先启动至少四个节点。由于预先启动的节点的证书是通过线下颁发的，且作为创世节点，不是通过提案投票的形式，因此在几个节点启动完成后需要通过提案完成初始化的流程。
+
+初始化时包括了节点初始化、管理员账户初始化以及提案投票阈值初始化。
+
+工作目录初始化之后，可以使用`rockit` 的`init` 初始化节点信息、管理员账户及提案投票阈值。`init` 命令的说明如下：
+
+1. ``crete proposal and init node account``
+
+2. ``Usage:``
+3.  ``rockit init [flags]``
+
+4. ``Examples:``
+5. ``rockit init --ns global --nodePub "hello1 hello2 hello3 hello4" --nodes  "node1 node2 node3 node4"``
+
+6. ``Flags:``
+7.       ``--admins string     grant admin role to given account, split by space. for example:0x00000000000001``
+8.   ``-h, --help              help for init``
+9.       ``--nodes string      init hostname of nodes,default node1-node4 (default "node1 node2 node3 node4")``
+10.      ``--nodesPub string   public key of nodes, in publickey file, input public key file name, defaule node1-node4 (default "node1 node2 node3 node4")``
+11.      ``--threshold int     proposal threshold, default 1 (default 1)``
+
+12. ``Global Flags:``
+13.      ``--ns string   ns of nodes,default global (default "global")``
+
+其中，通过 `--admins` 知道要初始化的新的管理员账户地址，用空格分割，默认值为空；通过 `--ns` 知道初始化的namespace，默认为 `gloabl` ；通过 `--nodes` 指定初始化的节点名，用空格分割，默认值为 `node1 node2 node3 node4`  ；通过 `--nodesPub` 指定与 `nodes` 对应的节点的公钥文件名（放在publickey文件夹下，命名方式为 `文件名+.cert` ），默认值为 `node1 node2 node3 node4` ，与 `nodes` 的默认值对应；通过 `--threshold` 指定初始化的新的提案投票阈值，默认值为1.
+
+节点启动后，将所有genesis账户（默认的管理员账户）的私钥放到 `keystore` 目录下（默认提案投票阈值为所有的管理员总数），将每个节点的公钥按照放到 `publickey` 目录下，如果启动的是四个节点，每个节点的hostname分别为 `node1` 、 `node2` 、 `node3` 、 `node4` ,且每个节点的公钥也都放在了 `publickey` 目录下，分别命名为 `node1.cert` 、 `node2.cert` 、 `node3.cert` 、  `node4.cert` ，可使用如下命令初始化节点：
+
+14. ``text``
+15. ``# 使用默认值初始化，即节点名为node1-node4，不初始化新的admin账户，提案投票阈值初始化为1,namespace为global
+16. ``rockit init
+17. ``# 使用指定的值初始化
+18. ``#rockit init --nodes "node1 node2 node3 node4 node5" --publickey "node1 node2 node3 node4 node5" --admins "0x9202d80df4c6d658290bc0c18fc2ddeb08735c8c0x0eb804bf69adb78d19555db1f869f26ccc2c0cfb" --threshold 2``
+
+4.3 添加节点
+-----------
+
+通过 `rockit` 的 `addvp` 实现动态新增节点。 `addvp` 命令说明如下：
+
+1. ``text``
+2. ``add vp node``
+
+3. ``Usage:``
+4.   ``rockit addvp [flags]``
+
+5. ``Examples:``
+6. ``rockit addvp``
+
+7. ``Flags:``
+8.       ``--cfca             not use decentralized ca,default false``
+9.   ``-h, --help             help for addvp``
+10.       ``--node string      hostname of new node,default node5 (default "node5")``
+11.       ``--nodePub string   public key's absolute path of new node (default "node5")``
+
+12. ``Global Flags:``
+13.      ``--ns string   ns of nodes,default global (default "global")``
+
+通过 `--cfca` 指定是否 **不使用分布式CA** ，默认为false；通过 `--node` 指定新增节点的hostname，默认值为 `node5` ；通过 `--nodePub` 指定新增节点的公钥（如果不使用分布式CA新增节点，则需要指定，使用分布式CA新增节点则不需要指定），默认值为 `node5` 
+
+注：使用 `addvp` 命名新增节点时需要保证 `keystore` 目录下的管理员账户私钥的总数大于等于提案投票阈值。
+
+4.3.1 非分布式CA新增VP节点
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+使用非分布式CA新增节点时，新加入的节点除了端口等配置文件配置好以外，还需要事先拿到证书，以便与其他节点建立逻辑连接。当这些都准备好后，将新节点启动，当新节点启动后与其他节点连接成功后，打印如下日志后，可使用 `addvp` 命令添加节点。
+
+|image0|
+
+使用 `rockit` 的 `addvp` ，非分布式CA方式添加节点如下：
+
+1. ``text``
+2. ``# 添加的新节点为默认的node5，新节点的公钥也放在publickey目录下，命令为node5.cert``
+3. ``rockit addvp --cfca true``
+
+执行完成后等待新节点加入共识、同步区块。
+
+4.3.2 分布式CA新增VP节点
+^^^^^^^^^^^^^^^^^^^^^^^
+
+使用分布式CA新增节点时，新加入的节点准备好后，将新节点启动，在新节点与其他节点建立好物理连接之后，其他节点会有新的区块生成，这时可使用 `rockit` 的 `addvp` ，分布式CA方式添加节点，示例如下：
+
+1. ``text``
+2. ``# 添加的新节点为默认的node5``
+3. ``rockit addvp``
+
+执行完成后等待新节点加入共识、同步区块。
+
+4.4 删除节点
+-----------
+
+通过 `rockit` 的 `removevp` 实现动态删除节点，起说明如下：
+
+1. ``text``
+2. ``remove vp node``
+
+3. ``Usage:``
+4.  ``rockit rmvp [flags]``
+
+5. ``Examples:``
+6. ``rockit rmvp --node node5 --ns global``
+
+7. ``Flags:``
+8.   ``-h, --help          help for rmvp``
+9.       ``--node string   name of the deleted node ,default node5 (default "node5")``
+
+10. ``Global Flags:``
+11.      ``--ns string   ns of nodes,default global (default "global")``
+
+通过 `--node` 指定要删除的vp节点的hostname，默认值为 `node5` ，其使用示例如下：
+
+12. ``text``
+13. ``# 删除节点node5``
+14. ``rockit rmvp``
+
+执行完成后等待节点退出共识，如果节点退出这个namespace后没有处于其他的namespace中，节点将断开连接。
 
 
-```
+
+
+|image0|:
 

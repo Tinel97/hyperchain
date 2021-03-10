@@ -1409,13 +1409,13 @@ SDKCERT：
 
 需要通过 `--cn` 指定根证书的name， `--org` 指定根证书所属的组织。
 
-通过 `--c`指定该自签名证书的曲线类型，`--from`和`--to`指定了证书的有效日期和时间。
+通过 `--c`指定该自签名证书的曲线类型，`--from` 和 `--to` 指定了证书的有效日期和时间。
 
 生成tls证书:
 
 ``$ certgen gc --isca=n --from 2020-12-04 --to 2030-12-04 --c sm2  ./tls_root.ca ./tls_root.priv ./tls_peer1.cert  --cn flato``
 
-通过 `--isca=n` 表示该tls子证书为非ca证书， `--cn`指定该证书的name， `--org`指定该子证书所属的组织。
+通过 `--isca=n` 表示该tls子证书为非ca证书， `--cn` 指定该证书的name， `--org` 指定该子证书所属的组织。
 
 通过 `--c` 指定该tls证书的曲线类型， `--from` 和 `--to` 指定了证书的有效日期和时间。
 
@@ -1560,6 +1560,81 @@ gosdk/conf/hpc.toml文件配置
 
 如需使用sdkcert进行交互验证： `sendTcert = true` ，否则置为 `false`
 
+第六章 IPC命令
+=============
+
+在hyperchain 的运行目录下，有一个`hpc_1.ipc`（取决于配置文件中的配置）文件。使用如下命令进入交互式命令模式：
+
+``./hyperchain -s --ipc=hpc_1.ipc``
+
+将会进入交互式命令行模式。关于IPC命令使用说明可以详见help。本章将主要介绍IPC命令常用的几个命令。
+
+6.1 网络连接管理
+---------------
+
+你可以使用 `network` 命令进行物理网络连接的管理。
+
+6.1.1 列出连接主机
+^^^^^^^^^^^^^^^^^
+
+可以查询得到当前节点的主机名（Self），已连接节点数（Connected Node Count），以及对应的连接的各个节点的主机名和套接字。
+
+|image5|
+
+6.1.2 更新连接主机IP
+^^^^^^^^^^^^^^^^^^^^
+
+当节点配置文件里配错了对端节点的IP地址，可以在本地节点不停机重启的情况下通过IPC命令更新所要连的节点IP。步骤主要分为两步，首先，通过 close 子命令断开连接，然后，再通过 connect 子命令指定新IP进行连接。
+
+network close <hostname>：关闭到某个节点的连接。
+
+network connect <hostname> <ip:port> -f：向某个指定节点建立连接。
+
+|image6|
+
+6.1.3 检测通信延迟
+-----------------
+
+network ping <hostname>：测试到某个节点的网络延迟。
+
+|image7|
+
+6.2 日志级别修改
+---------------
+
+ipc命令也支持日志级别修改，修改的日志级别立即生效：
+
+参数为： logger setlevel <namespace> <module> <log level>
+
+|image8|
+
+6.3 LICENSE信息查询
+-------------------
+
+通过ipc命令可以获取到本机ip，LICENSE绑定ip以及LICENSE的过期时间。
+
+|image8|
+
+6.4 对外服务管理
+---------------
+
+通过ipc命令可以启动、关闭或者重启hyperchain的对外HTTP JSON-RPC服务，比较实用的一个功能是在节点不重启的情况下，通过 `service` 命令修改该服务监听的端口号。
+
+启动JSON-RPC服务：service http start <port>
+
+关闭JSON-RPC服务：service http stop
+
+重启JSON-RPC服务：service http restart
+
+|image9|
+
+6.5 非交互式命令
+---------------
+
+上述命令也支持非交互方式进行，请使用如下命令进行：
+
+``./hyperchain -s --ipc=hpc_1.ipc --nit --cmd="network lis``
+
 
 
 
@@ -1567,4 +1642,11 @@ gosdk/conf/hpc.toml文件配置
 |image1|:
 |image2|:
 |image3|:
+|image4|:
+|image5|:
+|image6|:
+|image7|:
+|image8|:
+|image9|:
+
 

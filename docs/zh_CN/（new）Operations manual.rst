@@ -1950,6 +1950,271 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 |image13|
 
+第九章  产品激活、续期
+====================
+
+9.1 激活
+--------
+
+使用Hyperchain需要拥有本产品的激活码。本产品的激活码为名为LICENSE的文件。激活本产品只需将LICENSE文件放置在产品根目录下即可。
+
+9.2 续期
+--------
+
+当您购买的Hyperchain产品即将到期时，您可以重新向本公司购买新的激活码，在不停止hyperchain服务的情况下动态替换旧LICENSE文件即可。
+
+9.3 查询
+-------
+
+您可以通过 `hypercli server license` 或者 `hyperchain -L` 或者ipcshell的 `license` 命令来查看LICENSE文件的过期时间以及IP信息。
+
+# 联系我们
+
+您可以通过以下联系方式联系我们：
+
+联系电话: 0571-81180102, 0571-81180103
+
+Email: support@hyperchain.cn
+
+我们的工作时间是：9:00 AM to 5:00 PM PST (Monday-Friday, except Holidays)
+
+**请您在联系我们之前，将以下信息附上：**
+
+| 姓名       |     |
+| -------- | --- |
+| 公司       |     |
+| 联系电话     |     |
+| 电子邮箱     |     |
+| 操作系统及版本号 |     |
+| 产品版本号    |     |
+| 问题概述     |     |
+| 问题描述     |     |
+
+附录
+====
+
+配置项说明
+---------
+
+global.toml
+^^^^^^^^^^^^
+
+文件描述：全局配置项，一般使用默认值。
+
+| 字段                                       | 含义                                                                                                               |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| log.dump_file                            | 是否输出日志文件。                                                                                                        |
+| log.dump_interval                        | 产生新的日志文件的时间间隔，避免单个日志文件过大。                                                                                        |
+| log.log_dir                              | 系统级别日志文件路径。                                                                                                      |
+| log.log_level                            | 系统级别的日志级别，可被module下的模块设置覆盖。                                                                                      |
+| log.file_format                          | 系统级别日志输出到文件的格式。                                                                                                  |
+| log.console_format                       | 系统级别日志输出到控制台的格式。                                                                                                 |
+| log.max_log_size                         | 系统级别日志文件的最大大小。                                                                                                   |
+| log. check_size_interval                 | 检查系统级别日志文件大小的时间间隔。                                                                                               |
+| log.module                               | 各个指定模块的日志级别。                                                                                                     |
+| audit.backend                            | 后端类型，目前有四种后端可选项，分别是"file", "filelog" ,"graylog"和"elk"                                                            |
+| audit.level                              | 审计的级别，级别越高输出的内容越详细，从低到高的级别依次是：none, metadata, responsebody, storageobject，其中如果将审计级别配置为none，则代表不开启审计，平台的审计服务将不会启动 |
+| audit.queue_size                         | 审计事件队列的默认大小，用于缓存当前产生的审计事件，一般无需修改                                                                                 |
+| audit.rewrite_interval                   | 从临时filelog尝试恢复日志到webhook的时间间隔                                                                                    |
+| audit.update_conn_interval               | 检查连接状态事件间隔（如果使用webhook方式）,如果检查发现连接不可用，则会更新连接                                                                     |
+| [audit.conn.pool]                        | 里面包含的配置项均是在backend配置为"graylog"或者"elk"才生效，为连接池配置，连接池的作用是当一个连接失效后会自动将消息发送到配置的其他节点                                  |
+| urls                                     | 外部的url, 可配置一个或者多个，根据实际使用的审计平台配置，格式为”IP+端口号“                                                                      |
+| init_cap                                 | 连接池初始容量                                                                                                          |
+| max_cap                                  | 连接池最大容量，最好不小于url的个数                                                                                              |
+| idle_timeout                             | 连接空闲超时时间，连接空闲超过这个事件后将会被关闭                                                                                        |
+| dial_timeout                             | 建立连接超时时间                                                                                                         |
+|  [audit.file]                            | filelog配置项，详见filelog配置项说明。                                                                                       |
+| http.tlsCertPriv                         | rpc 客户端私钥文件路径。                                                                                                   |
+| http.max_content_length                  | http请求大小上限。                                                                                                      |
+| http.read_timeout                        | http请求超时时间。                                                                                                      |
+| p2p.transport                            | 表示启用哪种协议通信的网络，目前仅支持grpc。                                                                                         |
+| p2p.compress                             | 是否对网络报文进行压缩。                                                                                                     |
+| p2p.mode                                 | 网络类型，可选"direct","relay","discover"。                                                                              |
+| p2p.retrytime                            | p2p 重连尝试时间间隔。                                                                                                    |
+| p2p.ipc                                  | 系统产生ipc通信管道文件路径。                                                                                                 |
+| p2p.enableTLS                            | 是否启用TLS。                                                                                                         |
+| p2p.tlsCA                                | TLS CA证书路径。                                                                                                      |
+| p2p.tlsServerHostOverride                | TLS 服务域名。                                                                                                        |
+| p2p.tlsCert                              | TLS 客户端证书路径。                                                                                                     |
+| p2p.tlsCertPriv                          | TLS 客户端私钥文件路径。                                                                                                   |
+| p2p.keepAliveDuration                    | keep alive 时间间隔。                                                                                                 |
+| p2p.keepAliveFailTimes                   | keep alive 失败终止次数。                                                                                               |
+| p2p.pendingDuration                      | pending 重连时间间隔。                                                                                                  |
+| p2p.grpc.maxRecvMessageSize              | grpc接收消息大小上限                                                                                                     |
+| p2p.grpc.maxSendMessageSize              | grpc发送消息大小上限                                                                                                     |
+| flow.control.ratelimit.enable            | 是否启用大文件流量控制。                                                                                                     |
+| flow.control.ratelimit.fileReceivePeak   | 初始化时大文件的接收流量上限，默认为100MB                                                                                          |
+| flow.control.ratelimit.fileReceiveRate   | 接收大文件的流量速率，默认为1MB/8ms                                                                                            |
+| flow.control.ratelimit.fileSendPeak      | 初始化时大文件的发送流量上限，默认为100MB                                                                                          |
+| flow.control.ratelimit.fileSendRate      | 发送大文件的流量速率，默认为1MB/8ms                                                                                            |
+| flow.control.bandwidth.enable            | 是否开启带宽流控                                                                                                         |
+| flow.control.bandwidth.outgoingBandwidth | 带宽限制，默认限制为500Mb/s                                                                                                |
+
+dynamic.toml
+^^^^^^^^^^^^
+
+| 字段                 | 含义                              |
+| ------------------ | ------------------------------- |
+| self               | 本节点的hostname                    |
+| port               | 本节点服务的端口                        |
+| p2p.ip.remote      | 与本节点相连的所有节点的hostname以及ip和grpc端口 |
+| p2p.ip.self.domain | 本节点所在的域名                        |
+| p2p.ip.self.addrs  | 本节点在其他域中使用的ip和端口                |
+| namspace.name      | namespace名称                     |
+| namespace.start    | 是否启用该namespace                  |
+
+ns_dynamic.toml
+^^^^^^^^^^^^^^^
+
+| 字段                        | 含义                              |
+| ------------------------- | ------------------------------- |
+| consensus.algo            | 当前采用的共识算法                       |
+| consensus.set.set_size    | 节点一次性广播的交易数目                    |
+| consensus.pool.batch_size | 主节点一次性打包的交易数量上限，即区块的交易数量上限      |
+| consensus.pool.pool_size  | 交易内存池总大小                        |
+| self.n                    | 与本节点相连的vp节点数目                   |
+| self.hostname             | 本节点的主机名，与dynamic.toml中的self对应   |
+| self.new                  | 本节点是否为新增节点，若节点类型为nvp或cvp，则该字段无效 |
+| self.type                 | 节点类型，可选nvp/vp/cvp               |
+| nodes                     | nodes的数目应当为n                    |
+| nodes.hostname            | 与本节点相连的vp节点的主机名                 |
+| nodes.score               | 与本节点相连的vp节点的网络状况                |
+
+ns_static.toml
+^^^^^^^^^^^^^^
+
+| 字段                                                                     | 含义                                                                         |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| genesis.alloc                                                          | 用于新建创世区块，其中key为用户帐号地址，要求地址长度为20个16进制字符长度，value为用户所拥有的余额，要求为10进制值。          |
+| consensus.set.set_timeout                                              | 在ns_dynamic.toml中配置了set_size,实际上只要发生了超时，也会广播这批交易。                          |
+| consensus.pool.check_interval                                          | 检查交易池中的交易是否长时间未被处理的时间间隔                                                    |
+| consensus.pool.tolerance_time                                          | 交易池中的交易等待处理的最长时间间隔，若超时，则会进行重发                                              |
+| consensus.pool.batch_mem_limit                                         | 是否开启对主节点打包batch的大小限制                                                       |
+| consensus.pool.batch_max_mem                                           | 主节点打包batch的大小限制                                                            |
+| consensus.rbft.k                                                       | rbft检查点间隔，以区块为单位                                                           |
+| consensus.rbft.vc_period                                               | rbft算法视图变更的周期                                                              |
+| consensus.rbft.timeout.sync_state                                      | 进行世界状态同步时，等待quorum回复的时间上限                                                  |
+| consensus.rbft.timeout.sync_interval                                   | 进行世界状态同步的频率                                                                |
+| consensus.rbft.timeout.recovery                                        | 等待recovery过程结束的最长等待时间                                                      |
+| consensus.rbft.timeout.first_request                                   | 节点启动后的最长准备时间                                                               |
+| consensus.rbft.timeout.batch                                           | 主节点打包的时间间隔。                                                                |
+| consensus.rbft.timeout.request                                         | 节点接收、执行区块的最长时间，其值必须大于timeout.batch。                                        |
+| consensus.rbft.timeout.validate                                        | 节点进行validate最长的时间。                                                         |
+| consensus.rbft.timeout.null_request                                    | 主节点发送给其它节点的心跳消息。                                                           |
+| consensus.rbft.timeout.viewchange                                      | 进行viewchange的最长时间。                                                         |
+| consensus.rbft.timeout.resend_viewchange                               | 重新发送view change的间隔。                                                        |
+| consensus.rbft.timeout.clean_viewchange                                | view change消息的过期清理的时间间隔。                                                   |
+| consensus.rbft.timeout.epoch_check                                     | 进行epoch check的时间间隔                                                         |
+| consensus.rbft.timeout.update                                          | 增删节点时，更新共识参数的最长时间。                                                         |
+| encryption.TEE.TEEPath                                                 | sgx路径                                                                      |
+| encryption.TEE.DataEncrypt                                             | 是否开启区块数据的TEE加密                                                             |
+| encryption.root.ca                                                     | Root CA目录                                                                  |
+| encryption.ecert.ecert                                                 | Enrollment Certcate，准入证书，用于控制VP和NVP节点进入Hyperchain中。                        |
+| encryption.check.enable                                                | 是否开启RCert                                                                  |
+| encryption.check.enableT                                               | 是否开启TCert                                                                  |
+| distributedCA.enable                                                   | 是否开启分布式CA                                                                  |
+| encryption.security                                                    | 会话密钥协商加密算法，可选pure,3des,aes or sm4                                          |
+| radar-params.viewable_db_type                                          | radar数据库类型                                                                 |
+| radar-params.mysql_connURL                                             | radar数据库URL                                                                |
+| log.dump_file                                                          | 是否输出日志文件。                                                                  |
+| log.dump_interval                                                      | 产生新的日志文件的时间间隔。                                                             |
+| log.log_dir                                                            | 输出日志文件路径。                                                                  |
+| log.log_level                                                          | namespace级别的默认日志级别，可被module下的模块设置覆盖。                                       |
+| log.file_format                                                        | 日志输出到文件的格式。                                                                |
+| log.console_format                                                     | 日志输出到控制台的格式。                                                               |
+| log.max_log_size                                                       | 最大的日志大小，达到该大小后自动进行日志切分。                                                    |
+| log. check_size_interval                                               | 检查系统级别日志文件大小的时间间隔。                                                         |
+| radar-params.viewable_db_type                                          | radar 数据库类型                                                                |
+| radar-params.mysql_connURL                                             | radar mysql url                                                            |
+| [log]                                                                  | 日志相关的配置同global.toml                                                        |
+| rpc.qps.flowCtrl.enable                                                | 是否开启rpc流控                                                                  |
+| rpc.qps.flowCtrl.capacity                                              | 令牌桶容量                                                                      |
+| rpc.qps.flowCtrl.limit                                                 | qps限流值                                                                     |
+| duplicate.tx_active_time                                               | 合法交易的时间，即在过去这段时间之内产生的交易才能通过验证                                              |
+| duplicate.tx_drift_time                                                | 若交易的时间戳大于节点当前时间，那么超过的时间不能大于这个值                                             |
+| duplicate.bloomfilter.bloombit                                         | 布隆过滤器大小                                                                    |
+| duplicate.bloomfilter.max_mem                                          | 布隆过滤器的总内存占用上限                                                              |
+| mq.broker.type                                                         | 启动的mq实现类型                                                                  |
+| mq.rabbit.url                                                          | rabbitmq地址                                                                 |
+| mq.kafka.urls                                                          | kafka集群地址                                                                  |
+| mq.kafka.partitionNums                                                 | 每个kafka实例下partition的数量                                                     |
+| mq.kafka.replicaFactor                                                 | 每个kafka实例在zookeeper下的备份数量                                                  |
+| mq.kafka.writerBatchSize                                               | 平台一次推送请求到kafka最多包含的消息数量                                                    |
+| mq.kafka.writerBatchBytes                                              | 平台一次推送请求到kafka最多包含的消息大小                                                    |
+| mq.kafka.writerBatchTimeout                                            | 平台一次推送请求到kafka最多包含的最大等待时间                                                  |
+| mq.kafka.writeTimeout                                                  | kafka writer超时时间                                                           |
+| mq.kafka.rebalanceInterval                                             | 刷新partion的间隔                                                               |
+| mq.kafka.idleConnTimeout                                               | 每个连接最大闲置时间                                                                 |
+| executor.syncer.max_block_fetch                                        | 在区块同步过程中，一次性拉取的区块数目上限                                                      |
+| executor.archive.archive_root                                          | 归档数据所在目录                                                                   |
+| executor.nvp.sync_mode                                                 | nvp数据同步的方式，即拉取区块还是拉取journal                                                |
+| executor.sync_chain.priority                                           | vp节点数据同步的优先级，即拉取尽可能多的区块还是尽可能少的区块，候选项为block和snapshot                        |
+| executor.sync_chain.sync_journal_receipt                               | 是否同步journal数据与回执数据                                                         |
+| executor.sync_chain.hs_interval                                        | 握手是数据同步建立连接的过程，该字段控制了若握手失败，则下次继续握手的时间间隔                                    |
+| executor.sync_chain.hs_resend_times                                    | 同上，该字段为握手重试的次数上限                                                           |
+| executor.sync_chain.batch_size                                         | 节点间的数据传输是分批次进行的，每个批次都包含了batch_size数量的固定大小（默认1MB）的数据包                       |
+| executor.sync_chain.state_sync_interval                                | 若数据提供方在state_sync_interval时间内未收到数据接收方的任何响应，则终止本次数据发送                       |
+| executor.sync_chain.fetcher_resend                                     | 拉取数据失败后重试次数的上限                                                             |
+| executor.sync_chain.mode_negotiate_interval                            | 协商数据同步模式的重试间隔                                                              |
+| executor.filemgr.enable                                                | 是否启用大文件存储功能，若启用，则须保证索引数据库同样启用                                              |
+| executor.filemgr.deadline                                              | 临时文件的过期时间                                                                  |
+| executor.filemgr.clean_interval                                        | 扫描临时目录的时间间隔                                                                |
+| executor.filemgr.file_system_mode                                      | 文件系统类型，ipfs或origin，后者表示本地文件系统                                              |
+| executor.filemgr.data_path                                             | 数据目录                                                                       |
+| executor.filemgr.ipfs_url                                              | ipfs服务的url，若采用ipfs作为文件系统                                                   |
+| executor.filemgr.hs_interval                                           | 同executor.sync_chain.hs_interval                                           |
+| executor.filemgr.batch_size                                            | 同executor.sync_chain.batch_size                                            |
+| executor.filemgr.transfer_interval                                     | 每一批次的数据包传输时间的上限，即若batch_size配置为100，本字段配置为30s，则需要保证在30s内完成100个包（即100M数据）的传输 |
+| service.service_name                                                   | 是否开启服务                                                                     |
+| database.public_path                                                   | 区块链数据库目录                                                                   |
+| database.state                                                         | 状态数据/账本数据库相关配置                                                             |
+| database.state.encrypt                                                 | 是否开启账本加密，详细说明参见账本加密使用手册                                                    |
+| database.state.type                                                    | 账本数据库，仅支持multicache                                                        |
+| database.state.multicache.persist_goroutine_num                        | memdb异步刷入底层数据库时的并发度                                                        |
+| database.state.multicache.underlying_num                               | 若采用leveldb作为底层数据库，则该值为leveldb的数量                                           |
+| database.state.multicache.memory_limit                                 | memdb的最大内存占用量                                                              |
+| database.state.multicache.data_path                                    | 相对于database.public_path的数据目录                                               |
+| database.state.multicache.persist_db.type                              | 底层持久化数据库，目前可选leveldb,multidb,memdb(仅限测试环境)                                 |
+| database.state.multicache.persist_db.multidb                           | 若底层数据库配置为multidb，则下面的配置将会被启用                                               |
+| database.state.multicache.persist_db.multidb.db_amount_limit           | 数据库数量上限                                                                    |
+| database.state.multicache.persist_db.multidb.db_paths                  | 每个数据库的路径，路径数量需要小于上限值                                                       |
+| database.state.multicache.persist_db.leveldb                           | 若底层数据库采用leveldb，则下面的配置 将会被启用                                               |
+| database.state.multicache.persist_db.leveldb.block_cache_capacity      | leveldb sstable中datablock的缓存大小                                             |
+| database.state.multicache.persist_db.leveldb.block_size                | leveldb sstable中datablock的大小                                               |
+| database.state.multicache.persist_db.leveldb.write_buffer              | leveldb的写缓存大小，超出该部分的写入将会触发dump或compaction                                  |
+| database.state.multicache.persist_db.leveldb.write_l0_pause_trigger    | 若0层sstable文件超过该数量，则暂停写入操作等待后台compaction完成                                  |
+| database.state.multicache.persist_db.leveldb.write_l0_slowdown_trigger | 若0层sstable文件超过该数量，则降低写入操作等待后台compaction完成                                  |
+| database.account                                                       | 账户数据库的相关配置，同state数据库                                                       |
+| database.chain                                                         | 链数据库的相关配置，同state数据库                                                        |
+| database.block                                                         | 区块数据库相关配置                                                                  |
+| database.block.encrypt                                                 | 弃用，若想开启区块数据加密，请参考账本加密使用手册                                                  |
+| database.block.type                                                    | 区块数据库类型，仅支持filelog                                                         |
+| database.block.filelog.path                                            | 数据目录                                                                       |
+| database.block.filelog.compression                                     | 压缩算法，可选snappy/zlib/pure                                                    |
+| database.block.filelog.max_log_file_size                               | 单个数据文件的大小上限，超出将会写入新的文件                                                     |
+| database.block.filelog.index_enable                                    | 是否开启数据索引                                                                   |
+| database.block.filelog.cache.enable                                    | 是否开启缓存                                                                     |
+| database.block.filelog.cache.max_cache_size                            | 缓存大小                                                                       |
+| database.block.filelog.cache_expired_time                              | 缓存过期时间                                                                     |
+| database.block.filelog.cache_entry_num                                 | 可缓存的区块数目                                                                   |
+| database.block.filelog.handler_cache.handler_cache_num                 | 缓存的文件句柄数                                                                   |
+| database.block.filelog.handler_cache.handler_cache.evict_time          | 文件句柄淘汰时间，单位为秒                                                              |
+| database.journal                                                       | journal数据库配置，同上                                                            |
+| database.receipt                                                       | 回执数据库配置，同上                                                                 |
+| database.invalidtx                                                     | 非法交易数据库，默认使用leveldb，配置在上面已经介绍过                                             |
+| database.consensus                                                     | 共识数据库，默认使用leveldb，配置在上面已经介绍过                                               |
+| database.camanager                                                     | CAManager数据库，默认使用leveldb，配置在上面已经介绍过                                        |
+| database.radar                                                         | Radar数据库，默认使用leveldb，配置在上面已经介绍过                                            |
+| database.mq                                                            | MQ数据库，默认使用leveldb，配置在上面已经介绍过                                               |
+| database.minifile.consensus                                            | 共识minifile路径                                                               |
+| database.minifile.sync                                                 | 数据同步过程minifile路径                                                           |
+| database.minifile.bloom                                                | 布隆过滤器minifile路径                                                            |
+| database.minifile.nvp                                                  | nvp minifile路径                                                             |
+| database.indexdb.layer1.enable                                         | 是否启用索引数据库                                                                  |
+| database.indexdb.layer1.dbType                                         | 索引数据库类型，目前仅支持mongodb                                                       |
+| database.indexdb.tempdb.path                                           | 索引数据库临时数据库路径                                                               |
+| database.indexdb.layer2.active                                         | 需要开启二级索引的数据，1 - 区块写入时间2 - 交易的from字段3 - 交易的to字段4 - 交易哈希                     |
+| database.indexdb.mongodb                                               | mongodb服务的相关配                                                              |
 
 
 

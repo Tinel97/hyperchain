@@ -1635,6 +1635,180 @@ ipc命令也支持日志级别修改，修改的日志级别立即生效：
 
 ``./hyperchain -s --ipc=hpc_1.ipc --nit --cmd="network lis``
 
+第七章 日志说明
+==============
+
+7.1 日志配置
+-----------
+
+Flato日志主要分为系统日志和NS（NameSpace）日志，这两者相互独立，互不影响。
+
+- 系统日志：相关配置位于 `global.toml` 文件中，主要包括系统级别的main、metrics、jsonrpc、nsmgr、audit、txgen、hypernet、config等模块；
+
+- NS日志：相关配置位于 `ns_static.toml` 文件中，主要包括每个namespace下的config、p2p、consensus、flatodb、eventhub等模块。
+
+系统日志和NS日志的配置内容相同，位于各自配置文件的 `[log]` 和 `[log.module]` 配置项中。其中 `[log]` 是日志通用配置， `[log.module]` 配置各模块的日志级别。
+
+通用日志配置项如下：
+
+- `dump_file` ：是否输出日志文件，推荐开启
+
+- `dump_interval` ：日志文件生成时间间隔，避免单个日志文件过大，默认为24h
+
+- `log_dir` ：系统级别的日志文件路径
+
+- `log_level` ：系统级别的日志级别，可被module下的模块设置覆盖，目前主要包括 `DEBUG` 、 `INFO` 、 `NOTICE` 、 `WARNING` 、 `ERROR` 、 `CRITICAL`
+
+- `max_log_size` ：系统级别日志文件的最大大小，默认为200MB
+
+- `check_size_interval` ：检查系统级别日志文件大小的时间间隔
+
+日志配置示例如下：
+
+1. ``[log]``
+2. ``dump_file           = true   ``
+3. ``dump_interval       = "24h"  ``
+4. ``log_dir             = "./logs"``
+5. ``log_level           = "NOTICE" ``
+6. ``max_log_size        = "200mb" ``
+7. ``check_size_interval = "2m"``
+
+8. ``[log.module] ``
+9. ``p2p         = "NOTICE"``
+10. ``consensus   = "INFO"``
+11. ``core        = "NOTICE"``
+12. ``flatodb     = "NOTICE" ``
+13. ``eventhub    = "NOTICE"``
+14. ``jsonrpc     = "NOTICE"``
+15. ``hypernet    = "NOTICE"``
+
+7.2 日志格式
+------------
+
+Flato的所有模块都制定了统一的日志格式，方便用户通过日志查看系统状态。
+
+日志记录格式如下：
+
+``#日志格式``
+
+``log_level [time] [module_name] file_name:line_number content``
+
+``#日志示例``
+
+``NOTI [2020-08-21T16:18:03.824] [consensus] flato-rbft.git@v0.2.8/exec.go:183 ======== Replica 4 finished recovery, view=1/height=0.``
+
+各字段含义如下：
+
+- `log_level` : 日志级别，目前主要包括 `DEBUG` 、 `INFO` 、 `NOTICE` 、 `WARNING` 、 `ERROR` 、 `CRITICAL` ，其中在发生极严重错误时会输出 `CRITICAL`
+
+- `time` : 日志输出时间，精确到毫秒
+
+- `module_name` ：模块名称，如共识模块为 `consensus` 、网络模块为 `P2P` （逻辑连接层）和 `hypernet` （物理连接层）
+
+- `file_name` ：文件名称
+
+- `line_number` ：所在行数 
+
+- `content` ：日志记录内容
+
+7.3 常见日志说明
+---------------
+
+7.3.1 Flato版本号
+^^^^^^^^^^^^^^^^^
+
+Flato节点启动的第一条日志会打印出版本号信息
+
+``NOTI [2020-08-26T14:36:41.096] [main] flato/main.go:52 Flato Version:``
+
+``release-1.0.0-20200826-3cfedd0ef``
+
+该日志表示当前Flato的版本是release-1.0.0版本，打包二进制时间是2020年08月26日，二进制的提交号是3cfedd0ef
+
+7.3.2 License信息
+^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:13:54.807] [main] license/license_id.go:127 license to 趣链科技, exp data 2020-12-31``
+
+该日志标志着License检查成功，同时打印出了License的过期时间
+
+7.3.3 Flato服务启动日志
+^^^^^^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:13:54.765] [main] flato/main.go:83 Flato server starting...``
+
+该日志标识着Flato服务开始启动
+
+7.3.4 网络连接成功日志
+^^^^^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:13:54.767] [hypernet] flato-transport-grpc.git@v0.1.10/hypernet.go:448 successfully establish stream with node2``
+
+该日志标志着成功连接到了hotstname为node2的节点
+
+7.3.5 分区启动日志
+
+Flato运行过程中一个节点可能参与到多个分区之中，其中启动一个分区的相关日志如下：
+
+``NOTI [2020-08-26T14:13:54.802] [namespace] namespace/namespace.go:462 Try to start namespace global``
+
+该日志标志着开始启动global分区
+
+``NOTI [2020-08-26T14:13:57.348] [namespace] namespace/namespace.go:518 Namespace global start successfully``
+
+该日志标志着global分区启动成功
+
+7.3.6 共识世代检查日志
+^^^^^^^^^^^^^^^^^^^^^
+
+Flato共识节点运行过程中，每发生一次节点增删，都会进行一次世代变更（epoch change），因此节点启动后需要进行世代检查，相关日志如下：
+
+``INFO [2020-08-26T14:14:01.352] [consensus] flato-rbft.git@v0.2.8/epoch_mgr.go:67 ======== Replica 4 start epoch check, epoch=0``
+
+该日志标识着节点尝试进行世代检查，且本节点的世代号为0
+
+``INFO [2020-08-26T14:14:13.359] [consensus] flato-rbft.git@v0.2.8/exec.go:354 ======== Replica 4 finished epoch check, N=4/epoch=0/height=0/view=0``
+
+该日志标志着世代检查成功，当前共识节点总数N为4个，世代号epoch为0，区块高度height为0，视图值view为0
+
+7.3.7 数据恢复成功日志
+^^^^^^^^^^^^^^^^^^^^^
+
+Flato共识节点启动或者发生异常后，都会进行数据恢复流程。
+
+``NOTI [2020-08-26T14:14:16.014] [consensus] flato-rbft.git@v0.2.8/exec.go:183 ======== Replica 4 finished recovery, view=1/height=0.``
+``NOTI [2020-08-26T14:14:16.014] [consensus] flato-rbft.git@v0.2.8/exec.go:184``
+
+  +==============================================+
+  |                                              |
+  |            RBFT Recovery Finished            |
+  |                                              |
+  +==============================================+
+
+该日志标志着数据恢复完成，当前视图值view为1，区块高度height为0
+
+7.3.8 区块共识完成日志
+^^^^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:14:55.188] [consensus] flato-rbft.git@v0.2.8/rbft_impl.go:1243 ======== Replica 4 Call execute, view=1/seqNo=1``
+
+该日志标志着共识模块完成了1号区块的共识，开始执行1号区块
+
+7.3.9 区块执行完成日志
+^^^^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:14:55.189] [executor] executor/validator.go:191 commit 1``
+
+该日志标志着1号区块执行完成
+
+7.3.10 区块提交完成日志
+^^^^^^^^^^^^^^^^^^^^^^
+
+``NOTI [2020-08-26T14:14:55.195] [executor] executor/commitor.go:255 Block number 1``
+``NOTI [2020-08-26T14:14:55.195] [executor] executor/commitor.go:256 Block hash b04662998b2c97ea84a1cb8bbc61bc667e3a262065abbe87c1045be76b8296f6``
+
+该日志标志着1号区块提交写块完成，并且打印出了1号区块的哈希值
+
 
 
 

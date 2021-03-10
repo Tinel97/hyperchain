@@ -1980,15 +1980,45 @@ Email: support@hyperchain.cn
 
 **请您在联系我们之前，将以下信息附上：**
 
-| 姓名       |     |
-| -------- | --- |
-| 公司       |     |
-| 联系电话     |     |
-| 电子邮箱     |     |
-| 操作系统及版本号 |     |
-| 产品版本号    |     |
-| 问题概述     |     |
-| 问题描述     |     |
+<tbody><tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" width="125" style="height:14.0pt;width:94pt">姓名<span style="mso-spacerun:yes">&nbsp;</span></td>
+  <td class="xl65" width="148" style="border-left:none;width:111pt">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">公司</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">联系电话</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">电子邮箱</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">操作系统及版本号</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">产品版本号</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">问题概述</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <tr height="19" style="height:14.0pt">
+  <td height="19" class="xl65" style="height:14.0pt;border-top:none">问题描述</td>
+  <td class="xl65" style="border-top:none;border-left:none">　</td>
+ </tr>
+ <!--[if supportMisalignedColumns]-->
+ <tr height="0" style="display:none">
+  <td width="125" style="width:94pt"></td>
+  <td width="148" style="width:111pt"></td>
+ </tr>
+ <!--[endif]-->
+</tbody>
 
 附录
 ====

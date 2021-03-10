@@ -1239,19 +1239,20 @@ hpc.toml文件详解
 
 验证一个子证书的有效性可以粗略的认为分成以下步骤： **验证证书内容、验证证书签名、查询是否被吊销** 。验证证书签名是一个验签的过程，flato使用父证书的公钥验证该证书的签名是否有效，查询是否被吊销则是通过查询吊销列表（一个黑名单）完成。我们更需要重点强调的是对证书内容的验证。该验证证书内容的步骤中，flato除了验证基本的过期时间、签发结构和被签发主体的身份等内容，还会验证和区块链有关的相应信息，这属于flato对证书的特有要求：
 
-1. **证书用途** 。证书中会有相应字段规定证书的用处，根据证书的功能可划分为节点证书和SDK证书。顾名思义，节点证书配置在节点上用于节点身份的验证，而SDK证书( **sdkcert** )则配置在平台SDK上以确定SDK合法身份。节点证书包括：**ecert**和**rcert** ，其中VP节点将配置ecert，而NVP节点则配置rcert。
+1. **证书用途** 。证书中会有相应字段规定证书的用处，根据证书的功能可划分为节点证书和SDK证书。顾名思义，节点证书配置在节点上用于节点身份的验证，而SDK证书( **sdkcert** )则配置在平台SDK上以确定SDK合法身份。节点证书包括：**ecert** 和 **rcert** ，其中VP节点将配置ecert，而NVP节点则配置rcert。
 
-1. **该证书所属节点的hostname**。证书是和节点绑定的，因为证书中写入了hostname的信息，因此node1的证书拷贝到node2是不能正常工作的。
+2. **该证书所属节点的hostname** 。证书是和节点绑定的，因为证书中写入了hostname的信息，因此node1的证书拷贝到node2是不能正常工作的。
 
 证书能够被验证通过有个关键的前提条件，即节点能获取到其父证书并且承认该父证书的有效性。如果不能获取到父证书，那么内容验证或者签名验证都无从说起。
 
-部署和运维人员应该在相应的目录中放置必需的CA证书，在flato中我们称该目录为**可信CA列表**，也就是说部署人员应该将所有认可的、有效的、必需的CA证书加入到可信CA列表中。启动后，当有外来证书需要被验证时，flato会从可信CA列表中搜索证书并尝试构建证书链，如果构建成功则能够进一步完成上述的三部验证，否则验证失败。可信CA列表的路径配置在ns_static.toml的encryption.root.ca中。
+部署和运维人员应该在相应的目录中放置必需的CA证书，在flato中我们称该目录为 **可信CA列表** ，也就是说部署人员应该将所有认可的、有效的、必需的CA证书加入到可信CA列表中。启动后，当有外来证书需要被验证时，flato会从可信CA列表中搜索证书并尝试构建证书链，如果构建成功则能够进一步完成上述的三部验证，否则验证失败。可信CA列表的路径配置在ns_static.toml的encryption.root.ca中。
 
-![](http://teambitiondoc.hyperchain.cn:8099/storage/011xfd2f94c96a70f98b1772245fe0b23f00?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTYxNDU4OTE0OSwiaWF0IjoxNjEzOTg0MzQ5LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzAxMXhmZDJmOTRjOTZhNzBmOThiMTc3MjI0NWZlMGIyM2YwMCJ9._B3XJ0h22el0Um5nwItBjRbrd-GgPnFFFggETTdK154&download=%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-09-02%20%E4%B8%8A%E5%8D%8810.28.03.png "")
+|image1|
 
 encryption.ecert.ecert配置了节点的证书目录。
 
-### 5.1.2 概念及用途
+5.1.2 概念及用途
+^^^^^^^^^^^^^^^
 
 **1 namespace级别**
 
@@ -1281,26 +1282,25 @@ ROOTCA参与以下几类具体节点证书的生成、验证及吊销，是所�
 
 在传输网络传输过程中需要验证传输层安全协议证书的安全性，验证通过即可以进行正常网络通信，反之则无法进行网络通信。
 
-## 5.2 certgen使用说明
+5.2 certgen使用说明
+------------------
 
 certgen作为flato证书管理的配套工具，用来生成和管理相关的CA证书和数字证书。certgen主要包括证书签发，公私钥生成，证书检查等功能。
 
-### 5.2.1 certgen安装
+5.2.1 certgen安装
+^^^^^^^^^^^^^^^^^
 
 **法一：源码安装**
 
 step1  源码下载
 
-```text
-git clone git@git.hyperchain.cn:innovation/certgen.git $GOPATH/src/git.hyperchain.cn/innovation/certgen
-```
+``git clone git@git.hyperchain.cn:innovation/certgen.git $GOPATH/src/git.hyperchain.cn/innovation/certgen``
 
 step2 编译安装
 
-```text
-cd $GOAPTH/src/git.hyperchain.cn/innovation/certgen
-go build
-```
+``cd $GOAPTH/src/git.hyperchain.cn/innovation/certgen``
+
+``go build``
 
 注意：使用 go1.13.x 版本
 
@@ -1324,57 +1324,48 @@ go build
 
 **检验certgen是否安装成功**
 
-```text
-$ certgen
-```
+``$ certgen``
 
-![](http://teambitiondoc.hyperchain.cn:8099/storage/011w2e41cff05f3bf2b3476b044de8543a61?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTYxNDU4OTE0OSwiaWF0IjoxNjEzOTg0MzQ5LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzAxMXcyZTQxY2ZmMDVmM2JmMmIzNDc2YjA0NGRlODU0M2E2MSJ9.HB6FWG1P2fl5FtU3-STyeNzEF-uWkG2phucva8hpA3Y&download=image.png "")
+|image2|
 
-### 5.2.2 生成证书
+5.2.2 生成证书
+^^^^^^^^^^^^^
 
 **1** **根证书签发**
 
 签发根证书(自签证书)，命令如下：
 
-```javascript
-$ certgen gs --cn=CommonName --org=Org ./root.ca ./root.priv
-```
+``$ certgen gs --cn=CommonName --org=Org ./root.ca ./root.priv``
 
-运行上述命令，会在指定路径生成root.ca、root.priv两个文件，即根证书文件。需要通过`--cn` 指定根证书的name，`--org` 指定根证书的组织。
+运行上述命令，会在指定路径生成root.ca、root.priv两个文件，即根证书文件。需要通过 `--cn` 指定根证书的name， `--org` 指定根证书的组织。
 
-默认情况下生成的是secp156k1曲线的证书，可以通过`--c` flag来指定曲线类型，可选的类型有p256、secp256k1、sm2这三种。p256又可以叫做secp256r1等，但在该flag中统一使用p256代表这类椭圆曲线。另外`--from`和`--to`flag用于指定证书的有效期限。下同。
+默认情况下生成的是secp156k1曲线的证书，可以通过 `--c` flag来指定曲线类型，可选的类型有p256、secp256k1、sm2这三种。p256又可以叫做secp256r1等，但在该flag中统一使用p256代表这类椭圆曲线。另外 `--from` 和 `--to` flag用于指定证书的有效期限。下同。
 
 例如签发国密根证书（自签），命令如下：
 
-```javascript
-$ certgen gs --c=sm2 --cn=CommonName --o=Org ./root_gm.ca ./root_gm.priv
-```
+``$ certgen gs --c=sm2 --cn=CommonName --o=Org ./root_gm.ca ./root_gm.priv``
 
 运行上述命令，在指定路径产生root_gm.ca、root_gm.priv两个文件，即国密根证书和对应私钥。
 
 **2 子证书签发（子密钥不存在）**
 
-flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过`-ct` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定`-ct` 即可。
+flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过`-ct` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定 `-ct` 即可。
 
 ECERT：
 
-```text
-$ certgen gc --cn=node --o=flato --isca=y --ct=ecert root.ca root.priv node.cert node.priv
-```
+``$ certgen gc --cn=node --o=flato --isca=y --ct=ecert root.ca root.priv node.cert node.priv``
 
-需要通过`--cn` 指定子证书的name，`--o` 指定子证书的组织，`--isca=y` 表示是ca证书。
+需要通过 `--cn` 指定子证书的name， `--o` 指定子证书的组织， `--isca=y` 表示是ca证书。
 
 第一个参数为根证书存储路径，第二个参数为根证书的私钥存储路径，第三个参数为节点的证书存储路径，第四个参数为节点的私钥存储路径。
 
 SDKCERT：
 
-```text
-$ certgen gc --cn=node --org=flato --isCA=n --ct=sdkcert root.ca root.priv node.cert node.priv
-```
+``$ certgen gc --cn=node --org=flato --isCA=n --ct=sdkcert root.ca root.priv node.cert node.priv``
 
-需要通过`--n` 指定子证书的name，`--org` 指定子证书的组织，`--isca=n` 表示是非ca证书。
+需要通过 `--n` 指定子证书的name， `--org` 指定子证书的组织， `--isca=n` 表示是非ca证书。
 
-同时可以使用 `--c` flag来指定椭圆曲线，`--c` 可选的曲线类型有 p256、secp256k1、sm2共三种。
+同时可以使用 `--c` flag来指定椭圆曲线， `--c` 可选的曲线类型有 p256、secp256k1、sm2共三种。
 
 > 注意：国密子证书只能由国密父证书生成，密钥是p256或者secp256k1的父证书，可以生成secp256k1或者p256类型的子证书。同样适用于下面的子证书签发命令（gc）。
 
@@ -1382,114 +1373,101 @@ $ certgen gc --cn=node --org=flato --isCA=n --ct=sdkcert root.ca root.priv node.
 
 生成一对公私钥，该指令需两个参数:
 
-```text
-$ certgen gk ./key.priv ./key.pub
-```
+``$ certgen gk ./key.priv ./key.pub``
 
 第一个参数表示要生成的密钥对的私钥存储路径，第二个参数表示要生成的密钥对的公钥存储路径。
 
 使用flag `--c` 可以指定生成公私钥对的用到的椭圆曲线类型。
 
-3** 子证书签发(子密钥已存在)**
+3 **子证书签发(子密钥已存在)**
 
 此方式需要各个节点的公钥，通过公钥生成子证书时不需要特别指明曲线类型。
 
-flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过`-t` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定`-t` 即可。
+flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过 `-t` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定 `-t` 即可。
 
 ECERT：
 
-```text
-$ certgen gc --cn=node --org=flato --isca=y --ct=ecert root.ca root.priv key.pub node.cert
-```
+``$ certgen gc --cn=node --org=flato --isca=y --ct=ecert root.ca root.priv key.pub node.cert``
 
-需要通过`--cn` 指定子证书的name，`--org` 指定子证书的组织，`--isca=y` 表示是ca证书。
+需要通过 `--cn` 指定子证书的name， `--org` 指定子证书的组织， `--isca=y` 表示是ca证书。
 
 第一个参数为根证书存储路径，第二个参数为根证书的私钥存储路径，第三个参数为节点的公钥存储路径，第四个参数为节点的证书存储路径。
 
-使用`--from`和`--to`指定子证书的有效期。
+使用 `--from` 和 `--to` 指定子证书的有效期。
 
 SDKCERT：
 
-```text
-$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert root.ca root.priv key.pub node.cert
-```
+``$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert root.ca root.priv key.pub node.cert``
 
-需要通过`--cn` 指定子证书的name，`--org` 指定子证书的组织，`--isca=n` 表示是非ca证书。
+需要通过 `--cn` 指定子证书的name， `--org` 指定子证书的组织， `--isca=n` 表示是非ca证书。
 
-** 3 Tls证书签发**
+**3 Tls证书签发**
 
 生成根CA:
 
-```text
-$ certgen gs --c sm2 --from 2020-12-4 --to 2030-12-4 ./tls_root.ca ./tls_root.priv --cn flato
-```
+``$ certgen gs --c sm2 --from 2020-12-4 --to 2030-12-4 ./tls_root.ca ./tls_root.priv --cn flato``
 
-需要通过`--cn`指定根证书的name，`--org`指定根证书所属的组织。
+需要通过 `--cn` 指定根证书的name， `--org` 指定根证书所属的组织。
 
-通过`--c`指定该自签名证书的曲线类型，`--from`和`--to`指定了证书的有效日期和时间。
+通过 `--c`指定该自签名证书的曲线类型，`--from`和`--to`指定了证书的有效日期和时间。
 
 生成tls证书:
 
-```text
- $ certgen gc --isca=n --from 2020-12-04 --to 2030-12-04 --c sm2  ./tls_root.ca ./tls_root.priv ./tls_peer1.cert  --cn flato
-```
+``$ certgen gc --isca=n --from 2020-12-04 --to 2030-12-04 --c sm2  ./tls_root.ca ./tls_root.priv ./tls_peer1.cert  --cn flato``
 
-通过`--isca=n`表示该tls子证书为非ca证书，`--cn`指定该证书的name，`--org`指定该子证书所属的组织。
+通过 `--isca=n` 表示该tls子证书为非ca证书， `--cn`指定该证书的name， `--org`指定该子证书所属的组织。
 
-通过`--c`指定该tls证书的曲线类型，`--from`和`--to`指定了证书的有效日期和时间。
+通过 `--c` 指定该tls证书的曲线类型， `--from` 和 `--to` 指定了证书的有效日期和时间。
 
-### 5.2.3 检查证书
+5.2.3 检查证书
+^^^^^^^^^^^^^
 
 检查子证书是否由该CA证书签发：
 
-```javascript
-$ certgen cc ./root ./sub                                            
-root cert path: pathToCA
-sub cert path: pathToCert
-```
+1. ``$ certgen cc ./root ./sub``
+2. ``root cert path: pathToCA``
+3. ``sub cert path: pathToCert``
 
-## 5.3 CA证书签发管理方案
+5.3 CA证书签发管理方案
+---------------------
 
-### 5.3.**1 CA生成及保管（certgen）**
+5.3.1 CA生成及保管（certgen）
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - **非分布式CA**
 
 该模式下仅需要维护一套CA和对应的证书。
 
-```text
-# 签发ROOTCA
-$ certgen gs --cn=node --org=flato -isca=y root.ca root.priv
-```
+``# 签发ROOTCA``
+
+``$ certgen gs --cn=node --org=flato -isca=y root.ca root.priv``
 
 - **分布式CA**
 
 该模式下可维护任意多套CA、Cert、私钥。所以需要为每个CA签发ROOTCA。
 
-### 5.**3.2 节点cert签发（certgen）**
+5.3.2 节点cert签发（certgen）
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - **非分布式CA**
 
 创世的四个VP节点需要使用以上CA通过certgen的如下命令生成各自节点的一套证书：
 
-```text
-# 签发ECert:
-$ certgen gc --cn=node --org=flato --isca=n --ct=ecert
- ./root.ca ./ root.priv ./ecert.cert ./ecert.priv 
-# 签发SDKCert: 
-$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert
- ./root.ca ./root.priv ./sdkcert.cert ./sdkcert.priv
-```
+1. ``# 签发ECert:``
+2. ``$ certgen gc --cn=node --org=flato --isca=n --ct=ecert``
+3. ``./root.ca ./ root.priv ./ecert.cert ./ecert.priv``
+4. ``# 签发SDKCert:``
+5. ``$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert``
+6. ``./root.ca ./root.priv ./sdkcert.cert ./sdkcert.priv``
 
-需要通过`--cn` 指定子证书的name，`--org` 指定子证书的组织，`--isca` 表示是否是ca证书。同时可以使用 `--c` flag来指定椭圆曲线。
+需要通过 `--cn` 指定子证书的name， `--org` 指定子证书的组织， `--isca` 表示是否是ca证书。同时可以使用 `--c` flag来指定椭圆曲线。
 
 新增证书签发命令：(根据自定义公钥进行子证书签发)
 
-```text
-#签发ECert: 
-$ certgen gc --cn=node --org=flato --isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert
-#签发SDKCert: 
-$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert  
-```
+1. ``#签发ECert:``
+2. ``$ certgen gc --cn=node --org=flato --isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert``
+3. ``#签发SDKCert:``
+4. ``$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert  ``
 
 注：subcert.pub必须事前生成。
 
@@ -1501,12 +1479,11 @@ $ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert ./parent.cert ./parent.
 
 这里假设为node1生成由node2颁发的证书：
 
-```text
-# 签发ecert
-$ certgen gc --cn=subcert --org=flato -isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert 
-```
+``# 签发ecert``
 
-那么此时`--cn` 需要指定为node1的CommonName，第一个参数为node2的根证书，第二个参数为node2的私钥存储路径，第三个参数为node1的公钥存储路径，第四个参数为node2给node1颁发的证书存储路径。
+``$ certgen gc --cn=subcert --org=flato -isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert ``
+
+那么此时 `--cn` 需要指定为node1的CommonName，第一个参数为node2的根证书，第二个参数为node2的私钥存储路径，第三个参数为node1的公钥存储路径，第四个参数为node2给node1颁发的证书存储路径。
 
 分布式CA下，需要生成的相应子证书如下：
 
@@ -1520,14 +1497,14 @@ node4需要为node1、node2、node3颁发子证书。
 
 生成sdkcert:
 
-```text
-#签发SDKCert: 
-$ certgen gc --n=node --org=flato --isca=n -ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert  
-```
+``#签发SDKCert:``
+
+``$ certgen gc --n=node --org=flato --isca=n -ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert``
 
 注：subcert.pub必须事前生成。
 
-### 5.3.3 VP节点的cert文件配置
+5.3.3 VP节点的cert文件配置
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 **非分布式CA**
 
@@ -1539,7 +1516,7 @@ $ certgen gc --n=node --org=flato --isca=n -ct=sdkcert ./parent.cert ./parent.pr
 
 - tls目录：保存安全传输层协议证书，包含tlsCA（tlsca.ca、tlsca.priv）及其生成的tls子证书（tls_peer.cert、tls_peer.priv）
 
-![](http://teambitiondoc.hyperchain.cn:8099/storage/011w7c53f321114635e0bad0f981d88ae965?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTYxNDU4OTE0OSwiaWF0IjoxNjEzOTg0MzQ5LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzAxMXc3YzUzZjMyMTExNDYzNWUwYmFkMGY5ODFkODhhZTk2NSJ9.nym62IMpRyYdi75ij04XhwJU3xFlJ2cbvgdI4RuTk8g&download=image.png "")
+|image3|
 
 **分布式CA**
 
@@ -1553,13 +1530,14 @@ $ certgen gc --n=node --org=flato --isca=n -ct=sdkcert ./parent.cert ./parent.pr
 
     - certs目录：保存节点私钥（key.priv）、由其他节点CA所颁发的一套证书。至少包含三个文件，node2节点CA（root2）颁发给node1的ECERT证书（node2.cert）、node3节点CA（root3）颁发给node1的ECERT证书（node3.cert）、node4节点CA（root4）颁发给node1的ECERT证书（node4.cert）。
 
-![](http://teambitiondoc.hyperchain.cn:8099/storage/011w735066894e60e056e16678993364414e?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTYxNDU4OTE0OSwiaWF0IjoxNjEzOTg0MzQ5LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzAxMXc3MzUwNjY4OTRlNjBlMDU2ZTE2Njc4OTkzMzY0NDE0ZSJ9.FXqDgTDxi2S-sI0oVDpDQk_j9i0mb4uzIc61MYJhTzs&download=image.png "")
+|image4|
 
 - 新加入节点
 
 如果有新节点要加入flato，无需再配置证书，但需要保证节点目录下有CA和certs目录（空目录）。
 
-### 5.3.4 ns_static.toml文件相关配置
+5.3.4 ns_static.toml文件相关配置
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 **非分布式和分布式CA配置项**
 
@@ -1575,14 +1553,18 @@ $ certgen gc --n=node --org=flato --isca=n -ct=sdkcert ./parent.cert ./parent.pr
 
 - [encryption.ecert]配置项，修改为 `ecert = "certs/certs"`
 
-### 5.3.5 sdk文件相关配置
+5.3.5 sdk文件相关配置
+^^^^^^^^^^^^^^^^^^^^
 
 gosdk/conf/hpc.toml文件配置
 
-如需使用sdkcert进行交互验证： `sendTcert = true`，否则置为`false`
+如需使用sdkcert进行交互验证： `sendTcert = true` ，否则置为 `false`
 
 
 
 
 |image0|:
+|image1|:
+|image2|:
+|image3|:
 

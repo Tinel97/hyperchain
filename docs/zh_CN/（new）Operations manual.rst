@@ -222,13 +222,13 @@
 33. ``"domain3 127.0.0.1:50011",``
 34. ``"domain4 127.0.0.1:50011",``
 35. ``]``
-36. ``#这里配置时候需要注意,配置的是其他节点访问本节点时，使用的本节点的IP地址，举个例子，如果节点2属于域 `domain2` ，那么节点2访问节点1时需要用节点1声明的在 `domain2` 域中对外暴露的地址，换句话说，节点2访问本节点时用的地址是 `127.0.0.1:50012` 。``
+36. ``#这里配置时候需要注意,配置的是其他节点访问本节点时，使用的本节点的IP地址，举个例子，如果节点2属于域 **domain2** ，那么节点2访问节点1时需要用节点1声明的在 **domain2** 域中对外暴露的地址，换句话说，节点2访问本节点时用的地址是 127.0.0.1:50012。 ``
 
 37. ``[[namespace]]``
 38. ``name = "global"``
 39. ``start = true``
 
-您可以根据实际申请开放的端口号进行port模块的配置，其中grpc端口是节点间通信的端口号，注意要与下方[p2p.ip.remote.hosts]中的端口号对应；jsonrpc端口是外部应用向Flato平台发送请求使用的端口号。
+您可以根据实际申请开放的端口号进行port模块的配置，其中grpc端口是节点间通信的端口号，注意要与下方 [p2p.ip.remote.hosts] 中的端口号对应；jsonrpc端口是外部应用向Flato平台发送请求使用的端口号。
 
 **domain的配置是比较容易出错的地方，最简单的配置方式就是**：
 
@@ -290,16 +290,16 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 3.1.4 ns_static.toml
 ^^^^^^^^^^^^^^^^^^^^
 
-该配置文件中记录了所有namespace级别的配置项，包括**共识算法配置、加密证书的配置、数据库相关配置、日志等级配置**等等，这些配置都是**无法在运行中修改**的，各个配置项的释义在注释以及文末的附录中给出。
+该配置文件中记录了所有namespace级别的配置项，包括 **共识算法配置、加密证书的配置、数据库相关配置、日志等级配置** 等等，这些配置都是 **无法在运行中修改** 的，各个配置项的释义在注释以及文末的附录中给出。
 
-1. ``###########################################################``
-2. ``#  _   _                        ____ _           _        #``
-3. ``# | | | |_   _ _ __   ___ _ __ / ___| |__   __ _(_)_ __   #``
-4. ``# | |_| | | | | '_ \ / _ \ '__| |   | '_ \ / _\ | | '_ \  #``
-5. ``# |  _  | |_| | |_) |  __/ |  | |___| | | | (_| | | | | | #``
-6. ``# |_| |_|\__, | .__/ \___|_|   \____|_| |_|\__,_|_|_| |_| #``
-7. ``#        |___/|_|                                         #``
-8. ``###########################################################``
+1. ###########################################################
+2. #  _   _                        ____ _           _        #
+3. # | | | |_   _ _ __   ___ _ __ / ___| |__   __ _(_)_ __   #
+4. # | |_| | | | | '_ \ / _ \ '__| |   | '_ \ / _\ | | '_ \  #
+5. # |  _  | |_| | |_) |  __/ |  | |___| | | | (_| | | | | | #
+6. # |_| |_|\__, | .__/ \___|_|   \____|_| |_|\__,_|_|_| |_| #
+7. #        |___/|_|                                         #
+8. ###########################################################
 9. ``title = "namespace configurations"``
 
 10. ``[genesis]``
@@ -536,6 +536,7 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 
 202. ``[executor]``
 203. ``[executor.syncer]``
+204. 
 205. ``max_block_fetch         = 50``
 
 206. ``[executor.archive]``
@@ -714,19 +715,19 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 367.                ``handler_cache_num = 100``
 368.                ``handler_cache_evict_time = 1 # *time.Second``
 
-369.    [database.invalidtx]
-370.        encrypt = false
-371.        type="leveldb"
-372.        [database.invalidtx.leveldb]
-373.                path="invalidtx/leveldb/"
-374.				logpath="invalidtx/log"
-375.                block_cache_capacity      = "8mb" # "mb", "kb"
-376.                block_size                = "4kb" # "mb", "kb"
-377.                write_buffer              = "4mb" # "mb", "kb"
-378.                write_l0_pause_trigger    = 12
-379.                write_l0_slowdown_trigger = 8
-380.                # the level db file size (default is 2mb, v1.2 is 8mb)
-381.                compaction_table_size     = "8mb"
+369.    ``[database.invalidtx]``
+370.        ``encrypt = false``
+371.        ``type="leveldb"``
+372.        ``[database.invalidtx.leveldb]``
+373.                ``path="invalidtx/leveldb/"``
+374.				``logpath="invalidtx/log"``
+375.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
+376.                ``block_size                = "4kb" # "mb", "kb"``
+377.                ``write_buffer              = "4mb" # "mb", "kb"``
+378.                ``write_l0_pause_trigger    = 12``
+379.                ``write_l0_slowdown_trigger = 8``
+380.                ``# the level db file size (default is 2mb, v1.2 is 8mb)``
+381.                ``compaction_table_size     = "8mb"``
 
 382.    ``[database.consensus]``
 383.        ``encrypt = false``
@@ -747,7 +748,7 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 397.        ``type="leveldb"``
 398.        ``[database.camanager.leveldb]``
 399.                ``path="cadb/leveldb/"``
-400.				``logpath="cadb/log"
+400.				``logpath="cadb/log"``
 401.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
 402.                ``block_size                = "4kb" # "mb", "kb"``
 403.                ``write_buffer              = "4mb" # "mb", "kb"``
@@ -775,7 +776,7 @@ namespace模块指定了namespace的根目录路径以及节点启动时默认�
 423.        ``type="leveldb"``
 424.        ``[database.mq.leveldb]``
 425.                ``path="mqdb/leveldb/"``
-426.				``logpath="mqdb/log"
+426.				``logpath="mqdb/log"``
 427.                ``block_cache_capacity      = "8mb" # "mb", "kb"``
 428.                ``block_size                = "4kb" # "mb", "kb"``
 429.                ``write_buffer              = "4mb" # "mb", "kb"``
@@ -853,7 +854,7 @@ tc.sh配置文件详解：
 6. ``# 为根队列创建子队列1:1分配带宽100M``
 7. ``tc class add dev  eth0 parent 1:1 classid 1:10 htb rate  10mbit ceil 10mbit``
 8. ``# 为1:1队列创建子队列1:10分配带宽10M``
-9. ``tc qdisc add dev  eth0 parent 1:10 sfq perturb 10`
+9. ``tc qdisc add dev  eth0 parent 1:10 sfq perturb 10``
 10. ``# 防止一个段内的ip占用整个宽带``
 11. ``tc filter add dev eth0 protocol ip parent 1: prio 1 u32 match ip dst 10.200.0.0/16 flowid 1:1``
 12. ``# 为跟队列添加优先级为1的过滤器使得发往10.200.xxx.xxx的包转到1:1队列``
@@ -1003,7 +1004,7 @@ SDK端和平台端服务器之间的时间差值，用以保证平台对交易�
 
 - 点击签发->平台组件->组件列表->rockit->下载，选择适用于您平台的rockit版本下载（**目前暂无法通过该方式获取rockit安装包，请联系相关人员**）
 
-为了便于使用rockit工具，建议将rockit放到`/usr/local/bin` 或者`$GOPATH/bin` 目录下。如果没有，也可以将其当做一个普通的二进制文件使用`./rockit [cmd]` 进行操作，此时必须确保目录文件夹下含有rockit二进制文件。
+为了便于使用rockit工具，建议将rockit放到 `/usr/local/bin` 或者 `$GOPATH/bin` 目录下。如果没有，也可以将其当做一个普通的二进制文件使用 `./rockit [cmd]` 进行操作，此时必须确保目录文件夹下含有rockit二进制文件。
 
 4.2 初始化
 ---------
@@ -1037,7 +1038,7 @@ hpc.toml文件详解
 1. ``text``
 2. ``title = "GoSDK configuratoin file"``
 
-3. ``namespace = "global"`
+3. ``namespace = "global"``
 
 4. ``#发送重新连接请求间隔(/ms)``
 5. ``reConnectTime = 10000``
@@ -1139,9 +1140,9 @@ hpc.toml文件详解
 节点启动后，将所有genesis账户（默认的管理员账户）的私钥放到 `keystore` 目录下（默认提案投票阈值为所有的管理员总数），将每个节点的公钥按照放到 `publickey` 目录下，如果启动的是四个节点，每个节点的hostname分别为 `node1` 、 `node2` 、 `node3` 、 `node4` ,且每个节点的公钥也都放在了 `publickey` 目录下，分别命名为 `node1.cert` 、 `node2.cert` 、 `node3.cert` 、  `node4.cert` ，可使用如下命令初始化节点：
 
 14. ``text``
-15. ``# 使用默认值初始化，即节点名为node1-node4，不初始化新的admin账户，提案投票阈值初始化为1,namespace为global
-16. ``rockit init
-17. ``# 使用指定的值初始化
+15. ``# 使用默认值初始化，即节点名为node1-node4，不初始化新的admin账户，提案投票阈值初始化为1,namespace为global``
+16. ``rockit init``
+17. ``# 使用指定的值初始化``
 18. ``#rockit init --nodes "node1 node2 node3 node4 node5" --publickey "node1 node2 node3 node4 node5" --admins "0x9202d80df4c6d658290bc0c18fc2ddeb08735c8c0x0eb804bf69adb78d19555db1f869f26ccc2c0cfb" --threshold 2``
 
 4.3 添加节点
@@ -1316,7 +1317,7 @@ step2 编译安装
 
 - 点击签发->平台组件->组件列表->certgen->下载，选择适用于您平台的版本下载
 
-> 注意：普通用户使用的时候如果无法放到path搜索目录，则下面的命令用`./certgen` 运行
+> 注意：普通用户使用的时候如果无法放到path搜索目录，则下面的命令用 `./certgen` 运行
 
 完整的certgen使用指南参考链接（certgen使用手册v2）：
 
@@ -1349,7 +1350,7 @@ step2 编译安装
 
 **2 子证书签发（子密钥不存在）**
 
-flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过`-ct` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定 `-ct` 即可。
+flato平台使用的子证书根据用途不同分为两种类型，分别是ECert和SDKCert。通过 `-ct` 可以指定子证书的类型为上述两种之一（类型名称不区分大小写）。子证书也可以不拥有类型，只需要不指定 `-ct` 即可。
 
 ECERT：
 
@@ -1409,7 +1410,7 @@ SDKCERT：
 
 需要通过 `--cn` 指定根证书的name， `--org` 指定根证书所属的组织。
 
-通过 `--c`指定该自签名证书的曲线类型，`--from` 和 `--to` 指定了证书的有效日期和时间。
+通过 `--c` 指定该自签名证书的曲线类型， `--from` 和 `--to` 指定了证书的有效日期和时间。
 
 生成tls证书:
 
@@ -1467,7 +1468,7 @@ SDKCERT：
 1. ``#签发ECert:``
 2. ``$ certgen gc --cn=node --org=flato --isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert``
 3. ``#签发SDKCert:``
-4. ``$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert  ``
+4. ``$ certgen gc --cn=node --org=flato --isca=n --ct=sdkcert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert``
 
 注：subcert.pub必须事前生成。
 
@@ -1481,7 +1482,7 @@ SDKCERT：
 
 ``# 签发ecert``
 
-``$ certgen gc --cn=subcert --org=flato -isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert ``
+``$ certgen gc --cn=subcert --org=flato -isca=n --ct=ecert ./parent.cert ./parent.priv ./subcert.pub ./subcert.cert``
 
 那么此时 `--cn` 需要指定为node1的CommonName，第一个参数为node2的根证书，第二个参数为node2的私钥存储路径，第三个参数为node1的公钥存储路径，第四个参数为node2给node1颁发的证书存储路径。
 
@@ -1522,17 +1523,17 @@ node4需要为node1、node2、node3颁发子证书。
 
 分布式CA可维护任意多套CA、Cert、私钥。与非分布式的目录结构相同，包括CA目录和certs目录。根据节点为flato启动节点和后续加入节点两种类型，证书的配置有所区别：
 
-- 启动节点
+- 1. 启动节点
 
 在规范化部署的四节点启动时，节点1的目录内容如下所示（其余三个节点配置类似）：
 
-    - CA目录：保存CA证书和CA私钥。四个节点的CA目录下内容应该完全一致。其中root1为node1的CA，root2为node2的CA，root3为node3的CA，root4为node4的CA。
+- CA目录：保存CA证书和CA私钥。四个节点的CA目录下内容应该完全一致。其中root1为node1的CA，root2为node2的CA，root3为node3的CA，root4为node4的CA。
 
-    - certs目录：保存节点私钥（key.priv）、由其他节点CA所颁发的一套证书。至少包含三个文件，node2节点CA（root2）颁发给node1的ECERT证书（node2.cert）、node3节点CA（root3）颁发给node1的ECERT证书（node3.cert）、node4节点CA（root4）颁发给node1的ECERT证书（node4.cert）。
+- certs目录：保存节点私钥（key.priv）、由其他节点CA所颁发的一套证书。至少包含三个文件，node2节点CA（root2）颁发给node1的ECERT证书（node2.cert）、node3节点CA（root3）颁发给node1的ECERT证书（node3.cert）、node4节点CA（root4）颁发给node1的ECERT证书（node4.cert）。
 
 |image4|
 
-- 新加入节点
+- 2. 新加入节点
 
 如果有新节点要加入flato，无需再配置证书，但需要保证节点目录下有CA和certs目录（空目录）。
 
@@ -1543,9 +1544,9 @@ node4需要为node1、node2、node3颁发子证书。
 
 - [distributedCA]配置项
 
-    - 非分布式CA：修改为 `enable = true`
+- 非分布式CA：修改为 `enable = true`
 
-    - 分布式CA：修改为 `enable = false`
+- 分布式CA：修改为 `enable = false`
 
 **证书目录配置项**
 
@@ -1563,7 +1564,7 @@ gosdk/conf/hpc.toml文件配置
 第六章 IPC命令
 =============
 
-在hyperchain 的运行目录下，有一个`hpc_1.ipc`（取决于配置文件中的配置）文件。使用如下命令进入交互式命令模式：
+在hyperchain 的运行目录下，有一个 `hpc_1.ipc` （取决于配置文件中的配置）文件。使用如下命令进入交互式命令模式：
 
 ``./hyperchain -s --ipc=hpc_1.ipc``
 
@@ -1666,14 +1667,14 @@ Flato日志主要分为系统日志和NS（NameSpace）日志，这两者相互�
 日志配置示例如下：
 
 1. ``[log]``
-2. ``dump_file           = true   ``
-3. ``dump_interval       = "24h"  ``
+2. ``dump_file           = true``
+3. ``dump_interval       = "24h"``
 4. ``log_dir             = "./logs"``
-5. ``log_level           = "NOTICE" ``
-6. ``max_log_size        = "200mb" ``
+5. ``log_level           = "NOTICE"``
+6. ``max_log_size        = "200mb"``
 7. ``check_size_interval = "2m"``
 
-8. ``[log.module] ``
+8. ``[log.module]``
 9. ``p2p         = "NOTICE"``
 10. ``consensus   = "INFO"``
 11. ``core        = "NOTICE"``
@@ -1895,7 +1896,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 - 新增节点到集群中，若新增节点的genesis账户和集群中节点不一致，则新节点同步数据产生第一个区块时，报错merkle root不一致；
 
-**处理方式：**保持集群节点间的genesis账户一模一样后，重启节点
+**处理方式：** 保持集群节点间的genesis账户一模一样后，重启节点
 
 8.3.2 数据同步失败 
 ^^^^^^^^^^^^^^^^
@@ -1904,7 +1905,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 当节点发现自身数据落后时，就会主动向其他节点请求数据，这个过程叫syncchain；syncchain同步过程由于节点网络问题或对方节点处于归档状态，会导致本次syncchain失败，失败后会尝试向其他节点重试，直到syncchain成功。
 
-**处理方式：**自动恢复
+**处理方式：** 自动恢复
 
 8.3.3 同一高度，重复commit
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1915,7 +1916,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 节点到达checkpoint高度或发生一笔配置交易时，就会自动进行commit操作，但是由于某些外部原因删除共识数据库，并且重启节点，重启后的节点会对最近checkpoint高度或最后一笔配置交易进行commit，就会出现上述报错。
 
-**处理方式：**自动恢复
+**处理方式：** 自动恢复
 
 8.4 句柄值异常
 --------------
@@ -1927,7 +1928,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 在节点运行过程中，写数据，特别是进行归档操作时，节点异常，节点日志报错to many open files，原因是归档过程中leveldb的句柄打开数量会急剧增多，flato上层限制总的系统文件句柄数不能小于16384。
 
-**处理方式：**修改服务器系统的句柄值，将句柄值改为65535后，重启节点
+**处理方式：** 修改服务器系统的句柄值，将句柄值改为65535后，重启节点
 
 8.5 配置异常
 ------------

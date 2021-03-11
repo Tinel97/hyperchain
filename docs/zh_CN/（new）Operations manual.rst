@@ -1613,7 +1613,7 @@ ipc命令也支持日志级别修改，修改的日志级别立即生效：
 
 通过ipc命令可以获取到本机ip，LICENSE绑定ip以及LICENSE的过期时间。
 
-|image8|
+|image9|
 
 6.4 对外服务管理
 ---------------
@@ -1626,7 +1626,7 @@ ipc命令也支持日志级别修改，修改的日志级别立即生效：
 
 重启JSON-RPC服务：service http restart
 
-|image9|
+|image10|
 
 6.5 非交互式命令
 ---------------
@@ -1827,7 +1827,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 **处理方式：** lsof -i：8081查看端口号占用情况，kill掉占用端口的进程，重启节点
 
-|image10|
+|image11|
 
 8.1.2节点网络异常
 ^^^^^^^^^^^^^^^^
@@ -1911,7 +1911,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 **报错信息：**
 
-|image11|
+|image12|
 
 节点到达checkpoint高度或发生一笔配置交易时，就会自动进行commit操作，但是由于某些外部原因删除共识数据库，并且重启节点，重启后的节点会对最近checkpoint高度或最后一笔配置交易进行commit，就会出现上述报错。
 
@@ -1939,7 +1939,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 在节点启动时，回检查配置项，遇到配置项修改不合法时，启动时抛出异常，提醒自行检查，一般配置项都有取值建议可参考
 
-|image12|
+|image13|
 
 8.5.2 lock文件异常
 ^^^^^^^^^^^^^^^^^^
@@ -1948,7 +1948,7 @@ jsonrpc端口被占用时，节点可以启动，但是在调用时会出现Conn
 
 在节点遇到上述任何异常，包括license过期、配置项异常、句柄值异常等，都会在根目录生成lock文件以防止守护进程启动异常的节点；修复方法为解决异常后，删除lock文件后重启启动节点
 
-|image13|
+|image14|
 
 第九章  产品激活、续期
 ====================
@@ -2220,18 +2220,19 @@ ns_static.toml
 
 
 
-|image0|:
-|image1|:
-|image2|:
-|image3|:
-|image4|:
-|image5|:
-|image6|:
-|image7|:
-|image8|:
-|image9|:
-|image10|:
-|image11|:
-|image12|:
-|image13|:
+.. |image0| image:: ../../images/Operations.png
+.. |image1| image:: ../../images/image1.png
+.. |image2| image:: ../../images/image2.png
+.. |image3| image:: ../../images/image3.png
+.. |image4| image:: ../../images/image4.png
+.. |image5| image:: ../../images/image5.png
+.. |image6| image:: ../../images/image6.png
+.. |image7| image:: ../../images/image7.png
+.. |image8| image:: ../../images/image8.png
+.. |image9| image:: ../../images/image9.png
+.. |image10| image:: ../../images/image10.png
+.. |image11| image:: ../../images/image11.png
+.. |image12| image:: ../../images/image12.png
+.. |image13| image:: ../../images/image13.png
+.. |image14| image:: ../../images/image14.png
 
